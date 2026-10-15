@@ -128,33 +128,65 @@ function circularCenter(pair?: [number, number]): number | undefined {
 }
 
 function computeDecoupling(records: ActivityRecord[]): number | undefined {
-  const valid = records.filter((record) =>
+  const valid = records.filter((record): record is ActivityRecord & { timestamp: Date; power: number; heartRate: number } =>
+    record.timestamp instanceof Date &&
     typeof record.power === "number" &&
     typeof record.heartRate === "number" &&
     record.heartRate > 0,
   );
-  if (valid.length < 600) return undefined;
-  const midpoint = Math.floor(valid.length / 2);
-  const first = valid.slice(0, midpoint);
-  const second = valid.slice(midpoint);
-  const firstPower = avg(first.map((record) => record.power));
-  const secondPower = avg(second.map((record) => record.power));
-  const firstHr = avg(first.map((record) => record.heartRate));
-  const secondHr = avg(second.map((record) => record.heartRate));
-  if (!firstPower || !secondPower || !firstHr || !secondHr) return undefined;
-  return (1 - (secondPower / secondHr) / (firstPower / firstHr)) * 100;
+  if (valid.length < 2) return undefined;
+
+  const startMs = valid[0].timestamp.getTime();
+  const endMs = valid.at(-1)!.timestamp.getTime();
+  const elapsedSec = (endMs - startMs) / 1000;
+  if (!Number.isFinite(elapsedSec) || elapsedSec < 600) return undefined;
+  const midpointMs = startMs + (endMs - startMs) / 2;
+
+  const weightedHalf = (fromMs: number, toMs: number) => {
+    let powerSum = 0;
+    let hrSum = 0;
+    let secondsSum = 0;
+
+    valid.forEach((record, index) => {
+      const sampleStart = record.timestamp.getTime();
+      const nextStart = valid[index + 1]?.timestamp.getTime();
+      let durationSec = nextStart !== undefined ? (nextStart - sampleStart) / 1000 : 1;
+      if (!Number.isFinite(durationSec) || durationSec <= 0 || durationSec > 10) durationSec = 1;
+      const sampleEnd = sampleStart + durationSec * 1000;
+      const overlapMs = Math.max(0, Math.min(sampleEnd, toMs) - Math.max(sampleStart, fromMs));
+      const overlapSec = overlapMs / 1000;
+      if (overlapSec <= 0) return;
+      powerSum += record.power * overlapSec;
+      hrSum += record.heartRate * overlapSec;
+      secondsSum += overlapSec;
+    });
+
+    return secondsSum > 0 ? { power: powerSum / secondsSum, hr: hrSum / secondsSum } : undefined;
+  };
+
+  const first = weightedHalf(startMs, midpointMs);
+  const second = weightedHalf(midpointMs, endMs + 1000);
+  if (!first || !second || first.power <= 0 || second.power <= 0 || first.hr <= 0 || second.hr <= 0) return undefined;
+  return (1 - (second.power / second.hr) / (first.power / first.hr)) * 100;
 }
 
 function computeZones(records: ActivityRecord[], ftp?: number): PowerZone[] {
   if (!ftp || ftp <= 0) return [];
+
+  const z1Max = Math.floor(ftp * .55);
+  const z2Max = Math.floor(ftp * .75);
+  const z3Max = Math.floor(ftp * .90);
+  const z4Max = Math.floor(ftp * 1.05);
+  const z5Max = Math.floor(ftp * 1.20);
+  const z6Max = Math.floor(ftp * 1.50);
   const definitions = [
-    { key: "z1", label: "Z1 Recupero", min: 0, max: 0.55, range: `< ${Math.round(ftp * 0.56)} W` },
-    { key: "z2", label: "Z2 Endurance", min: 0.55, max: 0.75, range: `${Math.round(ftp * 0.56)}–${Math.round(ftp * 0.75)} W` },
-    { key: "z3", label: "Z3 Tempo", min: 0.75, max: 0.90, range: `${Math.round(ftp * 0.76)}–${Math.round(ftp * 0.90)} W` },
-    { key: "z4", label: "Z4 Soglia", min: 0.90, max: 1.05, range: `${Math.round(ftp * 0.91)}–${Math.round(ftp * 1.05)} W` },
-    { key: "z5", label: "Z5 VO₂", min: 1.05, max: 1.20, range: `${Math.round(ftp * 1.06)}–${Math.round(ftp * 1.20)} W` },
-    { key: "z6", label: "Z6 Anaerobico", min: 1.20, max: 1.50, range: `${Math.round(ftp * 1.21)}–${Math.round(ftp * 1.50)} W` },
-    { key: "z7", label: "Z7 Neuromuscolare", min: 1.50, max: Infinity, range: `> ${Math.round(ftp * 1.50)} W` },
+    { key: "z1", label: "Z1 Recupero", min: 0, max: z1Max, range: `≤ ${z1Max} W` },
+    { key: "z2", label: "Z2 Endurance", min: z1Max + 1, max: z2Max, range: `${z1Max + 1}–${z2Max} W` },
+    { key: "z3", label: "Z3 Tempo", min: z2Max + 1, max: z3Max, range: `${z2Max + 1}–${z3Max} W` },
+    { key: "z4", label: "Z4 Soglia", min: z3Max + 1, max: z4Max, range: `${z3Max + 1}–${z4Max} W` },
+    { key: "z5", label: "Z5 VO₂", min: z4Max + 1, max: z5Max, range: `${z4Max + 1}–${z5Max} W` },
+    { key: "z6", label: "Z6 Anaerobico", min: z5Max + 1, max: z6Max, range: `${z5Max + 1}–${z6Max} W` },
+    { key: "z7", label: "Z7 Neuromuscolare", min: z6Max + 1, max: Infinity, range: `≥ ${z6Max + 1} W` },
   ];
   const seconds = new Array(definitions.length).fill(0) as number[];
   let total = 0;
@@ -162,8 +194,8 @@ function computeZones(records: ActivityRecord[], ftp?: number): PowerZone[] {
   records.forEach((record, index) => {
     if (typeof record.power !== "number") return;
     const duration = sampleSeconds(records, index);
-    const ratio = record.power / ftp;
-    const zoneIndex = definitions.findIndex((zone, i) => i === 0 ? ratio < zone.max : ratio >= zone.min && ratio < zone.max);
+    const watts = Math.max(0, Math.round(record.power));
+    const zoneIndex = definitions.findIndex((zone) => watts >= zone.min && watts <= zone.max);
     const resolved = zoneIndex >= 0 ? zoneIndex : definitions.length - 1;
     seconds[resolved] += duration;
     total += duration;
