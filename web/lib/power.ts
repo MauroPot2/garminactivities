@@ -74,6 +74,10 @@ export type PowerAnalytics = {
   rightPowerPhaseArc?: number;
   leftPowerPhaseCenter?: number;
   rightPowerPhaseCenter?: number;
+  leftPowerPhasePeakArc?: number;
+  rightPowerPhasePeakArc?: number;
+  leftPowerPhasePeakCenter?: number;
+  rightPowerPhasePeakCenter?: number;
   zones: PowerZone[];
   cadenceBands: CadenceBand[];
   climbs: ClimbAnalysis[];
@@ -209,11 +213,12 @@ function computeCadenceBands(records: ActivityRecord[]): CadenceBand[] {
 
 function computeRiderPosition(activity: ActivityDetail): RiderPositionAnalytics {
   const standingSeconds = activity.timeStanding;
-  const seatedSeconds = standingSeconds !== undefined && activity.movingSec >= standingSeconds ? activity.movingSec - standingSeconds : undefined;
+  const positionTotalSeconds = activity.durationSec > 0 ? activity.durationSec : activity.movingSec;
+  const seatedSeconds = standingSeconds !== undefined && positionTotalSeconds >= standingSeconds ? positionTotalSeconds - standingSeconds : undefined;
   return {
     seatedSeconds,
     standingSeconds,
-    standingPercent: standingSeconds !== undefined && activity.movingSec > 0 ? standingSeconds / activity.movingSec * 100 : undefined,
+    standingPercent: standingSeconds !== undefined && positionTotalSeconds > 0 ? standingSeconds / positionTotalSeconds * 100 : undefined,
     standCount: activity.standCount,
     seatedAvgPower: activity.avgPowerPosition?.[0],
     standingAvgPower: activity.avgPowerPosition?.[1],
@@ -346,6 +351,10 @@ export function computePowerAnalytics(activity: ActivityDetail, ftpOverride?: nu
     rightPowerPhaseArc: rightPowerPhase ? circularArc(rightPowerPhase[0], rightPowerPhase[1]) : undefined,
     leftPowerPhaseCenter: circularCenter(leftPowerPhase),
     rightPowerPhaseCenter: circularCenter(rightPowerPhase),
+    leftPowerPhasePeakArc: leftPowerPhasePeak ? circularArc(leftPowerPhasePeak[0], leftPowerPhasePeak[1]) : undefined,
+    rightPowerPhasePeakArc: rightPowerPhasePeak ? circularArc(rightPowerPhasePeak[0], rightPowerPhasePeak[1]) : undefined,
+    leftPowerPhasePeakCenter: circularCenter(leftPowerPhasePeak),
+    rightPowerPhasePeakCenter: circularCenter(rightPowerPhasePeak),
     zones: computeZones(activity.records, ftp),
     cadenceBands: computeCadenceBands(activity.records),
     climbs: computeClimbs(activity.records, ftp),
