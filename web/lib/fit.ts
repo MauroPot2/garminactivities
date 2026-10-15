@@ -400,15 +400,26 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
 
 const summaryCache = new Map<string, ActivitySummary>();
 
+function ensureContainedFitPath(candidate: string): string {
+  if (!candidate.toLowerCase().endsWith(".fit") || !fs.existsSync(candidate)) throw new Error("Attività non trovata");
+  const rootReal = fs.realpathSync(repoRoot);
+  const candidateReal = fs.realpathSync(candidate);
+  const relative = path.relative(rootReal, candidateReal);
+  const escapesRoot = relative === ".." || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative);
+  if (escapesRoot) throw new Error("Attività non trovata");
+  return candidateReal;
+}
+
 export function getActivities(limit = 48): ActivitySummary[] {
   return listActivityFiles()
     .slice(0, limit)
     .map((file) => {
-      const cached = summaryCache.get(file);
-      if (cached) return cached;
       try {
-        const activity = decodeFit(file, false);
-        summaryCache.set(file, activity);
+        const containedFile = ensureContainedFitPath(file);
+        const cached = summaryCache.get(containedFile);
+        if (cached) return cached;
+        const activity = decodeFit(containedFile, false);
+        summaryCache.set(containedFile, activity);
         return activity;
       } catch {
         return null;
@@ -419,14 +430,7 @@ export function getActivities(limit = 48): ActivitySummary[] {
 
 function resolveContainedFitPath(file: string): string {
   const decoded = decodeURIComponent(file);
-  const candidate = path.resolve(repoRoot, decoded);
-  if (!candidate.toLowerCase().endsWith(".fit") || !fs.existsSync(candidate)) throw new Error("Attività non trovata");
-  const rootReal = fs.realpathSync(repoRoot);
-  const candidateReal = fs.realpathSync(candidate);
-  const relative = path.relative(rootReal, candidateReal);
-  const escapesRoot = relative === ".." || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative);
-  if (escapesRoot) throw new Error("Attività non trovata");
-  return candidateReal;
+  return ensureContainedFitPath(path.resolve(repoRoot, decoded));
 }
 
 export function getActivity(file: string): ActivityDetail {
