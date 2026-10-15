@@ -14,10 +14,24 @@ const settingsPath = path.join(localDir, "settings.json");
 
 const defaults: RiderSettings = { ftpHistory: [] };
 
+function localDateKey(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function isValidDateKey(value: string): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [year, month, day] = value.split("-").map(Number);
+  const date = new Date(year, month - 1, day);
+  return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
+}
+
 function cleanSettings(value: Partial<RiderSettings>): RiderSettings {
   const ftpHistory = Array.isArray(value.ftpHistory)
     ? value.ftpHistory
-        .filter((entry): entry is FtpEntry => Boolean(entry && /^\d{4}-\d{2}-\d{2}$/.test(String(entry.date)) && Number.isFinite(Number(entry.watts)) && Number(entry.watts) >= 50 && Number(entry.watts) <= 600))
+        .filter((entry): entry is FtpEntry => Boolean(entry && isValidDateKey(String(entry.date)) && Number.isFinite(Number(entry.watts)) && Number(entry.watts) >= 50 && Number(entry.watts) <= 600))
         .map((entry) => ({ date: entry.date, watts: Math.round(Number(entry.watts)) }))
         .sort((a, b) => a.date.localeCompare(b.date))
     : [];
@@ -52,10 +66,10 @@ export function writeSettings(settings: Partial<RiderSettings>): RiderSettings {
 }
 
 export function getFtpForDate(date: Date, settings = readSettings()): number | undefined {
-  const iso = date.toISOString().slice(0, 10);
-  return settings.ftpHistory.filter((entry) => entry.date <= iso).at(-1)?.watts;
+  const effectiveDate = localDateKey(date);
+  return settings.ftpHistory.filter((entry) => entry.date <= effectiveDate).at(-1)?.watts;
 }
 
 export function getCurrentFtp(settings = readSettings()): number | undefined {
-  return settings.ftpHistory.at(-1)?.watts;
+  return getFtpForDate(new Date(), settings);
 }
