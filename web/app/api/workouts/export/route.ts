@@ -20,12 +20,12 @@ export async function POST(request: Request) {
       product: 1,
       serialNumber: Math.floor(Math.random() * 0xffffffff),
       timeCreated: new Date(),
-    });
+    } as any);
     encoder.onMesg(Profile.MesgNum.WORKOUT, {
       wktName: name,
       sport: "cycling",
       numValidSteps: steps.length,
-    });
+    } as any);
 
     steps.forEach((step, index) => {
       const durationMs = Math.round(clamp(Number(step.minutes || 1), 1, 300) * 60_000);
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
         targetValue: 0,
         customTargetValueLow: hasPowerTarget ? 1000 + Math.min(low!, high!) : 0,
         customTargetValueHigh: hasPowerTarget ? 1000 + Math.max(low!, high!) : 0,
-      });
+      } as any);
     });
 
     const bytes = encoder.close();
