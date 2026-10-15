@@ -46,8 +46,9 @@ export async function POST(request: Request) {
     });
 
     const bytes = encoder.close();
+    const bodyBuffer = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer;
     const filename = `${name.toLowerCase().replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "") || "workout"}.fit`;
-    return new Response(bytes, {
+    return new Response(bodyBuffer, {
       headers: {
         "Content-Type": "application/octet-stream",
         "Content-Disposition": `attachment; filename="${filename}"`,
