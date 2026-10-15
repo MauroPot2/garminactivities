@@ -14,6 +14,7 @@ export type ActivityRecord = {
   lon?: number;
   grade?: number;
   temperature?: number;
+  respirationRate?: number;
   leftRightBalance?: number;
   leftTorqueEffectiveness?: number;
   rightTorqueEffectiveness?: number;
@@ -53,6 +54,8 @@ export type ActivitySummary = {
   movingSec: number;
   ascentM: number;
   descentM?: number;
+  minAltitude?: number;
+  maxAltitude?: number;
   avgSpeed?: number;
   maxSpeed?: number;
   avgPower?: number;
@@ -67,6 +70,17 @@ export type ActivitySummary = {
   trainingStress?: number;
   intensityFactor?: number;
   thresholdPower?: number;
+  aerobicTrainingEffect?: number;
+  anaerobicTrainingEffect?: number;
+  exerciseLoad?: number;
+  avgTemperature?: number;
+  minTemperature?: number;
+  maxTemperature?: number;
+  avgRespirationRate?: number;
+  minRespirationRate?: number;
+  maxRespirationRate?: number;
+  estimatedSweatLoss?: number;
+  fluidConsumed?: number;
   avgLeftRightBalance?: number;
   avgLeftTorqueEffectiveness?: number;
   avgRightTorqueEffectiveness?: number;
@@ -146,6 +160,14 @@ function average(values: number[]): number | undefined {
   return values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : undefined;
 }
 
+function minimum(values: number[]): number | undefined {
+  return values.length ? Math.min(...values) : undefined;
+}
+
+function maximum(values: number[]): number | undefined {
+  return values.length ? Math.max(...values) : undefined;
+}
+
 function toDate(value: unknown, fallback: string): Date {
   if (value instanceof Date) return value;
   if (typeof value === "string" || typeof value === "number") {
@@ -169,8 +191,7 @@ function leftBalanceFromFit(value: unknown): number | undefined {
   const raw = Math.round(n) & 0xff;
   const percentage = raw & 0x7f;
   if (percentage > 100) return undefined;
-  const rightContribution = (raw & 0x80) !== 0;
-  return rightContribution ? 100 - percentage : percentage;
+  return (raw & 0x80) !== 0 ? 100 - percentage : percentage;
 }
 
 function estimateNormalizedPowerFromSamples(powers: number[]): number | undefined {
@@ -179,7 +200,6 @@ function estimateNormalizedPowerFromSamples(powers: number[]): number | undefine
   let running = 0;
   let fourthPowerSum = 0;
   let count = 0;
-
   for (let i = 0; i < powers.length; i += 1) {
     running += powers[i];
     if (i >= window) running -= powers[i - window];
@@ -189,7 +209,6 @@ function estimateNormalizedPowerFromSamples(powers: number[]): number | undefine
       count += 1;
     }
   }
-
   return count ? Math.round((fourthPowerSum / count) ** 0.25) : undefined;
 }
 
@@ -198,11 +217,8 @@ function bestAveragePower(records: ActivityRecord[], seconds: number): number | 
   if (powers.length < seconds || seconds <= 0) return null;
   const prefix = new Float64Array(powers.length + 1);
   for (let i = 0; i < powers.length; i += 1) prefix[i + 1] = prefix[i] + powers[i];
-
   let best = 0;
-  for (let i = seconds; i <= powers.length; i += 1) {
-    best = Math.max(best, (prefix[i] - prefix[i - seconds]) / seconds);
-  }
+  for (let i = seconds; i <= powers.length; i += 1) best = Math.max(best, (prefix[i] - prefix[i - seconds]) / seconds);
   return Math.round(best);
 }
 
@@ -246,6 +262,9 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
   const devices: Record<string, unknown>[] = [];
   const powerSamples: number[] = [];
   const positiveCadenceSamples: number[] = [];
+  const altitudeSamples: number[] = [];
+  const temperatureSamples: number[] = [];
+  const respirationSamples: number[] = [];
 
   const { errors } = decoder.read({
     mergeHeartRates: true,
@@ -257,8 +276,14 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
 
       const power = safeNumber(message.power);
       const cadence = safeNumber(message.cadence);
+      const altitude = safeNumber(message.enhancedAltitude) ?? safeNumber(message.altitude);
+      const temperature = safeNumber(message.temperature);
+      const respirationRate = safeNumber(message.respirationRate);
       if (power !== undefined) powerSamples.push(power);
       if (cadence !== undefined && cadence > 0) positiveCadenceSamples.push(cadence);
+      if (altitude !== undefined) altitudeSamples.push(altitude);
+      if (temperature !== undefined) temperatureSamples.push(temperature);
+      if (respirationRate !== undefined) respirationSamples.push(respirationRate);
 
       if (includeRecords) {
         records.push({
@@ -266,13 +291,14 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
           power,
           heartRate: safeNumber(message.heartRate),
           cadence,
-          altitude: safeNumber(message.enhancedAltitude) ?? safeNumber(message.altitude),
+          altitude,
           speed: safeNumber(message.enhancedSpeed) ?? safeNumber(message.speed),
           distance: safeNumber(message.distance),
           lat: semicirclesToDegrees(message.positionLat),
           lon: semicirclesToDegrees(message.positionLong),
           grade: safeNumber(message.grade),
-          temperature: safeNumber(message.temperature),
+          temperature,
+          respirationRate,
           leftRightBalance: leftBalanceFromFit(message.leftRightBalance),
           leftTorqueEffectiveness: safeNumber(message.leftTorqueEffectiveness),
           rightTorqueEffectiveness: safeNumber(message.rightTorqueEffectiveness),
@@ -312,6 +338,8 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
     movingSec,
     ascentM: safeNumber(session.totalAscent) ?? 0,
     descentM: safeNumber(session.totalDescent),
+    minAltitude: safeNumber(session.enhancedMinAltitude) ?? safeNumber(session.minAltitude) ?? minimum(altitudeSamples),
+    maxAltitude: safeNumber(session.enhancedMaxAltitude) ?? safeNumber(session.maxAltitude) ?? maximum(altitudeSamples),
     avgSpeed: safeNumber(session.enhancedAvgSpeed) ?? safeNumber(session.avgSpeed),
     maxSpeed: safeNumber(session.enhancedMaxSpeed) ?? safeNumber(session.maxSpeed),
     avgPower: safeNumber(session.avgPower),
@@ -326,6 +354,17 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
     trainingStress: safeNumber(session.trainingStressScore),
     intensityFactor: safeNumber(session.intensityFactor),
     thresholdPower: safeNumber(session.thresholdPower),
+    aerobicTrainingEffect: safeNumber(session.totalTrainingEffect),
+    anaerobicTrainingEffect: safeNumber(session.totalAnaerobicTrainingEffect),
+    exerciseLoad: safeNumber(session.exerciseLoad) ?? safeNumber(session.trainingLoad),
+    avgTemperature: safeNumber(session.avgTemperature) ?? average(temperatureSamples),
+    minTemperature: safeNumber(session.minTemperature) ?? minimum(temperatureSamples),
+    maxTemperature: safeNumber(session.maxTemperature) ?? maximum(temperatureSamples),
+    avgRespirationRate: safeNumber(session.avgRespirationRate) ?? average(respirationSamples),
+    minRespirationRate: safeNumber(session.minRespirationRate) ?? minimum(respirationSamples),
+    maxRespirationRate: safeNumber(session.maxRespirationRate) ?? maximum(respirationSamples),
+    estimatedSweatLoss: safeNumber(session.estimatedSweatLoss),
+    fluidConsumed: safeNumber(session.fluidConsumed) ?? safeNumber(session.totalFluid),
     avgLeftRightBalance: leftBalanceFromFit(session.avgLeftRightBalance),
     avgLeftTorqueEffectiveness: safeNumber(session.avgLeftTorqueEffectiveness),
     avgRightTorqueEffectiveness: safeNumber(session.avgRightTorqueEffectiveness),
@@ -355,9 +394,7 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
     ...summary,
     records,
     sensors,
-    powerCurve: includeRecords
-      ? curveDurations.map(([label, seconds]) => ({ label, seconds, watts: bestAveragePower(records, seconds) }))
-      : [],
+    powerCurve: includeRecords ? curveDurations.map(([label, seconds]) => ({ label, seconds, watts: bestAveragePower(records, seconds) })) : [],
   };
 }
 
@@ -384,7 +421,6 @@ function resolveContainedFitPath(file: string): string {
   const decoded = decodeURIComponent(file);
   const candidate = path.resolve(repoRoot, decoded);
   if (!candidate.toLowerCase().endsWith(".fit") || !fs.existsSync(candidate)) throw new Error("Attività non trovata");
-
   const rootReal = fs.realpathSync(repoRoot);
   const candidateReal = fs.realpathSync(candidate);
   const relative = path.relative(rootReal, candidateReal);
@@ -401,9 +437,7 @@ export function getDashboardStats(activities: ActivitySummary[]) {
   const now = Date.now();
   const week = activities.filter((activity) => now - activity.date.getTime() <= 7 * 24 * 3600 * 1000);
   const month = activities.filter((activity) => now - activity.date.getTime() <= 30 * 24 * 3600 * 1000);
-  const sum = <K extends keyof ActivitySummary>(items: ActivitySummary[], key: K) =>
-    items.reduce((total, item) => total + (typeof item[key] === "number" ? Number(item[key]) : 0), 0);
-
+  const sum = <K extends keyof ActivitySummary>(items: ActivitySummary[], key: K) => items.reduce((total, item) => total + (typeof item[key] === "number" ? Number(item[key]) : 0), 0);
   return {
     weekDistance: sum(week, "distanceKm"),
     weekDuration: sum(week, "movingSec"),
