@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowLeft, Bike, Flame, Gauge, HeartPulse, Mountain, Timer, Zap } from "lucide-react";
 import { SeriesChart } from "@/components/DetailCharts";
 import { RouteMap } from "@/components/RouteMap";
+import { PowerLab } from "@/components/PowerLab";
 import { getActivity } from "@/lib/fit";
 import { formatDate, formatDuration, formatNumber } from "@/lib/format";
 
@@ -46,12 +47,7 @@ export default async function ActivityDetailPage({ params }: { params: Promise<{
         <SeriesChart records={activity.records} field="altitude" label="Altitudine" unit="m" tone="cyan"/>
       </section>
 
-      <section className="panel powerPanel">
-        <div className="panelHeader"><div><span className="sectionLabel">POWER CURVE</span><h2>Migliori potenze</h2></div></div>
-        <div className="powerCurve">
-          {activity.powerCurve.map((point) => <div key={point.label}><span>{point.label}</span><b>{point.watts ? `${point.watts} W` : "—"}</b></div>)}
-        </div>
-      </section>
+      <PowerLab activity={activity}/>
     </div>
   );
 }
