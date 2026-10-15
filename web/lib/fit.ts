@@ -63,9 +63,9 @@ function walkFitFiles(dir: string, depth = 0): string[] {
 
 function filenameTimestamp(file: string): number {
   const name = path.basename(file);
-  const m = name.match(/(20\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})/);
-  if (!m) return fs.statSync(file).mtimeMs;
-  const [, y, mo, d, h, mi, s] = m;
+  const match = name.match(/(20\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})/);
+  if (!match) return fs.statSync(file).mtimeMs;
+  const [, y, mo, d, h, mi, s] = match;
   return new Date(`${y}-${mo}-${d}T${h}:${mi}:${s}`).getTime();
 }
 
@@ -83,8 +83,7 @@ function toDate(value: unknown, fallback: string): Date {
     const parsed = new Date(value);
     if (!Number.isNaN(parsed.getTime())) return parsed;
   }
-  const ts = filenameTimestamp(fallback);
-  return new Date(ts);
+  return new Date(filenameTimestamp(fallback));
 }
 
 function semicirclesToDegrees(value: unknown): number | undefined {
@@ -101,6 +100,7 @@ function estimateNormalizedPower(records: ActivityRecord[]): number | undefined 
   let running = 0;
   let fourthPowerSum = 0;
   let count = 0;
+
   for (let i = 0; i < powers.length; i += 1) {
     running += powers[i];
     if (i >= window) running -= powers[i - window];
@@ -110,6 +110,7 @@ function estimateNormalizedPower(records: ActivityRecord[]): number | undefined 
       count += 1;
     }
   }
+
   return count ? Math.round((fourthPowerSum / count) ** 0.25) : undefined;
 }
 
@@ -118,10 +119,10 @@ function bestAveragePower(records: ActivityRecord[], seconds: number): number | 
   if (powers.length < seconds || seconds <= 0) return null;
   const prefix = new Float64Array(powers.length + 1);
   for (let i = 0; i < powers.length; i += 1) prefix[i + 1] = prefix[i] + powers[i];
+
   let best = 0;
   for (let i = seconds; i <= powers.length; i += 1) {
-    const avg = (prefix[i] - prefix[i - seconds]) / seconds;
-    if (avg > best) best = avg;
+    best = Math.max(best, (prefix[i] - prefix[i - seconds]) / seconds);
   }
   return Math.round(best);
 }
@@ -138,10 +139,10 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
 
   const { errors } = decoder.read({
     mergeHeartRates: true,
-    mesgListener: (messageNumber: number, message: Record<string, unknown>) => {
+    mesgListener: (messageNumber: number, message: any) => {
       const name = Profile.types.mesgNum[messageNumber];
-      if (name === "session") sessions.push(message);
-      if (name === "deviceInfo") devices.push(message);
+      if (name === "session") sessions.push(message as Record<string, unknown>);
+      if (name === "deviceInfo") devices.push(message as Record<string, unknown>);
       if (includeRecords && name === "record") {
         records.push({
           timestamp: message.timestamp instanceof Date ? message.timestamp : undefined,
@@ -166,12 +167,10 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
   const movingSec = safeNumber(session.totalTimerTime) ?? durationSec;
   const distanceM = safeNumber(session.totalDistance) ?? 0;
   const totalWork = safeNumber(session.totalWork);
-
   const device = devices
-    .map((d) => (typeof d.productName === "string" ? d.productName : typeof d.garminProduct === "string" ? d.garminProduct : undefined))
+    .map((d) => typeof d.productName === "string" ? d.productName : typeof d.garminProduct === "string" ? d.garminProduct : undefined)
     .filter(Boolean)
-    .at(-1);
-
+    .at(-1) as string | undefined;
   const normalizedPower = safeNumber(session.normalizedPower) ?? (includeRecords ? estimateNormalizedPower(records) : undefined);
 
   const summary: ActivitySummary = {
@@ -193,22 +192,18 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
     workKj: totalWork !== undefined ? totalWork / 1000 : undefined,
     trainingStress: safeNumber(session.trainingStressScore),
     intensityFactor: safeNumber(session.intensityFactor),
-    device: device as string | undefined,
+    device,
   };
+
+  const curveDurations: Array<[string, number]> = [
+    ["5s", 5], ["30s", 30], ["1m", 60], ["5m", 300], ["10m", 600], ["20m", 1200], ["60m", 3600],
+  ];
 
   return {
     ...summary,
     records,
     powerCurve: includeRecords
-      ? [
-          ["5s", 5],
-          ["30s", 30],
-          ["1m", 60],
-          ["5m", 300],
-          ["10m", 600],
-          ["20m", 1200],
-          ["60m", 3600],
-        ].map(([label, seconds]) => ({ label: String(label), seconds: Number(seconds), watts: bestAveragePower(records, Number(seconds)) }))
+      ? curveDurations.map(([label, seconds]) => ({ label, seconds, watts: bestAveragePower(records, seconds) }))
       : [],
   };
 }
@@ -219,7 +214,8 @@ export function getActivities(limit = 48): ActivitySummary[] {
   return listActivityFiles()
     .slice(0, limit)
     .map((file) => {
-      if (summaryCache.has(file)) return summaryCache.get(file)!;
+      const cached = summaryCache.get(file);
+      if (cached) return cached;
       try {
         const activity = decodeFit(file, false);
         summaryCache.set(file, activity);
@@ -228,7 +224,7 @@ export function getActivities(limit = 48): ActivitySummary[] {
         return null;
       }
     })
-    .filter((a): a is ActivitySummary => Boolean(a));
+    .filter((activity): activity is ActivitySummary => Boolean(activity));
 }
 
 export function getActivity(file: string): ActivityDetail {
@@ -246,6 +242,7 @@ export function getDashboardStats(activities: ActivitySummary[]) {
   const month = activities.filter((a) => now - a.date.getTime() <= 30 * 24 * 3600 * 1000);
   const sum = <K extends keyof ActivitySummary>(items: ActivitySummary[], key: K) =>
     items.reduce((total, item) => total + (typeof item[key] === "number" ? Number(item[key]) : 0), 0);
+
   return {
     weekDistance: sum(week, "distanceKm"),
     weekDuration: sum(week, "movingSec"),
