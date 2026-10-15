@@ -8,6 +8,13 @@ type Settings = { ftpHistory: FtpEntry[]; weightKg?: number; maxHeartRate?: numb
 
 const empty: Settings = { ftpHistory: [] };
 
+function localDateKey(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 export default function SettingsPage() {
   const [settings, setSettings] = useState<Settings>(empty);
   const [loading, setLoading] = useState(true);
@@ -22,7 +29,13 @@ export default function SettingsPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const currentFtp = useMemo(() => settings.ftpHistory.at(-1)?.watts, [settings.ftpHistory]);
+  const currentFtp = useMemo(() => {
+    const today = localDateKey();
+    return settings.ftpHistory
+      .filter((entry) => entry.date <= today)
+      .toSorted((a, b) => a.date.localeCompare(b.date))
+      .at(-1)?.watts;
+  }, [settings.ftpHistory]);
 
   const updateEntry = (index: number, patch: Partial<FtpEntry>) => setSettings((current) => ({
     ...current,
@@ -31,7 +44,7 @@ export default function SettingsPage() {
 
   const addEntry = () => setSettings((current) => ({
     ...current,
-    ftpHistory: [...current.ftpHistory, { date: new Date().toISOString().slice(0, 10), watts: current.ftpHistory.at(-1)?.watts ?? 200 }],
+    ftpHistory: [...current.ftpHistory, { date: localDateKey(), watts: currentFtp ?? 200 }],
   }));
 
   const removeEntry = (index: number) => setSettings((current) => ({ ...current, ftpHistory: current.ftpHistory.filter((_, entryIndex) => entryIndex !== index) }));
