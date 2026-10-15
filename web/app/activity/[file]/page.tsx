@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, Bike, Flame, Gauge, HeartPulse, Mountain, Timer, Zap } from "lucide-react";
-import { RouteMap, SeriesChart } from "@/components/DetailCharts";
+import { SeriesChart } from "@/components/DetailCharts";
+import { RouteMap } from "@/components/RouteMap";
 import { getActivity } from "@/lib/fit";
 import { formatDate, formatDuration, formatNumber } from "@/lib/format";
 
@@ -9,6 +10,12 @@ export const dynamic = "force-dynamic";
 export default async function ActivityDetailPage({ params }: { params: Promise<{ file: string }> }) {
   const { file } = await params;
   const activity = getActivity(file);
+  const routePoints = activity.records
+    .filter((record) => typeof record.lat === "number" && typeof record.lon === "number")
+    .map((record) => ({ lat: record.lat!, lon: record.lon! }));
+  const stride = Math.max(1, Math.ceil(routePoints.length / 2500));
+  const mapPoints = routePoints.filter((_, index) => index % stride === 0 || index === routePoints.length - 1);
+
   return (
     <div className="pageWrap detailPage">
       <div className="detailBack"><Link href="/"><ArrowLeft size={17}/>Tutte le attività</Link></div>
@@ -28,8 +35,8 @@ export default async function ActivityDetailPage({ params }: { params: Promise<{
       </section>
 
       <section className="panel routePanel">
-        <div className="panelHeader"><div><span className="sectionLabel">PERCORSO</span><h2>Traccia dell’uscita</h2></div><span className="countPill">{activity.records.length.toLocaleString("it-IT")} campioni</span></div>
-        <RouteMap records={activity.records}/>
+        <div className="panelHeader"><div><span className="sectionLabel">PERCORSO</span><h2>Mappa dell’uscita</h2></div><span className="countPill">{activity.records.length.toLocaleString("it-IT")} campioni</span></div>
+        <RouteMap points={mapPoints}/>
       </section>
 
       <section className="chartsGrid">
