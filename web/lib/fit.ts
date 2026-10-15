@@ -12,6 +12,34 @@ export type ActivityRecord = {
   distance?: number;
   lat?: number;
   lon?: number;
+  grade?: number;
+  leftRightBalance?: number;
+  leftTorqueEffectiveness?: number;
+  rightTorqueEffectiveness?: number;
+  leftPedalSmoothness?: number;
+  rightPedalSmoothness?: number;
+  combinedPedalSmoothness?: number;
+  leftPco?: number;
+  rightPco?: number;
+  leftPowerPhase?: number[];
+  rightPowerPhase?: number[];
+  leftPowerPhasePeak?: number[];
+  rightPowerPhasePeak?: number[];
+};
+
+export type SensorInfo = {
+  index?: number;
+  name?: string;
+  descriptor?: string;
+  manufacturer?: string;
+  product?: string;
+  deviceType?: string;
+  sourceType?: string;
+  serialNumber?: string;
+  softwareVersion?: number;
+  batteryVoltage?: number;
+  batteryStatus?: string;
+  sensorPosition?: string;
 };
 
 export type ActivitySummary = {
@@ -29,15 +57,24 @@ export type ActivitySummary = {
   avgHr?: number;
   maxHr?: number;
   avgCadence?: number;
+  maxCadence?: number;
   calories?: number;
   workKj?: number;
   trainingStress?: number;
   intensityFactor?: number;
+  thresholdPower?: number;
+  avgLeftRightBalance?: number;
+  avgLeftTorqueEffectiveness?: number;
+  avgRightTorqueEffectiveness?: number;
+  avgLeftPedalSmoothness?: number;
+  avgRightPedalSmoothness?: number;
+  avgCombinedPedalSmoothness?: number;
   device?: string;
 };
 
 export type ActivityDetail = ActivitySummary & {
   records: ActivityRecord[];
+  sensors: SensorInfo[];
   powerCurve: { label: string; seconds: number; watts: number | null }[];
 };
 
@@ -77,6 +114,18 @@ function safeNumber(value: unknown): number | undefined {
   return typeof value === "number" && Number.isFinite(value) ? value : undefined;
 }
 
+function safeString(value: unknown): string | undefined {
+  if (typeof value === "string" && value.trim()) return value.trim();
+  if (typeof value === "number" && Number.isFinite(value)) return String(value);
+  return undefined;
+}
+
+function safeNumberArray(value: unknown): number[] | undefined {
+  if (!Array.isArray(value)) return undefined;
+  const values = value.filter((item): item is number => typeof item === "number" && Number.isFinite(item));
+  return values.length ? values : undefined;
+}
+
 function toDate(value: unknown, fallback: string): Date {
   if (value instanceof Date) return value;
   if (typeof value === "string" || typeof value === "number") {
@@ -91,6 +140,17 @@ function semicirclesToDegrees(value: unknown): number | undefined {
   if (n === undefined) return undefined;
   if (Math.abs(n) <= 180) return n;
   return n * (180 / 2147483648);
+}
+
+function leftBalanceFromFit(value: unknown): number | undefined {
+  const n = safeNumber(value);
+  if (n === undefined) return undefined;
+  if (n >= 0 && n <= 100) return n;
+  const raw = Math.round(n) & 0xff;
+  const percentage = raw & 0x7f;
+  if (percentage > 100) return undefined;
+  const rightContribution = (raw & 0x80) !== 0;
+  return rightContribution ? 100 - percentage : percentage;
 }
 
 function estimateNormalizedPower(records: ActivityRecord[]): number | undefined {
@@ -127,6 +187,23 @@ function bestAveragePower(records: ActivityRecord[], seconds: number): number | 
   return Math.round(best);
 }
 
+function sensorFromMessage(message: any): SensorInfo {
+  return {
+    index: safeNumber(message.deviceIndex),
+    name: safeString(message.productName) ?? safeString(message.descriptor),
+    descriptor: safeString(message.descriptor),
+    manufacturer: safeString(message.manufacturer),
+    product: safeString(message.garminProduct) ?? safeString(message.product),
+    deviceType: safeString(message.deviceType),
+    sourceType: safeString(message.sourceType),
+    serialNumber: safeString(message.serialNumber),
+    softwareVersion: safeNumber(message.softwareVersion),
+    batteryVoltage: safeNumber(message.batteryVoltage),
+    batteryStatus: safeString(message.batteryStatus),
+    sensorPosition: safeString(message.sensorPosition),
+  };
+}
+
 function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
   const buffer = fs.readFileSync(fullPath);
   const stream = Stream.fromBuffer(buffer);
@@ -154,6 +231,19 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
           distance: safeNumber(message.distance),
           lat: semicirclesToDegrees(message.positionLat),
           lon: semicirclesToDegrees(message.positionLong),
+          grade: safeNumber(message.grade),
+          leftRightBalance: leftBalanceFromFit(message.leftRightBalance),
+          leftTorqueEffectiveness: safeNumber(message.leftTorqueEffectiveness),
+          rightTorqueEffectiveness: safeNumber(message.rightTorqueEffectiveness),
+          leftPedalSmoothness: safeNumber(message.leftPedalSmoothness),
+          rightPedalSmoothness: safeNumber(message.rightPedalSmoothness),
+          combinedPedalSmoothness: safeNumber(message.combinedPedalSmoothness),
+          leftPco: safeNumber(message.leftPco),
+          rightPco: safeNumber(message.rightPco),
+          leftPowerPhase: safeNumberArray(message.leftPowerPhase),
+          rightPowerPhase: safeNumberArray(message.rightPowerPhase),
+          leftPowerPhasePeak: safeNumberArray(message.leftPowerPhasePeak),
+          rightPowerPhasePeak: safeNumberArray(message.rightPowerPhasePeak),
         });
       }
     },
@@ -167,10 +257,8 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
   const movingSec = safeNumber(session.totalTimerTime) ?? durationSec;
   const distanceM = safeNumber(session.totalDistance) ?? 0;
   const totalWork = safeNumber(session.totalWork);
-  const device = devices
-    .map((d) => typeof d.productName === "string" ? d.productName : typeof d.garminProduct === "string" ? d.garminProduct : undefined)
-    .filter(Boolean)
-    .at(-1) as string | undefined;
+  const sensors = devices.map(sensorFromMessage);
+  const device = sensors.map((sensor) => sensor.name ?? sensor.product).filter(Boolean).at(-1);
   const normalizedPower = safeNumber(session.normalizedPower) ?? (includeRecords ? estimateNormalizedPower(records) : undefined);
 
   const summary: ActivitySummary = {
@@ -188,20 +276,29 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
     avgHr: safeNumber(session.avgHeartRate),
     maxHr: safeNumber(session.maxHeartRate),
     avgCadence: safeNumber(session.avgCadence),
+    maxCadence: safeNumber(session.maxCadence),
     calories: safeNumber(session.totalCalories),
     workKj: totalWork !== undefined ? totalWork / 1000 : undefined,
     trainingStress: safeNumber(session.trainingStressScore),
     intensityFactor: safeNumber(session.intensityFactor),
+    thresholdPower: safeNumber(session.thresholdPower),
+    avgLeftRightBalance: leftBalanceFromFit(session.avgLeftRightBalance),
+    avgLeftTorqueEffectiveness: safeNumber(session.avgLeftTorqueEffectiveness),
+    avgRightTorqueEffectiveness: safeNumber(session.avgRightTorqueEffectiveness),
+    avgLeftPedalSmoothness: safeNumber(session.avgLeftPedalSmoothness),
+    avgRightPedalSmoothness: safeNumber(session.avgRightPedalSmoothness),
+    avgCombinedPedalSmoothness: safeNumber(session.avgCombinedPedalSmoothness),
     device,
   };
 
   const curveDurations: Array<[string, number]> = [
-    ["5s", 5], ["30s", 30], ["1m", 60], ["5m", 300], ["10m", 600], ["20m", 1200], ["60m", 3600],
+    ["1s", 1], ["5s", 5], ["15s", 15], ["30s", 30], ["1m", 60], ["2m", 120], ["5m", 300], ["10m", 600], ["20m", 1200], ["30m", 1800], ["60m", 3600],
   ];
 
   return {
     ...summary,
     records,
+    sensors,
     powerCurve: includeRecords
       ? curveDurations.map(([label, seconds]) => ({ label, seconds, watts: bestAveragePower(records, seconds) }))
       : [],
