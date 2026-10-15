@@ -3,13 +3,14 @@ import { Inter, Manrope } from "next/font/google";
 import { Sidebar } from "@/components/Sidebar";
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
+import "./pro.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-display" });
 
 export const metadata: Metadata = {
-  title: "VeloLab · Mauro Training",
-  description: "Dashboard locale per analisi FIT e allenamenti Garmin",
+  title: "VeloLab · Local Performance Lab",
+  description: "Analisi FIT, Power Lab, training load e workout Garmin in locale",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
