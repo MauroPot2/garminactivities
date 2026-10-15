@@ -3,6 +3,7 @@ import { Encoder, Profile } from "@garmin/fitsdk";
 export const runtime = "nodejs";
 
 const MAX_STEPS = 50;
+const MAX_POWER_WATTS = 3000;
 
 type Step = {
   name?: string;
@@ -30,8 +31,22 @@ export async function POST(request: Request) {
       if (!Number.isFinite(minutes) || minutes <= 0 || minutes > 300) {
         return new Response(`Durata non valida nel blocco ${index + 1}`, { status: 400 });
       }
-      if (step.targetMin !== undefined && step.targetMax !== undefined && Number(step.targetMin) > Number(step.targetMax)) {
-        return new Response(`Target watt invertito nel blocco ${index + 1}`, { status: 400 });
+
+      const hasLow = step.targetMin !== undefined;
+      const hasHigh = step.targetMax !== undefined;
+      if (hasLow !== hasHigh) {
+        return new Response(`Completa entrambi i target watt nel blocco ${index + 1}, oppure lasciali entrambi vuoti`, { status: 400 });
+      }
+
+      if (hasLow && hasHigh) {
+        const low = Number(step.targetMin);
+        const high = Number(step.targetMax);
+        if (!Number.isFinite(low) || !Number.isFinite(high) || low < 0 || high < 0 || low > MAX_POWER_WATTS || high > MAX_POWER_WATTS) {
+          return new Response(`Target watt non valido nel blocco ${index + 1}`, { status: 400 });
+        }
+        if (low > high) {
+          return new Response(`Target watt invertito nel blocco ${index + 1}`, { status: 400 });
+        }
       }
     }
 
@@ -51,8 +66,8 @@ export async function POST(request: Request) {
 
     steps.forEach((step, index) => {
       const durationMs = Math.round(clamp(Number(step.minutes), 0.1, 300) * 60_000);
-      const low = typeof step.targetMin === "number" ? clamp(Math.round(step.targetMin), 0, 3000) : undefined;
-      const high = typeof step.targetMax === "number" ? clamp(Math.round(step.targetMax), 0, 3000) : undefined;
+      const low = typeof step.targetMin === "number" ? Math.round(step.targetMin) : undefined;
+      const high = typeof step.targetMax === "number" ? Math.round(step.targetMax) : undefined;
       const hasPowerTarget = low !== undefined && high !== undefined;
 
       encoder.onMesg(Profile.MesgNum.WORKOUT_STEP, {
@@ -63,8 +78,8 @@ export async function POST(request: Request) {
         durationValue: durationMs,
         targetType: hasPowerTarget ? "power" : "open",
         targetValue: 0,
-        customTargetValueLow: hasPowerTarget ? 1000 + Math.min(low!, high!) : 0,
-        customTargetValueHigh: hasPowerTarget ? 1000 + Math.max(low!, high!) : 0,
+        customTargetValueLow: hasPowerTarget ? 1000 + low! : 0,
+        customTargetValueHigh: hasPowerTarget ? 1000 + high! : 0,
       } as any);
     });
 
