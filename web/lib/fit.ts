@@ -13,6 +13,7 @@ export type ActivityRecord = {
   lat?: number;
   lon?: number;
   grade?: number;
+  temperature?: number;
   leftRightBalance?: number;
   leftTorqueEffectiveness?: number;
   rightTorqueEffectiveness?: number;
@@ -51,6 +52,9 @@ export type ActivitySummary = {
   durationSec: number;
   movingSec: number;
   ascentM: number;
+  descentM?: number;
+  avgSpeed?: number;
+  maxSpeed?: number;
   avgPower?: number;
   normalizedPower?: number;
   maxPower?: number;
@@ -69,6 +73,18 @@ export type ActivitySummary = {
   avgLeftPedalSmoothness?: number;
   avgRightPedalSmoothness?: number;
   avgCombinedPedalSmoothness?: number;
+  avgLeftPco?: number;
+  avgRightPco?: number;
+  avgLeftPowerPhase?: number[];
+  avgRightPowerPhase?: number[];
+  avgLeftPowerPhasePeak?: number[];
+  avgRightPowerPhasePeak?: number[];
+  timeStanding?: number;
+  standCount?: number;
+  avgPowerPosition?: number[];
+  maxPowerPosition?: number[];
+  avgCadencePosition?: number[];
+  maxCadencePosition?: number[];
   device?: string;
 };
 
@@ -126,6 +142,10 @@ function safeNumberArray(value: unknown): number[] | undefined {
   return values.length ? values : undefined;
 }
 
+function average(values: number[]): number | undefined {
+  return values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : undefined;
+}
+
 function toDate(value: unknown, fallback: string): Date {
   if (value instanceof Date) return value;
   if (typeof value === "string" || typeof value === "number") {
@@ -153,8 +173,7 @@ function leftBalanceFromFit(value: unknown): number | undefined {
   return rightContribution ? 100 - percentage : percentage;
 }
 
-function estimateNormalizedPower(records: ActivityRecord[]): number | undefined {
-  const powers = records.map((r) => r.power).filter((p): p is number => typeof p === "number");
+function estimateNormalizedPowerFromSamples(powers: number[]): number | undefined {
   if (powers.length < 30) return undefined;
   const window = 30;
   let running = 0;
@@ -165,8 +184,8 @@ function estimateNormalizedPower(records: ActivityRecord[]): number | undefined 
     running += powers[i];
     if (i >= window) running -= powers[i - window];
     if (i >= window - 1) {
-      const avg = running / window;
-      fourthPowerSum += avg ** 4;
+      const rollingAverage = running / window;
+      fourthPowerSum += rollingAverage ** 4;
       count += 1;
     }
   }
@@ -175,7 +194,7 @@ function estimateNormalizedPower(records: ActivityRecord[]): number | undefined 
 }
 
 function bestAveragePower(records: ActivityRecord[], seconds: number): number | null {
-  const powers = records.map((r) => r.power ?? 0);
+  const powers = records.map((record) => record.power ?? 0);
   if (powers.length < seconds || seconds <= 0) return null;
   const prefix = new Float64Array(powers.length + 1);
   for (let i = 0; i < powers.length; i += 1) prefix[i + 1] = prefix[i] + powers[i];
@@ -204,6 +223,18 @@ function sensorFromMessage(message: any): SensorInfo {
   };
 }
 
+function uniqueSensors(devices: Record<string, unknown>[]): SensorInfo[] {
+  const seen = new Set<string>();
+  const result: SensorInfo[] = [];
+  devices.map(sensorFromMessage).forEach((sensor) => {
+    const key = [sensor.index, sensor.serialNumber, sensor.product, sensor.name, sensor.deviceType].join("|");
+    if (seen.has(key)) return;
+    seen.add(key);
+    result.push(sensor);
+  });
+  return result;
+}
+
 function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
   const buffer = fs.readFileSync(fullPath);
   const stream = Stream.fromBuffer(buffer);
@@ -213,6 +244,8 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
   const sessions: Record<string, unknown>[] = [];
   const records: ActivityRecord[] = [];
   const devices: Record<string, unknown>[] = [];
+  const powerSamples: number[] = [];
+  const positiveCadenceSamples: number[] = [];
 
   const { errors } = decoder.read({
     mergeHeartRates: true,
@@ -220,18 +253,26 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
       const name = Profile.types.mesgNum[messageNumber];
       if (name === "session") sessions.push(message as Record<string, unknown>);
       if (name === "deviceInfo") devices.push(message as Record<string, unknown>);
-      if (includeRecords && name === "record") {
+      if (name !== "record") return;
+
+      const power = safeNumber(message.power);
+      const cadence = safeNumber(message.cadence);
+      if (power !== undefined) powerSamples.push(power);
+      if (cadence !== undefined && cadence > 0) positiveCadenceSamples.push(cadence);
+
+      if (includeRecords) {
         records.push({
           timestamp: message.timestamp instanceof Date ? message.timestamp : undefined,
-          power: safeNumber(message.power),
+          power,
           heartRate: safeNumber(message.heartRate),
-          cadence: safeNumber(message.cadence),
+          cadence,
           altitude: safeNumber(message.enhancedAltitude) ?? safeNumber(message.altitude),
           speed: safeNumber(message.enhancedSpeed) ?? safeNumber(message.speed),
           distance: safeNumber(message.distance),
           lat: semicirclesToDegrees(message.positionLat),
           lon: semicirclesToDegrees(message.positionLong),
           grade: safeNumber(message.grade),
+          temperature: safeNumber(message.temperature),
           leftRightBalance: leftBalanceFromFit(message.leftRightBalance),
           leftTorqueEffectiveness: safeNumber(message.leftTorqueEffectiveness),
           rightTorqueEffectiveness: safeNumber(message.rightTorqueEffectiveness),
@@ -254,12 +295,12 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
   const session = sessions.at(-1) ?? {};
   const file = path.relative(repoRoot, fullPath);
   const durationSec = safeNumber(session.totalElapsedTime) ?? safeNumber(session.totalTimerTime) ?? 0;
-  const movingSec = safeNumber(session.totalTimerTime) ?? durationSec;
+  const movingSec = safeNumber(session.totalMovingTime) ?? safeNumber(session.totalTimerTime) ?? durationSec;
   const distanceM = safeNumber(session.totalDistance) ?? 0;
   const totalWork = safeNumber(session.totalWork);
-  const sensors = devices.map(sensorFromMessage);
+  const sensors = uniqueSensors(devices);
   const device = sensors.map((sensor) => sensor.name ?? sensor.product).filter(Boolean).at(-1);
-  const normalizedPower = safeNumber(session.normalizedPower) ?? (includeRecords ? estimateNormalizedPower(records) : undefined);
+  const normalizedPower = safeNumber(session.normalizedPower) ?? estimateNormalizedPowerFromSamples(powerSamples);
 
   const summary: ActivitySummary = {
     file,
@@ -270,12 +311,15 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
     durationSec,
     movingSec,
     ascentM: safeNumber(session.totalAscent) ?? 0,
+    descentM: safeNumber(session.totalDescent),
+    avgSpeed: safeNumber(session.enhancedAvgSpeed) ?? safeNumber(session.avgSpeed),
+    maxSpeed: safeNumber(session.enhancedMaxSpeed) ?? safeNumber(session.maxSpeed),
     avgPower: safeNumber(session.avgPower),
     normalizedPower,
     maxPower: safeNumber(session.maxPower),
     avgHr: safeNumber(session.avgHeartRate),
     maxHr: safeNumber(session.maxHeartRate),
-    avgCadence: safeNumber(session.avgCadence),
+    avgCadence: average(positiveCadenceSamples) ?? safeNumber(session.avgCadence),
     maxCadence: safeNumber(session.maxCadence),
     calories: safeNumber(session.totalCalories),
     workKj: totalWork !== undefined ? totalWork / 1000 : undefined,
@@ -288,6 +332,18 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
     avgLeftPedalSmoothness: safeNumber(session.avgLeftPedalSmoothness),
     avgRightPedalSmoothness: safeNumber(session.avgRightPedalSmoothness),
     avgCombinedPedalSmoothness: safeNumber(session.avgCombinedPedalSmoothness),
+    avgLeftPco: safeNumber(session.avgLeftPco),
+    avgRightPco: safeNumber(session.avgRightPco),
+    avgLeftPowerPhase: safeNumberArray(session.avgLeftPowerPhase),
+    avgRightPowerPhase: safeNumberArray(session.avgRightPowerPhase),
+    avgLeftPowerPhasePeak: safeNumberArray(session.avgLeftPowerPhasePeak),
+    avgRightPowerPhasePeak: safeNumberArray(session.avgRightPowerPhasePeak),
+    timeStanding: safeNumber(session.timeStanding),
+    standCount: safeNumber(session.standCount),
+    avgPowerPosition: safeNumberArray(session.avgPowerPosition),
+    maxPowerPosition: safeNumberArray(session.maxPowerPosition),
+    avgCadencePosition: safeNumberArray(session.avgCadencePosition),
+    maxCadencePosition: safeNumberArray(session.maxCadencePosition),
     device,
   };
 
@@ -324,19 +380,27 @@ export function getActivities(limit = 48): ActivitySummary[] {
     .filter((activity): activity is ActivitySummary => Boolean(activity));
 }
 
-export function getActivity(file: string): ActivityDetail {
+function resolveContainedFitPath(file: string): string {
   const decoded = decodeURIComponent(file);
   const candidate = path.resolve(repoRoot, decoded);
-  if (!candidate.startsWith(repoRoot) || !candidate.toLowerCase().endsWith(".fit") || !fs.existsSync(candidate)) {
-    throw new Error("Attività non trovata");
-  }
-  return decodeFit(candidate, true);
+  if (!candidate.toLowerCase().endsWith(".fit") || !fs.existsSync(candidate)) throw new Error("Attività non trovata");
+
+  const rootReal = fs.realpathSync(repoRoot);
+  const candidateReal = fs.realpathSync(candidate);
+  const relative = path.relative(rootReal, candidateReal);
+  const escapesRoot = relative === ".." || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative);
+  if (escapesRoot) throw new Error("Attività non trovata");
+  return candidateReal;
+}
+
+export function getActivity(file: string): ActivityDetail {
+  return decodeFit(resolveContainedFitPath(file), true);
 }
 
 export function getDashboardStats(activities: ActivitySummary[]) {
   const now = Date.now();
-  const week = activities.filter((a) => now - a.date.getTime() <= 7 * 24 * 3600 * 1000);
-  const month = activities.filter((a) => now - a.date.getTime() <= 30 * 24 * 3600 * 1000);
+  const week = activities.filter((activity) => now - activity.date.getTime() <= 7 * 24 * 3600 * 1000);
+  const month = activities.filter((activity) => now - activity.date.getTime() <= 30 * 24 * 3600 * 1000);
   const sum = <K extends keyof ActivitySummary>(items: ActivitySummary[], key: K) =>
     items.reduce((total, item) => total + (typeof item[key] === "number" ? Number(item[key]) : 0), 0);
 
