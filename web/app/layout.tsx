@@ -4,6 +4,7 @@ import { Sidebar } from "@/components/Sidebar";
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
 import "./pro.css";
+import "./dashboard-pro.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-display" });
