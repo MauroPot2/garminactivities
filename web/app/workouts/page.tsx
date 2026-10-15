@@ -38,13 +38,24 @@ export default function WorkoutsPage() {
   const totalMinutes = useMemo(() => steps.reduce((sum, step) => sum + Number(step.minutes || 0), 0), [steps]);
 
   useEffect(() => {
-    const slug = new URLSearchParams(window.location.search).get("preset");
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get("preset");
     if (!slug) return;
     const preset = presets.find((item) => item.slug === slug);
     if (!preset) return;
+
+    const requestedMin = Number(params.get("targetMin"));
+    const requestedMax = Number(params.get("targetMax"));
+    const hasCoachTarget = Number.isFinite(requestedMin) && Number.isFinite(requestedMax) && requestedMin >= 0 && requestedMax >= requestedMin && requestedMax <= 3000;
+    const loadedSteps = preset.steps.map((step) => ({
+      ...step,
+      id: uid(),
+      ...(hasCoachTarget && step.intensity === "active" ? { targetMin: Math.round(requestedMin), targetMax: Math.round(requestedMax) } : {}),
+    }));
+
     setName(preset.label);
-    setSteps(preset.steps.map((step) => ({ ...step, id: uid() })));
-    setMessage("Preset del Coach caricato: puoi modificarlo prima di esportarlo.");
+    setSteps(loadedSteps);
+    setMessage(hasCoachTarget ? `Preset del Coach caricato con target personalizzato ${Math.round(requestedMin)}–${Math.round(requestedMax)} W.` : "Preset del Coach caricato: puoi modificarlo prima di esportarlo.");
   }, []);
 
   const update = (id: string, patch: Partial<WorkoutStep>) => setSteps((current) => current.map((step) => step.id === id ? { ...step, ...patch } : step));
