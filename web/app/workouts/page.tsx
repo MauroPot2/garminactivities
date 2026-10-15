@@ -91,6 +91,13 @@ export default function WorkoutsPage() {
     setExporting(true);
     try {
       if (steps.length > MAX_STEPS) throw new Error(`Riduci l'allenamento a ${MAX_STEPS} blocchi.`);
+      const invalidDuration = steps.findIndex((step) => !Number.isFinite(step.minutes) || step.minutes <= 0 || step.minutes > 300);
+      if (invalidDuration >= 0) throw new Error(`Controlla la durata del blocco ${invalidDuration + 1}.`);
+      const incompleteTarget = steps.findIndex((step) => (step.targetMin === undefined) !== (step.targetMax === undefined));
+      if (incompleteTarget >= 0) throw new Error(`Completa entrambi i target watt nel blocco ${incompleteTarget + 1}, oppure lasciali entrambi vuoti.`);
+      const invertedTarget = steps.findIndex((step) => step.targetMin !== undefined && step.targetMax !== undefined && step.targetMin > step.targetMax);
+      if (invertedTarget >= 0) throw new Error(`Il target watt minimo supera il massimo nel blocco ${invertedTarget + 1}.`);
+
       const response = await fetch("/api/workouts/export", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ name, steps }) });
       if (!response.ok) throw new Error(await response.text());
       const blob = await response.blob();
