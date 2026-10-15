@@ -111,6 +111,19 @@ function sampleSeconds(records: ActivityRecord[], index: number): number {
   return 1;
 }
 
+function timeWeightedAverage(records: ActivityRecord[], selector: (record: ActivityRecord) => number | undefined): number | undefined {
+  let weighted = 0;
+  let seconds = 0;
+  records.forEach((record, index) => {
+    const value = selector(record);
+    if (value === undefined || !Number.isFinite(value)) return;
+    const duration = sampleSeconds(records, index);
+    weighted += value * duration;
+    seconds += duration;
+  });
+  return seconds > 0 ? weighted / seconds : undefined;
+}
+
 function torqueNm(power: number, cadence: number): number | undefined {
   if (power <= 0 || cadence <= 0) return undefined;
   const angularVelocity = cadence * (2 * Math.PI / 60);
@@ -338,17 +351,24 @@ function computeClimbs(records: ActivityRecord[], ftp?: number): ClimbAnalysis[]
 
 export function computePowerAnalytics(activity: ActivityDetail, ftpOverride?: number): PowerAnalytics {
   const ftp = ftpOverride && ftpOverride > 0 ? ftpOverride : activity.thresholdPower;
-  const powerRecords = activity.records.filter((record) => typeof record.power === "number");
-  const pedalingPower = powerRecords.filter((record) => (record.power ?? 0) > 0).map((record) => record.power);
-  const cadence = activity.records.map((record) => record.cadence).filter((value): value is number => typeof value === "number" && value > 0);
-  const torques = activity.records
+  const torqueValues = activity.records
     .map((record) => typeof record.power === "number" && typeof record.cadence === "number" ? torqueNm(record.power, record.cadence) : undefined)
     .filter((value): value is number => typeof value === "number" && Number.isFinite(value));
 
-  const recordBalance = avg(activity.records.map((record) => record.leftRightBalance));
+  const powerTime = activity.records.reduce((acc, record, index) => {
+    if (typeof record.power !== "number") return acc;
+    const duration = sampleSeconds(activity.records, index);
+    acc.total += duration;
+    if (record.power === 0) acc.zero += duration;
+    return acc;
+  }, { total: 0, zero: 0 });
+
+  const recordBalance = timeWeightedAverage(activity.records, (record) => record.leftRightBalance);
   const leftBalance = recordBalance ?? activity.avgLeftRightBalance;
-  const pedalingAveragePower = avg(pedalingPower);
-  const avgHr = activity.avgHr ?? avg(activity.records.map((record) => record.heartRate));
+  const pedalingAveragePower = timeWeightedAverage(activity.records, (record) => typeof record.power === "number" && record.power > 0 ? record.power : undefined);
+  const averageCadencePedaling = timeWeightedAverage(activity.records, (record) => typeof record.cadence === "number" && record.cadence > 0 ? record.cadence : undefined);
+  const averageTorqueNm = timeWeightedAverage(activity.records, (record) => typeof record.power === "number" && typeof record.cadence === "number" ? torqueNm(record.power, record.cadence) : undefined);
+  const avgHr = activity.avgHr ?? timeWeightedAverage(activity.records, (record) => record.heartRate);
   const leftPowerPhase = avgPair(activity.records.map((record) => record.leftPowerPhase), activity.avgLeftPowerPhase);
   const rightPowerPhase = avgPair(activity.records.map((record) => record.rightPowerPhase), activity.avgRightPowerPhase);
   const leftPowerPhasePeak = avgPair(activity.records.map((record) => record.leftPowerPhasePeak), activity.avgLeftPowerPhasePeak);
@@ -357,24 +377,24 @@ export function computePowerAnalytics(activity: ActivityDetail, ftpOverride?: nu
   return {
     ftp,
     pedalingAveragePower,
-    averageCadencePedaling: avg(cadence),
-    zeroPowerPercent: powerRecords.length ? (powerRecords.filter((record) => record.power === 0).length / powerRecords.length) * 100 : undefined,
+    averageCadencePedaling,
+    zeroPowerPercent: powerTime.total > 0 ? powerTime.zero / powerTime.total * 100 : undefined,
     variabilityIndex: activity.normalizedPower && activity.avgPower ? activity.normalizedPower / activity.avgPower : undefined,
     efficiencyFactor: activity.normalizedPower && avgHr ? activity.normalizedPower / avgHr : undefined,
     decouplingPercent: computeDecoupling(activity.records),
-    averageTorqueNm: avg(torques),
-    maxTorqueNm: torques.length ? Math.max(...torques) : undefined,
+    averageTorqueNm,
+    maxTorqueNm: torqueValues.length ? Math.max(...torqueValues) : undefined,
     averageLeftBalance: leftBalance,
     averageRightBalance: leftBalance !== undefined ? 100 - leftBalance : undefined,
     estimatedLeftPower: leftBalance !== undefined && pedalingAveragePower !== undefined ? pedalingAveragePower * leftBalance / 100 : undefined,
     estimatedRightPower: leftBalance !== undefined && pedalingAveragePower !== undefined ? pedalingAveragePower * (100 - leftBalance) / 100 : undefined,
-    leftTorqueEffectiveness: avg(activity.records.map((record) => record.leftTorqueEffectiveness)) ?? activity.avgLeftTorqueEffectiveness,
-    rightTorqueEffectiveness: avg(activity.records.map((record) => record.rightTorqueEffectiveness)) ?? activity.avgRightTorqueEffectiveness,
-    leftPedalSmoothness: avg(activity.records.map((record) => record.leftPedalSmoothness)) ?? activity.avgLeftPedalSmoothness,
-    rightPedalSmoothness: avg(activity.records.map((record) => record.rightPedalSmoothness)) ?? activity.avgRightPedalSmoothness,
-    combinedPedalSmoothness: avg(activity.records.map((record) => record.combinedPedalSmoothness)) ?? activity.avgCombinedPedalSmoothness,
-    leftPco: avg(activity.records.map((record) => record.leftPco)) ?? activity.avgLeftPco,
-    rightPco: avg(activity.records.map((record) => record.rightPco)) ?? activity.avgRightPco,
+    leftTorqueEffectiveness: timeWeightedAverage(activity.records, (record) => record.leftTorqueEffectiveness) ?? activity.avgLeftTorqueEffectiveness,
+    rightTorqueEffectiveness: timeWeightedAverage(activity.records, (record) => record.rightTorqueEffectiveness) ?? activity.avgRightTorqueEffectiveness,
+    leftPedalSmoothness: timeWeightedAverage(activity.records, (record) => record.leftPedalSmoothness) ?? activity.avgLeftPedalSmoothness,
+    rightPedalSmoothness: timeWeightedAverage(activity.records, (record) => record.rightPedalSmoothness) ?? activity.avgRightPedalSmoothness,
+    combinedPedalSmoothness: timeWeightedAverage(activity.records, (record) => record.combinedPedalSmoothness) ?? activity.avgCombinedPedalSmoothness,
+    leftPco: timeWeightedAverage(activity.records, (record) => record.leftPco) ?? activity.avgLeftPco,
+    rightPco: timeWeightedAverage(activity.records, (record) => record.rightPco) ?? activity.avgRightPco,
     leftPowerPhase,
     rightPowerPhase,
     leftPowerPhasePeak,
