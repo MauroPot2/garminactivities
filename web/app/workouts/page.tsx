@@ -1,11 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowDownToLine, ChevronDown, Copy, Dumbbell, FolderOpen, GripVertical, Plus, RotateCcw, Save, Sparkles, Timer, Trash2, Zap } from "lucide-react";
 
 type Intensity = "warmup" | "active" | "rest" | "cooldown";
 type WorkoutStep = { id: string; name: string; minutes: number; targetMin?: number; targetMax?: number; intensity: Intensity };
 type Draft = { name: string; steps: WorkoutStep[] };
+type Preset = { slug: string; label: string; hint: string; steps: WorkoutStep[] };
 
 const MAX_STEPS = 50;
 const DRAFT_KEY = "velolab-workout-draft-v1";
@@ -18,11 +19,11 @@ const starter: WorkoutStep[] = [
   { id: "cool", name: "Defaticamento", minutes: 10, targetMin: 85, targetMax: 105, intensity: "cooldown" },
 ];
 
-const presets: Array<{ label: string; hint: string; steps: WorkoutStep[] }> = [
-  { label: "Recupero 60'", hint: "facile e continuo", steps: [{ id: "r1", name: "Pedalata facile", minutes: 60, targetMin: 95, targetMax: 120, intensity: "active" }] },
-  { label: "Endurance 90'", hint: "base aerobica", steps: [{ id: "e1", name: "Warm up", minutes: 15, targetMin: 95, targetMax: 120, intensity: "warmup" }, { id: "e2", name: "Endurance", minutes: 60, targetMin: 125, targetMax: 145, intensity: "active" }, { id: "e3", name: "Cool down", minutes: 15, targetMin: 85, targetMax: 105, intensity: "cooldown" }] },
-  { label: "2×15 controllato", hint: "ritorno al lavoro", steps: [{ id: "c1", name: "Warm up", minutes: 15, targetMin: 95, targetMax: 120, intensity: "warmup" }, { id: "c2", name: "Blocco 1", minutes: 15, targetMin: 150, targetMax: 160, intensity: "active" }, { id: "c3", name: "Recupero", minutes: 7, targetMin: 90, targetMax: 115, intensity: "rest" }, { id: "c4", name: "Blocco 2", minutes: 15, targetMin: 150, targetMax: 160, intensity: "active" }, { id: "c5", name: "Cool down", minutes: 10, targetMin: 85, targetMax: 105, intensity: "cooldown" }] },
-  { label: "Agilità 6×30\"", hint: "cadenza, non sprint", steps: [{ id: "a0", name: "Warm up", minutes: 15, targetMin: 95, targetMax: 120, intensity: "warmup" }, ...Array.from({ length: 6 }).flatMap((_, index) => [{ id: `a${index}-on`, name: `Agilità ${index + 1}`, minutes: 0.5, targetMin: 105, targetMax: 135, intensity: "active" as Intensity }, { id: `a${index}-off`, name: "Recupero", minutes: 2, targetMin: 85, targetMax: 110, intensity: "rest" as Intensity }]), { id: "a-end", name: "Cool down", minutes: 10, targetMin: 85, targetMax: 105, intensity: "cooldown" }] },
+const presets: Preset[] = [
+  { slug: "recovery", label: "Recupero 60'", hint: "facile e continuo", steps: [{ id: "r1", name: "Pedalata facile", minutes: 60, targetMin: 95, targetMax: 120, intensity: "active" }] },
+  { slug: "endurance", label: "Endurance 90'", hint: "base aerobica", steps: [{ id: "e1", name: "Warm up", minutes: 15, targetMin: 95, targetMax: 120, intensity: "warmup" }, { id: "e2", name: "Endurance", minutes: 60, targetMin: 125, targetMax: 145, intensity: "active" }, { id: "e3", name: "Cool down", minutes: 15, targetMin: 85, targetMax: 105, intensity: "cooldown" }] },
+  { slug: "controlled", label: "2×15 controllato", hint: "ritorno al lavoro", steps: [{ id: "c1", name: "Warm up", minutes: 15, targetMin: 95, targetMax: 120, intensity: "warmup" }, { id: "c2", name: "Blocco 1", minutes: 15, targetMin: 150, targetMax: 160, intensity: "active" }, { id: "c3", name: "Recupero", minutes: 7, targetMin: 90, targetMax: 115, intensity: "rest" }, { id: "c4", name: "Blocco 2", minutes: 15, targetMin: 150, targetMax: 160, intensity: "active" }, { id: "c5", name: "Cool down", minutes: 10, targetMin: 85, targetMax: 105, intensity: "cooldown" }] },
+  { slug: "cadence", label: "Agilità 6×30\"", hint: "cadenza, non sprint", steps: [{ id: "a0", name: "Warm up", minutes: 15, targetMin: 95, targetMax: 120, intensity: "warmup" }, ...Array.from({ length: 6 }).flatMap((_, index) => [{ id: `a${index}-on`, name: `Agilità ${index + 1}`, minutes: 0.5, targetMin: 105, targetMax: 135, intensity: "active" as Intensity }, { id: `a${index}-off`, name: "Recupero", minutes: 2, targetMin: 85, targetMax: 110, intensity: "rest" as Intensity }]), { id: "a-end", name: "Cool down", minutes: 10, targetMin: 85, targetMax: 105, intensity: "cooldown" }] },
 ];
 
 function uid() { return Math.random().toString(36).slice(2, 9); }
@@ -35,6 +36,16 @@ export default function WorkoutsPage() {
   const [exporting, setExporting] = useState(false);
   const [message, setMessage] = useState("");
   const totalMinutes = useMemo(() => steps.reduce((sum, step) => sum + Number(step.minutes || 0), 0), [steps]);
+
+  useEffect(() => {
+    const slug = new URLSearchParams(window.location.search).get("preset");
+    if (!slug) return;
+    const preset = presets.find((item) => item.slug === slug);
+    if (!preset) return;
+    setName(preset.label);
+    setSteps(preset.steps.map((step) => ({ ...step, id: uid() })));
+    setMessage("Preset del Coach caricato: puoi modificarlo prima di esportarlo.");
+  }, []);
 
   const update = (id: string, patch: Partial<WorkoutStep>) => setSteps((current) => current.map((step) => step.id === id ? { ...step, ...patch } : step));
   const remove = (id: string) => setSteps((current) => current.filter((step) => step.id !== id));
@@ -143,7 +154,7 @@ export default function WorkoutsPage() {
 
           <div className="panel presetPanel">
             <div className="panelHeader"><div><span className="sectionLabel">PARTI VELOCE</span><h2>Preset</h2></div><RotateCcw size={18}/></div>
-            {presets.map((preset) => <button className="presetButton" key={preset.label} onClick={() => { setName(preset.label); setSteps(preset.steps.map((step) => ({ ...step, id: uid() }))); setMessage(""); }}><span>{preset.label}<small className="presetHint">{preset.hint}</small></span><small>{preset.steps.reduce((sum, step) => sum + step.minutes, 0).toLocaleString("it-IT", { maximumFractionDigits: 1 })} min</small></button>)}
+            {presets.map((preset) => <button className="presetButton" key={preset.slug} onClick={() => { setName(preset.label); setSteps(preset.steps.map((step) => ({ ...step, id: uid() }))); setMessage(""); }}><span>{preset.label}<small className="presetHint">{preset.hint}</small></span><small>{preset.steps.reduce((sum, step) => sum + step.minutes, 0).toLocaleString("it-IT", { maximumFractionDigits: 1 })} min</small></button>)}
           </div>
 
           <div className="usbHint"><ArrowDownToLine size={18}/><div><b>Edge 530 via USB</b><span>Dopo il download copia il .FIT nella cartella GARMIN/NewFiles del dispositivo.</span></div></div>
