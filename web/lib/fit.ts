@@ -480,8 +480,7 @@ function ensureContainedFitPath(candidate: string): string {
 }
 
 export function getActivities(limit = 48): ActivitySummary[] {
-  return listActivityFiles()
-    .slice(0, limit)
+  const decoded = listActivityFiles()
     .map((file) => {
       try {
         const containedFile = ensureContainedFitPath(file);
@@ -495,6 +494,9 @@ export function getActivities(limit = 48): ActivitySummary[] {
       }
     })
     .filter((activity): activity is ActivitySummary => Boolean(activity));
+
+  decoded.sort((a, b) => b.date.getTime() - a.date.getTime());
+  return decoded.slice(0, Math.max(0, Math.floor(limit)));
 }
 
 function resolveContainedFitPath(file: string): string {
