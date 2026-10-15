@@ -108,8 +108,12 @@ export type ActivityDetail = ActivitySummary & {
   powerCurve: { label: string; seconds: number; watts: number | null }[];
 };
 
+type TimedPowerSample = { timestampMs?: number; power: number };
+type PowerSecond = { power: number; segment: number };
+
 const repoRoot = path.resolve(process.cwd(), "..");
 const EXCLUDED = new Set([".git", "web", "node_modules"]);
+const MAX_CONTIGUOUS_POWER_GAP_SEC = 10;
 
 function walkFitFiles(dir: string, depth = 0): string[] {
   if (depth > 3) return [];
@@ -131,9 +135,16 @@ function walkFitFiles(dir: string, depth = 0): string[] {
 function filenameTimestamp(file: string): number {
   const name = path.basename(file);
   const match = name.match(/(20\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})-(\d{2})/);
-  if (!match) return fs.statSync(file).mtimeMs;
-  const [, y, mo, d, h, mi, s] = match;
-  return new Date(`${y}-${mo}-${d}T${h}:${mi}:${s}`).getTime();
+  if (match) {
+    const [, y, mo, d, h, mi, s] = match;
+    const parsed = new Date(`${y}-${mo}-${d}T${h}:${mi}:${s}`).getTime();
+    if (Number.isFinite(parsed)) return parsed;
+  }
+  try {
+    return fs.statSync(file).mtimeMs;
+  } catch {
+    return 0;
+  }
 }
 
 export function listActivityFiles(): string[] {
@@ -194,32 +205,85 @@ function leftBalanceFromFit(value: unknown): number | undefined {
   return (raw & 0x80) !== 0 ? 100 - percentage : percentage;
 }
 
-function estimateNormalizedPowerFromSamples(powers: number[]): number | undefined {
-  if (powers.length < 30) return undefined;
+function buildPowerSeconds(samples: TimedPowerSample[]): PowerSecond[] {
+  if (!samples.length) return [];
+  const result: PowerSecond[] = [];
+  let segment = 0;
+
+  samples.forEach((sample, index) => {
+    const next = samples[index + 1];
+    const currentTs = sample.timestampMs;
+    const nextTs = next?.timestampMs;
+
+    if (currentTs !== undefined && nextTs !== undefined) {
+      const gapSec = (nextTs - currentTs) / 1000;
+      if (gapSec > 0 && gapSec <= MAX_CONTIGUOUS_POWER_GAP_SEC) {
+        const seconds = Math.max(1, Math.round(gapSec));
+        for (let second = 0; second < seconds; second += 1) result.push({ power: sample.power, segment });
+        return;
+      }
+      result.push({ power: sample.power, segment });
+      if (gapSec <= 0 || gapSec > MAX_CONTIGUOUS_POWER_GAP_SEC) segment += 1;
+      return;
+    }
+
+    result.push({ power: sample.power, segment });
+  });
+
+  return result;
+}
+
+function estimateNormalizedPowerFromSeries(series: PowerSecond[]): number | undefined {
   const window = 30;
+  if (series.length < window) return undefined;
   let running = 0;
+  let start = 0;
   let fourthPowerSum = 0;
   let count = 0;
-  for (let i = 0; i < powers.length; i += 1) {
-    running += powers[i];
-    if (i >= window) running -= powers[i - window];
-    if (i >= window - 1) {
+
+  for (let end = 0; end < series.length; end += 1) {
+    if (end > 0 && series[end].segment !== series[end - 1].segment) {
+      running = 0;
+      start = end;
+    }
+    running += series[end].power;
+    while (end - start + 1 > window) {
+      running -= series[start].power;
+      start += 1;
+    }
+    if (end - start + 1 === window) {
       const rollingAverage = running / window;
       fourthPowerSum += rollingAverage ** 4;
       count += 1;
     }
   }
+
   return count ? Math.round((fourthPowerSum / count) ** 0.25) : undefined;
 }
 
-function bestAveragePower(records: ActivityRecord[], seconds: number): number | null {
-  const powers = records.map((record) => record.power ?? 0);
-  if (powers.length < seconds || seconds <= 0) return null;
-  const prefix = new Float64Array(powers.length + 1);
-  for (let i = 0; i < powers.length; i += 1) prefix[i + 1] = prefix[i] + powers[i];
-  let best = 0;
-  for (let i = seconds; i <= powers.length; i += 1) best = Math.max(best, (prefix[i] - prefix[i - seconds]) / seconds);
-  return Math.round(best);
+function bestAveragePowerFromSeries(series: PowerSecond[], seconds: number): number | null {
+  if (seconds <= 0 || series.length < seconds) return null;
+  let running = 0;
+  let start = 0;
+  let best: number | null = null;
+
+  for (let end = 0; end < series.length; end += 1) {
+    if (end > 0 && series[end].segment !== series[end - 1].segment) {
+      running = 0;
+      start = end;
+    }
+    running += series[end].power;
+    while (end - start + 1 > seconds) {
+      running -= series[start].power;
+      start += 1;
+    }
+    if (end - start + 1 === seconds) {
+      const value = running / seconds;
+      best = best === null ? value : Math.max(best, value);
+    }
+  }
+
+  return best === null ? null : Math.round(best);
 }
 
 function sensorFromMessage(message: any): SensorInfo {
@@ -260,7 +324,7 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
   const sessions: Record<string, unknown>[] = [];
   const records: ActivityRecord[] = [];
   const devices: Record<string, unknown>[] = [];
-  const powerSamples: number[] = [];
+  const powerSamples: TimedPowerSample[] = [];
   const positiveCadenceSamples: number[] = [];
   const altitudeSamples: number[] = [];
   const temperatureSamples: number[] = [];
@@ -274,12 +338,13 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
       if (name === "deviceInfo") devices.push(message as Record<string, unknown>);
       if (name !== "record") return;
 
+      const timestamp = message.timestamp instanceof Date ? message.timestamp : undefined;
       const power = safeNumber(message.power);
       const cadence = safeNumber(message.cadence);
       const altitude = safeNumber(message.enhancedAltitude) ?? safeNumber(message.altitude);
       const temperature = safeNumber(message.temperature);
       const respirationRate = safeNumber(message.respirationRate);
-      if (power !== undefined) powerSamples.push(power);
+      if (power !== undefined) powerSamples.push({ power, timestampMs: timestamp?.getTime() });
       if (cadence !== undefined && cadence > 0) positiveCadenceSamples.push(cadence);
       if (altitude !== undefined) altitudeSamples.push(altitude);
       if (temperature !== undefined) temperatureSamples.push(temperature);
@@ -287,7 +352,7 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
 
       if (includeRecords) {
         records.push({
-          timestamp: message.timestamp instanceof Date ? message.timestamp : undefined,
+          timestamp,
           power,
           heartRate: safeNumber(message.heartRate),
           cadence,
@@ -316,9 +381,12 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
     },
   });
 
-  if (errors.length && !sessions.length) throw new Error(errors.map(String).join(", "));
+  if (!sessions.length) {
+    const detail = errors.length ? `: ${errors.map(String).join(", ")}` : "";
+    throw new Error(`FIT senza sessione attività${detail}`);
+  }
 
-  const session = sessions.at(-1) ?? {};
+  const session = sessions.at(-1)!;
   const file = path.relative(repoRoot, fullPath);
   const durationSec = safeNumber(session.totalElapsedTime) ?? safeNumber(session.totalTimerTime) ?? 0;
   const movingSec = safeNumber(session.totalMovingTime) ?? safeNumber(session.totalTimerTime) ?? durationSec;
@@ -326,7 +394,8 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
   const totalWork = safeNumber(session.totalWork);
   const sensors = uniqueSensors(devices);
   const device = sensors.map((sensor) => sensor.name ?? sensor.product).filter(Boolean).at(-1);
-  const normalizedPower = safeNumber(session.normalizedPower) ?? estimateNormalizedPowerFromSamples(powerSamples);
+  const powerSeries = buildPowerSeconds(powerSamples);
+  const normalizedPower = safeNumber(session.normalizedPower) ?? estimateNormalizedPowerFromSeries(powerSeries);
 
   const summary: ActivitySummary = {
     file,
@@ -394,7 +463,7 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
     ...summary,
     records,
     sensors,
-    powerCurve: includeRecords ? curveDurations.map(([label, seconds]) => ({ label, seconds, watts: bestAveragePower(records, seconds) })) : [],
+    powerCurve: includeRecords ? curveDurations.map(([label, seconds]) => ({ label, seconds, watts: bestAveragePowerFromSeries(powerSeries, seconds) })) : [],
   };
 }
 
@@ -429,8 +498,7 @@ export function getActivities(limit = 48): ActivitySummary[] {
 }
 
 function resolveContainedFitPath(file: string): string {
-  const decoded = decodeURIComponent(file);
-  return ensureContainedFitPath(path.resolve(repoRoot, decoded));
+  return ensureContainedFitPath(path.resolve(repoRoot, file));
 }
 
 export function getActivity(file: string): ActivityDetail {
