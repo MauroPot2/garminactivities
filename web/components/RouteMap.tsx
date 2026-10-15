@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { Map as LeafletMap } from "leaflet";
+import styles from "./RouteMap.module.css";
 
 type RoutePoint = { lat: number; lon: number };
 
@@ -58,7 +59,6 @@ export function RouteMap({ points }: { points: RoutePoint[] }) {
       }).bindTooltip("Arrivo", { direction: "top", offset: [0, -6] }).addTo(map);
 
       map.fitBounds(route.getBounds(), { padding: [30, 30], maxZoom: 15 });
-
       requestAnimationFrame(() => map.invalidateSize());
     }
 
@@ -72,13 +72,13 @@ export function RouteMap({ points }: { points: RoutePoint[] }) {
   }, [points]);
 
   if (points.length < 2) {
-    return <div className="realRouteMap realRouteMapEmpty">Traccia GPS non disponibile</div>;
+    return <div className={`${styles.map} ${styles.empty}`}>Traccia GPS non disponibile</div>;
   }
 
   return (
-    <div className="realRouteMapWrap">
-      <div ref={containerRef} className="realRouteMap" />
-      <div className="mapOverlayBadge">MAPPA · GPS FIT</div>
+    <div className={styles.wrap}>
+      <div ref={containerRef} className={styles.map} />
+      <div className={styles.badge}>MAPPA · GPS FIT</div>
     </div>
   );
 }
