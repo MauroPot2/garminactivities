@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, Bike, Flame, Gauge, HeartPulse, Mountain, RotateCcw, Timer, Zap } from "lucide-react";
 import { ActivityInsights } from "@/components/ActivityInsights";
+import { PedalStrokeLab } from "@/components/PedalStrokeLab";
 import { PowerLab } from "@/components/PowerLab";
 import { RideExplorer, type ExplorerRecord } from "@/components/RideExplorer";
 import { RideJournal } from "@/components/RideJournal";
@@ -57,6 +58,7 @@ export default async function ActivityDetailPage({ params }: { params: Promise<{
 
       <ActivityInsights activity={activity}/>
       <PowerLab activity={activity} ftpOverride={ftpOverride} weightKg={settings.weightKg}/>
+      <PedalStrokeLab activity={activity} ftpOverride={ftpOverride}/>
       <RideJournal file={activity.file} initial={journal}/>
     </div>
   );
