@@ -26,6 +26,10 @@ function dateKey(date: Date) {
   return `${y}-${m}-${d}`;
 }
 
+function startOfDay(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
 export function activityLoad(activity: ActivitySummary, settings: RiderSettings): ActivityLoad {
   if (activity.trainingStress !== undefined && activity.trainingStress >= 0) {
     return { file: activity.file, date: activity.date, tss: activity.trainingStress, estimated: false, ftp: activity.thresholdPower, intensityFactor: activity.intensityFactor };
@@ -41,8 +45,10 @@ export function activityLoad(activity: ActivitySummary, settings: RiderSettings)
 
 export function buildLoadModel(activities: ActivitySummary[], settings: RiderSettings, days = 90) {
   const now = new Date();
-  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  start.setDate(start.getDate() - (days - 1));
+  const today = startOfDay(now);
+  const displayStart = new Date(today);
+  displayStart.setDate(displayStart.getDate() - (Math.max(1, days) - 1));
+
   const loadByDay = new Map<string, number>();
   const activityLoads = activities.map((activity) => activityLoad(activity, settings));
 
@@ -52,20 +58,28 @@ export function buildLoadModel(activities: ActivitySummary[], settings: RiderSet
     loadByDay.set(key, (loadByDay.get(key) ?? 0) + load.tss);
   });
 
+  const earliestLoadDate = activityLoads.reduce<Date | undefined>((earliest, load) => {
+    if (load.tss === undefined || Number.isNaN(load.date.getTime())) return earliest;
+    const day = startOfDay(load.date);
+    return !earliest || day < earliest ? day : earliest;
+  }, undefined);
+  const modelStart = earliestLoadDate && earliestLoadDate < displayStart ? earliestLoadDate : displayStart;
+
   const result: LoadDay[] = [];
   let ctl = 0;
   let atl = 0;
   const ctlFactor = 1 - Math.exp(-1 / 42);
   const atlFactor = 1 - Math.exp(-1 / 7);
 
-  for (let index = 0; index < days; index += 1) {
-    const date = new Date(start);
-    date.setDate(start.getDate() + index);
+  for (const date = new Date(modelStart); date <= today; date.setDate(date.getDate() + 1)) {
     const key = dateKey(date);
     const load = loadByDay.get(key) ?? 0;
     ctl += (load - ctl) * ctlFactor;
     atl += (load - atl) * atlFactor;
-    result.push({ date: key, load, ctl, atl, form: ctl - atl });
+
+    if (date >= displayStart) {
+      result.push({ date: key, load, ctl, atl, form: ctl - atl });
+    }
   }
 
   const latest = result.at(-1) ?? { date: dateKey(now), load: 0, ctl: 0, atl: 0, form: 0 };
