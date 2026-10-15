@@ -3,7 +3,7 @@ import { Activity, ArrowRight, BatteryMedium, HeartPulse, Sparkles, Zap } from "
 import { getActivities } from "@/lib/fit";
 import { formatDate, formatNumber } from "@/lib/format";
 import { getJournalEntries } from "@/lib/journal";
-import { readSettings } from "@/lib/settings";
+import { getCurrentFtp, readSettings } from "@/lib/settings";
 import { buildLoadModel } from "@/lib/training";
 
 export const dynamic = "force-dynamic";
@@ -11,6 +11,7 @@ export const dynamic = "force-dynamic";
 export default function CoachPage() {
   const activities = getActivities(180);
   const settings = readSettings();
+  const currentFtp = getCurrentFtp(settings);
   const model = buildLoadModel(activities, settings, 90);
   const journal = new Map(getJournalEntries().map((entry) => [entry.file, entry]));
   const latest = activities[0];
@@ -25,6 +26,7 @@ export default function CoachPage() {
   let duration = "60–90 min";
   let reason = "Il carico recente è gestibile: priorità alla continuità aerobica e alla qualità della pedalata.";
   let intensity = "RPE 2–3 · ritmo conversazionale";
+  let workoutHref = `/workouts?preset=${preset}`;
 
   if (highRpe || cramps) {
     title = "Recupero prima di aggiungere qualità";
@@ -38,13 +40,18 @@ export default function CoachPage() {
     duration = "45–60 min";
     intensity = "RPE 1–2";
     reason = "La fatica a breve termine è nettamente superiore alla fitness del modello: conviene assorbire il carico.";
-  } else if (veryFresh && model.last7 > 0) {
+  } else if (veryFresh && model.last7 > 0 && currentFtp) {
+    const targetMin = Math.round(currentFtp * .63);
+    const targetMax = Math.round(currentFtp * .67);
     title = "2×15' controllato";
     preset = "controlled";
     duration = "circa 60 min";
-    intensity = "150–160 W nei blocchi, solo se le sensazioni sono normali";
-    reason = "Il modello mostra buona freschezza. È un momento adatto per reintrodurre lavoro costante senza cercare ancora un test massimale.";
+    intensity = `${targetMin}–${targetMax} W (${Math.round(targetMin / currentFtp * 100)}–${Math.round(targetMax / currentFtp * 100)}% FTP), solo se le sensazioni sono normali`;
+    reason = `Il modello mostra buona freschezza. I blocchi sono scalati sulla FTP VeloLab attuale di ${currentFtp} W, senza usare watt fissi.`;
+    workoutHref = `/workouts?preset=${preset}&targetMin=${targetMin}&targetMax=${targetMax}`;
   }
+
+  if (!workoutHref.includes(`preset=${preset}`)) workoutHref = `/workouts?preset=${preset}`;
 
   return <div className="pageWrap coachPage">
     <header className="topbar"><div><div className="eyebrow">COACH MODE</div><h1>Dati dentro, <span>decisione fuori.</span></h1><p>Coach locale e trasparente: usa FIT, carico, FTP storica e Ride Journal. Non sostituisce una valutazione medica e non interpreta sintomi importanti.</p></div></header>
@@ -52,7 +59,7 @@ export default function CoachPage() {
     <section className="coachHero panel">
       <div className="coachOrb"><Sparkles size={30}/></div>
       <div className="coachHeroCopy"><span className="sectionLabel">PROSSIMA SEDUTA SUGGERITA</span><h2>{title}</h2><p>{reason}</p><div className="coachTags"><span><Activity size={14}/>{duration}</span><span><HeartPulse size={14}/>{intensity}</span></div></div>
-      <Link className="primaryButton coachCta" href={`/workouts?preset=${preset}`}>Apri nel Workout Studio<ArrowRight size={16}/></Link>
+      <Link className="primaryButton coachCta" href={workoutHref}>Apri nel Workout Studio<ArrowRight size={16}/></Link>
     </section>
 
     <section className="coachSignals">
