@@ -51,6 +51,7 @@ export type ActivitySummary = {
   subSport?: string;
   distanceKm: number;
   durationSec: number;
+  timerSec?: number;
   movingSec: number;
   ascentM: number;
   descentM?: number;
@@ -389,7 +390,8 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
   const session = sessions.at(-1)!;
   const file = path.relative(repoRoot, fullPath);
   const durationSec = safeNumber(session.totalElapsedTime) ?? safeNumber(session.totalTimerTime) ?? 0;
-  const movingSec = safeNumber(session.totalMovingTime) ?? safeNumber(session.totalTimerTime) ?? durationSec;
+  const timerSec = safeNumber(session.totalTimerTime) ?? durationSec;
+  const movingSec = safeNumber(session.totalMovingTime) ?? timerSec;
   const distanceM = safeNumber(session.totalDistance) ?? 0;
   const totalWork = safeNumber(session.totalWork);
   const sensors = uniqueSensors(devices);
@@ -404,6 +406,7 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
     subSport: typeof session.subSport === "string" ? session.subSport : undefined,
     distanceKm: distanceM / 1000,
     durationSec,
+    timerSec,
     movingSec,
     ascentM: safeNumber(session.totalAscent) ?? 0,
     descentM: safeNumber(session.totalDescent),
@@ -416,7 +419,7 @@ function decodeFit(fullPath: string, includeRecords: boolean): ActivityDetail {
     maxPower: safeNumber(session.maxPower),
     avgHr: safeNumber(session.avgHeartRate),
     maxHr: safeNumber(session.maxHeartRate),
-    avgCadence: average(positiveCadenceSamples) ?? safeNumber(session.avgCadence),
+    avgCadence: safeNumber(session.avgCadence) ?? average(positiveCadenceSamples),
     maxCadence: safeNumber(session.maxCadence),
     calories: safeNumber(session.totalCalories),
     workKj: totalWork !== undefined ? totalWork / 1000 : undefined,
