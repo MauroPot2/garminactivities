@@ -310,7 +310,7 @@ function computeClimbs(records: ActivityRecord[], ftp?: number): ClimbAnalysis[]
       heartRate: record.heartRate,
       cadence: record.cadence,
     }));
-  if (points.length < 120) return [];
+  if (points.length < 2) return [];
 
   const climbing = new Array(points.length).fill(false);
   const gradeAnchor = new Array(points.length).fill(0) as number[];
