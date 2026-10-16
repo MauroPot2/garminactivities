@@ -37,9 +37,12 @@ export function activityLoad(activity: ActivitySummary, settings: RiderSettings)
 
   const ftp = getFtpForDate(activity.date, settings) ?? activity.thresholdPower;
   const np = activity.normalizedPower;
-  if (!ftp || !np || !activity.movingSec) return { file: activity.file, date: activity.date, estimated: true, ftp };
+  const activeSec = activity.timerSec !== undefined && activity.timerSec > 0
+    ? activity.timerSec
+    : activity.movingSec;
+  if (!ftp || !np || !activeSec) return { file: activity.file, date: activity.date, estimated: true, ftp };
   const intensityFactor = np / ftp;
-  const tss = activity.movingSec / 3600 * intensityFactor * intensityFactor * 100;
+  const tss = activeSec / 3600 * intensityFactor * intensityFactor * 100;
   return { file: activity.file, date: activity.date, tss, estimated: true, ftp, intensityFactor };
 }
 
