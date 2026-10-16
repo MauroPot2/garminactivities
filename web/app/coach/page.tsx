@@ -5,6 +5,7 @@ import { formatDate, formatNumber } from "@/lib/format";
 import { getJournalEntries } from "@/lib/journal";
 import { getCurrentFtp, readSettings } from "@/lib/settings";
 import { buildLoadModel } from "@/lib/training";
+import styles from "./coach.module.css";
 
 export const dynamic = "force-dynamic";
 
@@ -90,7 +91,7 @@ export default function CoachPage() {
     nextRange = targetRange(currentFtp, .90, .95);
     intensity = `${nextRange![0]}–${nextRange![1]} W · 90–95% FTP`;
     focusIndex = 3;
-    reason = `Sei fresco e nelle ultime due settimane non risultano sedute ad alta intensità: inserisco qualità senza partire subito dal VO₂.`;
+    reason = "Sei fresco e nelle ultime due settimane non risultano sedute ad alta intensità: inserisco qualità senza partire subito dal VO₂.";
   } else if (!moderateFatigue && qualityLast14 < 2 && model.last7 > 0) {
     title = "Forza resistente · 4×6'";
     preset = "strength";
@@ -129,45 +130,45 @@ export default function CoachPage() {
   return <div className="pageWrap coachPage">
     <header className="topbar"><div><div className="eyebrow">COACH MODE</div><h1>Un passo alla volta. <span>Guidato dai dati.</span></h1><p>Il Coach usa FIT, carico, FTP storica e Ride Journal per proporti il prossimo passo e una linea di progressione. Le scelte restano trasparenti e modificabili.</p></div></header>
 
-    <section className="coachHero panel">
-      <div className="coachOrb"><Sparkles size={30}/></div>
-      <div className="coachHeroCopy"><span className="sectionLabel">PROSSIMO PASSO</span><h2>{title}</h2><p>{reason}</p><div className="coachTags"><span><Activity size={14}/>{duration}</span><span><HeartPulse size={14}/>{intensity}</span></div></div>
-      <Link className="primaryButton coachCta" href={workoutHrefValue}>Prepara allenamento<ArrowRight size={16}/></Link>
+    <section className={`${styles.coachHero} panel`}>
+      <div className={styles.coachOrb}><Sparkles size={30}/></div>
+      <div className={styles.coachHeroCopy}><span className="sectionLabel">PROSSIMO PASSO</span><h2>{title}</h2><p>{reason}</p><div className={styles.coachTags}><span><Activity size={14}/>{duration}</span><span><HeartPulse size={14}/>{intensity}</span></div></div>
+      <Link className={`primaryButton ${styles.coachCta}`} href={workoutHrefValue}>Prepara allenamento<ArrowRight size={16}/></Link>
     </section>
 
-    <section className="coachSignals">
-      <div className="panel coachSignal"><BatteryMedium/><span>Form</span><strong>{model.latest.form>0?"+":""}{formatNumber(model.latest.form,1)}</strong><small>CTL − ATL</small></div>
-      <div className="panel coachSignal"><Zap/><span>Carico 7 giorni</span><strong>{formatNumber(model.last7,0)}</strong><small>{model.ramp>0?"+":""}{formatNumber(model.ramp,0)}% vs 7 gg prima</small></div>
-      <div className="panel coachSignal"><Gauge/><span>FTP attuale</span><strong>{currentFtp ?? "—"}<small>{currentFtp ? " W" : ""}</small></strong><small>{ftpWkg ? `${formatNumber(ftpWkg,2)} W/kg` : "Rider Profile"}</small></div>
-      <div className="panel coachSignal"><Activity/><span>Qualità 14 giorni</span><strong>{qualityLast14}</strong><small>sedute IF ≥ 0,85</small></div>
-      <div className="panel coachSignal"><HeartPulse/><span>Ultima RPE</span><strong>{latestJournal?.rpe ?? "—"}<small>{latestJournal?.rpe ? "/10" : ""}</small></strong><small>{latestJournal?.cramps ? "crampi annotati" : "Ride Journal"}</small></div>
-      <div className="panel coachSignal"><TrendingUp/><span>Ultima uscita</span><strong>{daysSinceLastRide ?? "—"}<small>{daysSinceLastRide !== undefined ? " gg fa" : ""}</small></strong><small>{latest ? `${formatDate(latest.date)} · ${formatNumber(latest.normalizedPower,0)} W NP` : "nessuna attività"}</small></div>
+    <section className={styles.coachSignals}>
+      <div className={`panel ${styles.coachSignal}`}><BatteryMedium/><span>Form</span><strong>{model.latest.form>0?"+":""}{formatNumber(model.latest.form,1)}</strong><small>CTL − ATL</small></div>
+      <div className={`panel ${styles.coachSignal}`}><Zap/><span>Carico 7 giorni</span><strong>{formatNumber(model.last7,0)}</strong><small>{model.ramp>0?"+":""}{formatNumber(model.ramp,0)}% vs 7 gg prima</small></div>
+      <div className={`panel ${styles.coachSignal}`}><Gauge/><span>FTP attuale</span><strong>{currentFtp ?? "—"}<small>{currentFtp ? " W" : ""}</small></strong><small>{ftpWkg ? `${formatNumber(ftpWkg,2)} W/kg` : "Rider Profile"}</small></div>
+      <div className={`panel ${styles.coachSignal}`}><Activity/><span>Qualità 14 giorni</span><strong>{qualityLast14}</strong><small>sedute IF ≥ 0,85</small></div>
+      <div className={`panel ${styles.coachSignal}`}><HeartPulse/><span>Ultima RPE</span><strong>{latestJournal?.rpe ?? "—"}<small>{latestJournal?.rpe ? "/10" : ""}</small></strong><small>{latestJournal?.cramps ? "crampi annotati" : "Ride Journal"}</small></div>
+      <div className={`panel ${styles.coachSignal}`}><TrendingUp/><span>Ultima uscita</span><strong>{daysSinceLastRide ?? "—"}<small>{daysSinceLastRide !== undefined ? " gg fa" : ""}</small></strong><small>{latest ? `${formatDate(latest.date)} · ${formatNumber(latest.normalizedPower,0)} W NP` : "nessuna attività"}</small></div>
     </section>
 
-    <section className="panel coachPathPanel">
-      <div className="panelHeader"><div><span className="sectionLabel">LINEA DA SEGUIRE</span><h2>Progressione adattiva</h2></div><span className="coachPathHint">Il punto evidenziato cambia con i nuovi FIT</span></div>
-      <div className="coachPath">
-        {path.map((step, index) => <div className={`coachPathStep ${index === focusIndex ? "isCurrent" : ""} ${index < focusIndex ? "isDone" : ""}`} key={step.label}><div className="coachPathDot">{index + 1}</div><div><strong>{step.label}</strong><span>{step.note}</span></div></div>)}
+    <section className={`panel ${styles.coachPathPanel}`}>
+      <div className="panelHeader"><div><span className="sectionLabel">LINEA DA SEGUIRE</span><h2>Progressione adattiva</h2></div><span className={styles.coachPathHint}>Il punto evidenziato cambia con i nuovi FIT</span></div>
+      <div className={styles.coachPath}>
+        {path.map((step, index) => <div className={`${styles.coachPathStep} ${index === focusIndex ? styles.isCurrent : ""} ${index < focusIndex ? styles.isDone : ""}`} key={step.label}><div className={styles.coachPathDot}>{index + 1}</div><div><strong>{step.label}</strong><span>{step.note}</span></div></div>)}
       </div>
     </section>
 
-    <section className="coachBandSection">
-      <div className="coachBandHeading"><div><span className="sectionLabel">ALLENAMENTI PER FASCIA</span><h2>Scegli il lavoro, con watt già scalati sulla tua FTP</h2></div>{!currentFtp && <Link href="/settings" className="textLink">Imposta FTP<ArrowRight size={14}/></Link>}</div>
-      <div className="coachBands">
+    <section className={styles.coachBandSection}>
+      <div className={styles.coachBandHeading}><div><span className="sectionLabel">ALLENAMENTI PER FASCIA</span><h2>Scegli il lavoro, con watt già scalati sulla tua FTP</h2></div>{!currentFtp && <Link href="/settings" className="textLink">Imposta FTP<ArrowRight size={14}/></Link>}</div>
+      <div className={styles.coachBands}>
         {bands.map((band) => {
           const Icon = band.icon;
-          return <Link href={band.href} className={`coachBand panel ${band.state === "NON ORA" ? "isMuted" : ""}`} key={band.key}>
-            <div className="coachBandTop"><div className="coachBandIcon"><Icon size={19}/></div><span className="coachBandState">{band.state}</span></div>
+          return <Link href={band.href} className={`${styles.coachBand} panel ${band.state === "NON ORA" ? styles.isMuted : ""}`} key={band.key}>
+            <div className={styles.coachBandTop}><div className={styles.coachBandIcon}><Icon size={19}/></div><span className={styles.coachBandState}>{band.state}</span></div>
             <h3>{band.label}</h3><p>{band.goal}</p>
-            <div className="coachBandTarget"><strong>{band.watts}</strong><span>{band.percent}</span></div>
-            <div className="coachBandMeta"><span>{band.duration}</span>{band.cadence && <span>{band.cadence}</span>}</div>
+            <div className={styles.coachBandTarget}><strong>{band.watts}</strong><span>{band.percent}</span></div>
+            <div className={styles.coachBandMeta}><span>{band.duration}</span>{band.cadence && <span>{band.cadence}</span>}</div>
             <small>{band.detail}</small>
-            <div className="coachBandAction">Apri workout <ArrowRight size={14}/></div>
+            <div className={styles.coachBandAction}>Apri workout <ArrowRight size={14}/></div>
           </Link>;
         })}
       </div>
     </section>
 
-    <section className="panel coachLogic"><div className="panelHeader"><div><span className="sectionLabel">PERCHÉ</span><h2>Logica visibile, non una scatola nera</h2></div></div><div className="coachLogicGrid"><div><b>1</b><span>RPE e note possono bloccare la qualità</span></div><div><b>2</b><span>ATL/CTL decidono quanto carico è assorbibile</span></div><div><b>3</b><span>FTP e peso personalizzano watt e W/kg</span></div><div><b>4</b><span>Le sedute intense recenti limitano FTP e VO₂</span></div></div></section>
+    <section className={`panel ${styles.coachLogic}`}><div className="panelHeader"><div><span className="sectionLabel">PERCHÉ</span><h2>Logica visibile, non una scatola nera</h2></div></div><div className={styles.coachLogicGrid}><div><b>1</b><span>RPE e note possono bloccare la qualità</span></div><div><b>2</b><span>ATL/CTL decidono quanto carico è assorbibile</span></div><div><b>3</b><span>FTP e peso personalizzano watt e W/kg</span></div><div><b>4</b><span>Le sedute intense recenti limitano FTP e VO₂</span></div></div></section>
   </div>;
 }
