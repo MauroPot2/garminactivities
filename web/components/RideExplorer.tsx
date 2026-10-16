@@ -55,13 +55,8 @@ export function RideExplorer({ records }: { records: ExplorerRecord[] }) {
       if (!mapContainer.current || geo.length < 2 || mapRef.current) return;
       const L = await import("leaflet");
       if (disposed || !mapContainer.current) return;
-      const map = L.map(mapContainer.current, { zoomControl: false, preferCanvas: true, attributionControl: true });
+      const map = L.map(mapContainer.current, { zoomControl: false, preferCanvas: true, attributionControl: false });
       mapRef.current = map;
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-        maxZoom: 20,
-        subdomains: "abcd",
-        attribution: "© OpenStreetMap contributors © CARTO",
-      }).addTo(map);
       L.control.zoom({ position: "bottomright" }).addTo(map);
       const latLngs = geo.map(({ record }) => L.latLng(record.lat!, record.lon!));
       const route = L.polyline(latLngs, { color: "#a78bfa", weight: 5, opacity: .95, lineCap: "round", lineJoin: "round" }).addTo(map);
@@ -116,7 +111,7 @@ export function RideExplorer({ records }: { records: ExplorerRecord[] }) {
     <section className={styles.explorer}>
       <div className={styles.mapWrap}>
         <div ref={mapContainer} className={styles.map}/>
-        <div className={styles.mapBadge}><MapPin size={14}/> GPS FIT · CURSORE SINCRONIZZATO</div>
+        <div className={styles.mapBadge}><MapPin size={14}/> GPS FIT · MAPPA LOCALE · NESSUN TILE ESTERNO</div>
       </div>
 
       <div className={styles.telemetry}>
