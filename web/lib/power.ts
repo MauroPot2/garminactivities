@@ -258,7 +258,11 @@ function computeCadenceBands(records: ActivityRecord[]): CadenceBand[] {
 
 function computeRiderPosition(activity: ActivityDetail): RiderPositionAnalytics {
   const standingSeconds = activity.timeStanding;
-  const positionTotalSeconds = activity.durationSec > 0 ? activity.durationSec : activity.movingSec;
+  const positionTotalSeconds = activity.timerSec !== undefined && activity.timerSec > 0
+    ? activity.timerSec
+    : activity.movingSec > 0
+      ? activity.movingSec
+      : activity.durationSec;
   const seatedSeconds = standingSeconds !== undefined && positionTotalSeconds >= standingSeconds ? positionTotalSeconds - standingSeconds : undefined;
   return {
     seatedSeconds,
