@@ -1,0 +1,113 @@
+.coachHero {
+  display: grid;
+  grid-template-columns: 62px minmax(0,1fr) auto;
+  gap: 18px;
+  align-items: center;
+  padding: 24px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  position: relative;
+}
+
+.coachHero::after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  right: -90px;
+  top: -100px;
+  border-radius: 50%;
+  background: var(--violet);
+  filter: blur(80px);
+  opacity: .1;
+  pointer-events: none;
+}
+
+.coachOrb {
+  width: 54px;
+  height: 54px;
+  border-radius: 17px;
+  display: grid;
+  place-items: center;
+  color: #c8b8ff;
+  background: linear-gradient(145deg,rgba(139,92,246,.25),rgba(139,92,246,.07));
+  border: 1px solid rgba(139,92,246,.2);
+}
+
+.coachHeroCopy { min-width: 0; }
+.coachHeroCopy h2 { margin: 5px 0 7px; font-family: var(--font-display); font-size: 24px; letter-spacing: -.8px; }
+.coachHeroCopy p { max-width: 760px; margin: 0; color: var(--muted); font-size: 11px; line-height: 1.65; }
+.coachTags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 13px; }
+.coachTags span { display: inline-flex; align-items: center; gap: 5px; min-height: 29px; border: 1px solid var(--line); border-radius: 999px; padding: 0 10px; color: #c6cad4; background: rgba(255,255,255,.025); font-size: 9px; }
+.coachCta { position: relative; z-index: 1; white-space: nowrap; }
+
+.coachSignals { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 10px; margin-bottom: 14px; }
+.coachSignal { padding: 15px; min-height: 126px; box-shadow: none; }
+.coachSignal > svg { color: var(--violet-2); margin-bottom: 15px; }
+.coachSignal > span { display: block; color: var(--muted-2); font-size: 8px; text-transform: uppercase; letter-spacing: .08em; }
+.coachSignal strong { display: block; margin-top: 5px; font-family: var(--font-display); font-size: 20px; letter-spacing: -.5px; }
+.coachSignal strong small { font: 9px var(--font-inter); color: var(--muted); letter-spacing: 0; }
+.coachSignal > small { display: block; margin-top: 4px; color: var(--muted-2); font-size: 8px; line-height: 1.35; }
+
+.coachPathPanel { padding: 22px; margin-bottom: 22px; box-shadow: none; }
+.coachPathHint { color: var(--muted-2); font-size: 9px; }
+.coachPath { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 0; margin-top: 24px; }
+.coachPathStep { min-width: 0; display: grid; grid-template-columns: 30px minmax(0,1fr); gap: 9px; align-items: center; position: relative; padding-right: 12px; }
+.coachPathStep:not(:last-child)::after { content: ""; position: absolute; left: 28px; right: -2px; top: 14px; height: 1px; background: var(--line-strong); z-index: 0; }
+.coachPathDot { width: 29px; height: 29px; border-radius: 50%; display: grid; place-items: center; position: relative; z-index: 1; border: 1px solid var(--line-strong); background: var(--surface-2); color: var(--muted); font: 10px var(--font-display); }
+.coachPathStep strong { display: block; font-size: 10px; }
+.coachPathStep span { display: block; margin-top: 3px; color: var(--muted-2); font-size: 8px; line-height: 1.35; }
+.coachPathStep.isDone .coachPathDot { border-color: rgba(91,214,154,.35); color: var(--green); background: rgba(91,214,154,.08); }
+.coachPathStep.isDone:not(:last-child)::after { background: rgba(91,214,154,.23); }
+.coachPathStep.isCurrent .coachPathDot { border-color: rgba(139,92,246,.6); color: white; background: var(--violet); box-shadow: 0 0 0 5px rgba(139,92,246,.09); }
+.coachPathStep.isCurrent strong { color: #d8ceff; }
+
+.coachBandSection { margin-bottom: 22px; }
+.coachBandHeading { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; margin-bottom: 12px; }
+.coachBandHeading h2 { margin: 5px 0 0; font-family: var(--font-display); font-size: 20px; letter-spacing: -.6px; }
+.coachBands { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 10px; }
+.coachBand { min-width: 0; padding: 16px; box-shadow: none; transition: .18s ease; }
+.coachBand:hover { transform: translateY(-2px); border-color: rgba(139,92,246,.28); background: linear-gradient(145deg,rgba(24,26,38,.98),rgba(14,16,23,.98)); }
+.coachBand.isMuted { opacity: .58; }
+.coachBandTop { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.coachBandIcon { width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; color: var(--violet-2); background: rgba(139,92,246,.09); }
+.coachBandState { color: var(--muted-2); font-size: 7px; letter-spacing: .08em; text-align: right; }
+.coachBand h3 { margin: 16px 0 4px; font-family: var(--font-display); font-size: 15px; }
+.coachBand > p { margin: 0; color: var(--muted); font-size: 9px; min-height: 24px; }
+.coachBandTarget { margin-top: 16px; padding: 11px; border-radius: 11px; background: rgba(255,255,255,.025); border: 1px solid var(--line); }
+.coachBandTarget strong { display: block; font-family: var(--font-display); font-size: 17px; }
+.coachBandTarget span { display: block; margin-top: 3px; color: var(--muted-2); font-size: 8px; }
+.coachBandMeta { display: flex; flex-wrap: wrap; gap: 5px; margin: 9px 0; }
+.coachBandMeta span { border: 1px solid var(--line); border-radius: 999px; padding: 4px 7px; color: var(--muted); font-size: 7px; }
+.coachBand > small { display: block; min-height: 55px; color: var(--muted-2); font-size: 8px; line-height: 1.5; }
+.coachBandAction { display: flex; align-items: center; gap: 5px; margin-top: 12px; color: #bca9ff; font-size: 9px; font-weight: 650; }
+
+.coachLogic { padding: 22px; box-shadow: none; }
+.coachLogicGrid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-top: 18px; }
+.coachLogicGrid > div { display: grid; grid-template-columns: 28px 1fr; align-items: center; gap: 8px; min-height: 58px; border: 1px solid var(--line); border-radius: 12px; padding: 9px; background: rgba(255,255,255,.018); }
+.coachLogicGrid b { width: 27px; height: 27px; border-radius: 9px; display: grid; place-items: center; background: rgba(139,92,246,.09); color: var(--violet-2); font-size: 9px; }
+.coachLogicGrid span { color: var(--muted); font-size: 9px; line-height: 1.4; }
+
+@media (max-width: 1200px) {
+  .coachSignals { grid-template-columns: repeat(3,1fr); }
+  .coachBands { grid-template-columns: repeat(3,1fr); }
+}
+
+@media (max-width: 900px) {
+  .coachHero { grid-template-columns: 50px minmax(0,1fr); }
+  .coachCta { grid-column: 1/-1; }
+  .coachPath { grid-template-columns: 1fr; gap: 9px; }
+  .coachPathStep { grid-template-columns: 30px 1fr; padding: 0; }
+  .coachPathStep:not(:last-child)::after { left: 14px; right: auto; top: 28px; bottom: -10px; width: 1px; height: auto; }
+  .coachBands { grid-template-columns: repeat(2,1fr); }
+  .coachLogicGrid { grid-template-columns: repeat(2,1fr); }
+}
+
+@media (max-width: 620px) {
+  .coachSignals { grid-template-columns: 1fr 1fr; }
+  .coachBands { grid-template-columns: 1fr; }
+  .coachBand > small { min-height: 0; }
+  .coachLogicGrid { grid-template-columns: 1fr; }
+  .coachBandHeading { align-items: flex-start; flex-direction: column; }
+  .coachPathHint { display: none; }
+}
