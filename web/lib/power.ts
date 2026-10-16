@@ -85,27 +85,17 @@ export type PowerAnalytics = {
   ftp?: number;
 };
 
-function circularMean(values: number[]): number | undefined {
-  const valid = values.filter((value) => Number.isFinite(value));
+function weightedCircularMean(values: Array<{ value: number; weight: number }>): number | undefined {
+  const valid = values.filter(({ value, weight }) => Number.isFinite(value) && Number.isFinite(weight) && weight > 0);
   if (!valid.length) return undefined;
-  const vectors = valid.reduce((acc, value) => {
+  const vectors = valid.reduce((acc, { value, weight }) => {
     const radians = value * Math.PI / 180;
-    acc.sin += Math.sin(radians);
-    acc.cos += Math.cos(radians);
+    acc.sin += Math.sin(radians) * weight;
+    acc.cos += Math.cos(radians) * weight;
     return acc;
   }, { sin: 0, cos: 0 });
   if (Math.abs(vectors.sin) < Number.EPSILON && Math.abs(vectors.cos) < Number.EPSILON) return undefined;
   return (Math.atan2(vectors.sin, vectors.cos) * 180 / Math.PI + 360) % 360;
-}
-
-function avgPair(values: Array<number[] | undefined>, fallback?: number[]): [number, number] | undefined {
-  const pairs = values.filter((value): value is number[] => Array.isArray(value) && value.length >= 2);
-  if (pairs.length) {
-    const start = circularMean(pairs.map((pair) => pair[0]));
-    const end = circularMean(pairs.map((pair) => pair[1]));
-    if (start !== undefined && end !== undefined) return [start, end];
-  }
-  return fallback && fallback.length >= 2 ? [fallback[0], fallback[1]] : undefined;
 }
 
 function sampleSeconds(records: ActivityRecord[], index: number): number {
@@ -116,6 +106,28 @@ function sampleSeconds(records: ActivityRecord[], index: number): number {
     if (seconds > 0 && seconds <= 10) return seconds;
   }
   return 1;
+}
+
+function avgPair(
+  records: ActivityRecord[],
+  selector: (record: ActivityRecord) => number[] | undefined,
+  fallback?: number[],
+): [number, number] | undefined {
+  const starts: Array<{ value: number; weight: number }> = [];
+  const ends: Array<{ value: number; weight: number }> = [];
+  records.forEach((record, index) => {
+    const pair = selector(record);
+    if (!Array.isArray(pair) || pair.length < 2) return;
+    const weight = sampleSeconds(records, index);
+    starts.push({ value: pair[0], weight });
+    ends.push({ value: pair[1], weight });
+  });
+  if (starts.length) {
+    const start = weightedCircularMean(starts);
+    const end = weightedCircularMean(ends);
+    if (start !== undefined && end !== undefined) return [start, end];
+  }
+  return fallback && fallback.length >= 2 ? [fallback[0], fallback[1]] : undefined;
 }
 
 function timeWeightedAverage(records: ActivityRecord[], selector: (record: ActivityRecord) => number | undefined): number | undefined {
@@ -301,9 +313,11 @@ function computeClimbs(records: ActivityRecord[], ftp?: number): ClimbAnalysis[]
   if (points.length < 120) return [];
 
   const climbing = new Array(points.length).fill(false);
+  const gradeAnchor = new Array(points.length).fill(0) as number[];
   let anchor = 0;
   for (let i = 1; i < points.length; i += 1) {
     while (anchor + 1 < i && points[i].distance - points[anchor + 1].distance >= 120) anchor += 1;
+    gradeAnchor[i] = anchor;
     const distance = points[i].distance - points[anchor].distance;
     if (distance < 80) continue;
     const grade = (points[i].altitude - points[anchor].altitude) / distance * 100;
@@ -315,7 +329,7 @@ function computeClimbs(records: ActivityRecord[], ftp?: number): ClimbAnalysis[]
   let lastMarked = -1;
   for (let i = 0; i < climbing.length; i += 1) {
     if (climbing[i]) {
-      if (start === null) start = Math.max(0, i - 60);
+      if (start === null) start = gradeAnchor[i];
       lastMarked = i;
       continue;
     }
@@ -399,10 +413,18 @@ export function computePowerAnalytics(activity: ActivityDetail, ftpOverride?: nu
   const averageCadencePedaling = timeWeightedAverage(activity.records, (record) => typeof record.cadence === "number" && record.cadence > 0 ? record.cadence : undefined);
   const averageTorqueNm = timeWeightedAverage(activity.records, (record) => typeof record.power === "number" && typeof record.cadence === "number" ? torqueNm(record.power, record.cadence) : undefined);
   const avgHr = activity.avgHr ?? timeWeightedAverage(activity.records, (record) => record.heartRate);
-  const leftPowerPhase = avgPair(activity.records.map((record) => record.leftPowerPhase), activity.avgLeftPowerPhase);
-  const rightPowerPhase = avgPair(activity.records.map((record) => record.rightPowerPhase), activity.avgRightPowerPhase);
-  const leftPowerPhasePeak = avgPair(activity.records.map((record) => record.leftPowerPhasePeak), activity.avgLeftPowerPhasePeak);
-  const rightPowerPhasePeak = avgPair(activity.records.map((record) => record.rightPowerPhasePeak), activity.avgRightPowerPhasePeak);
+  const leftPowerPhase = activity.avgLeftPowerPhase && activity.avgLeftPowerPhase.length >= 2
+    ? [activity.avgLeftPowerPhase[0], activity.avgLeftPowerPhase[1]] as [number, number]
+    : avgPair(activity.records, (record) => record.leftPowerPhase);
+  const rightPowerPhase = activity.avgRightPowerPhase && activity.avgRightPowerPhase.length >= 2
+    ? [activity.avgRightPowerPhase[0], activity.avgRightPowerPhase[1]] as [number, number]
+    : avgPair(activity.records, (record) => record.rightPowerPhase);
+  const leftPowerPhasePeak = activity.avgLeftPowerPhasePeak && activity.avgLeftPowerPhasePeak.length >= 2
+    ? [activity.avgLeftPowerPhasePeak[0], activity.avgLeftPowerPhasePeak[1]] as [number, number]
+    : avgPair(activity.records, (record) => record.leftPowerPhasePeak);
+  const rightPowerPhasePeak = activity.avgRightPowerPhasePeak && activity.avgRightPowerPhasePeak.length >= 2
+    ? [activity.avgRightPowerPhasePeak[0], activity.avgRightPowerPhasePeak[1]] as [number, number]
+    : avgPair(activity.records, (record) => record.rightPowerPhasePeak);
 
   return {
     ftp,
