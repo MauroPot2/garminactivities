@@ -85,17 +85,24 @@ export type PowerAnalytics = {
   ftp?: number;
 };
 
-function avg(values: Array<number | undefined>): number | undefined {
-  const valid = values.filter((value): value is number => typeof value === "number" && Number.isFinite(value));
+function circularMean(values: number[]): number | undefined {
+  const valid = values.filter((value) => Number.isFinite(value));
   if (!valid.length) return undefined;
-  return valid.reduce((sum, value) => sum + value, 0) / valid.length;
+  const vectors = valid.reduce((acc, value) => {
+    const radians = value * Math.PI / 180;
+    acc.sin += Math.sin(radians);
+    acc.cos += Math.cos(radians);
+    return acc;
+  }, { sin: 0, cos: 0 });
+  if (Math.abs(vectors.sin) < Number.EPSILON && Math.abs(vectors.cos) < Number.EPSILON) return undefined;
+  return (Math.atan2(vectors.sin, vectors.cos) * 180 / Math.PI + 360) % 360;
 }
 
 function avgPair(values: Array<number[] | undefined>, fallback?: number[]): [number, number] | undefined {
   const pairs = values.filter((value): value is number[] => Array.isArray(value) && value.length >= 2);
   if (pairs.length) {
-    const start = avg(pairs.map((pair) => pair[0]));
-    const end = avg(pairs.map((pair) => pair[1]));
+    const start = circularMean(pairs.map((pair) => pair[0]));
+    const end = circularMean(pairs.map((pair) => pair[1]));
     if (start !== undefined && end !== undefined) return [start, end];
   }
   return fallback && fallback.length >= 2 ? [fallback[0], fallback[1]] : undefined;
@@ -320,6 +327,25 @@ function computeClimbs(records: ActivityRecord[], ftp?: number): ClimbAnalysis[]
   }
   if (start !== null && lastMarked >= 0) candidates.push([start, lastMarked]);
 
+  const weightedSegmentAverage = (
+    segment: typeof points,
+    selector: (point: (typeof points)[number]) => number | undefined,
+  ): number | undefined => {
+    let weighted = 0;
+    let seconds = 0;
+    segment.forEach((point, index) => {
+      const value = selector(point);
+      if (value === undefined || !Number.isFinite(value)) return;
+      const current = point.timestamp?.getTime();
+      const next = segment[index + 1]?.timestamp?.getTime();
+      let duration = current !== undefined && next !== undefined ? (next - current) / 1000 : 1;
+      if (!Number.isFinite(duration) || duration <= 0 || duration > 10) duration = 1;
+      weighted += value * duration;
+      seconds += duration;
+    });
+    return seconds > 0 ? weighted / seconds : undefined;
+  };
+
   return candidates
     .map(([startIndex, endIndex], index): ClimbAnalysis | null => {
       const first = points[startIndex];
@@ -331,9 +357,9 @@ function computeClimbs(records: ActivityRecord[], ftp?: number): ClimbAnalysis[]
       const startTime = first.timestamp?.getTime();
       const endTime = last.timestamp?.getTime();
       const durationSec = startTime !== undefined && endTime !== undefined && endTime > startTime ? (endTime - startTime) / 1000 : segment.length;
-      const avgPower = avg(segment.map((point) => point.power));
-      const avgHr = avg(segment.map((point) => point.heartRate));
-      const avgCadence = avg(segment.map((point) => point.cadence).filter((value) => value === undefined || value > 0));
+      const avgPower = weightedSegmentAverage(segment, (point) => point.power);
+      const avgHr = weightedSegmentAverage(segment, (point) => point.heartRate);
+      const avgCadence = weightedSegmentAverage(segment, (point) => typeof point.cadence === "number" && point.cadence > 0 ? point.cadence : undefined);
       return {
         key: `climb-${index + 1}`,
         startKm: first.distance / 1000,
