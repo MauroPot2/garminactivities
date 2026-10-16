@@ -44,9 +44,11 @@ export default function WorkoutsPage() {
     const preset = presets.find((item) => item.slug === slug);
     if (!preset) return;
 
-    const requestedMin = Number(params.get("targetMin"));
-    const requestedMax = Number(params.get("targetMax"));
-    const hasCoachTarget = Number.isFinite(requestedMin) && Number.isFinite(requestedMax) && requestedMin >= 0 && requestedMax >= requestedMin && requestedMax <= 3000;
+    const requestedMinParam = params.get("targetMin");
+    const requestedMaxParam = params.get("targetMax");
+    const requestedMin = requestedMinParam === null ? Number.NaN : Number(requestedMinParam);
+    const requestedMax = requestedMaxParam === null ? Number.NaN : Number(requestedMaxParam);
+    const hasCoachTarget = requestedMinParam !== null && requestedMaxParam !== null && Number.isFinite(requestedMin) && Number.isFinite(requestedMax) && requestedMin >= 0 && requestedMax >= requestedMin && requestedMax <= 3000;
     const loadedSteps = preset.steps.map((step) => ({
       ...step,
       id: uid(),
