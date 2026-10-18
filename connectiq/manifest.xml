@@ -5,6 +5,7 @@
         type="datafield"
         name="@Strings.AppName"
         entry="GarminActivitiesApp"
+        launcherIcon="@Drawables.LauncherIcon"
         minSdkVersion="3.3.0">
         <iq:products>
             <iq:product id="edge530"/>
