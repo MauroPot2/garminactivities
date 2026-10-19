@@ -58,39 +58,27 @@ class DashboardView extends WatchUi.DataField {
 
     function drawPower(dc, width) {
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(
-            width / 2,
-            14,
-            Graphics.FONT_XTINY,
-            "POWER",
-            Graphics.TEXT_JUSTIFY_CENTER
-        );
+        dc.drawText(width / 2, 8, Graphics.FONT_XTINY, "POWER", Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(getPowerColor(), Graphics.COLOR_TRANSPARENT);
         dc.drawText(
             width / 2,
-            32,
+            26,
             Graphics.FONT_NUMBER_MILD,
             valueOrDash(_power),
             Graphics.TEXT_JUSTIFY_CENTER
         );
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(
-            width / 2,
-            84,
-            Graphics.FONT_XTINY,
-            "WATTS",
-            Graphics.TEXT_JUSTIFY_CENTER
-        );
+        dc.drawText(width / 2, 78, Graphics.FONT_XTINY, "WATTS", Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     function drawPowerZone(dc, width) {
         var zone = getPowerZone();
-        var left = 18;
-        var top = 110;
+        var left = 14;
+        var top = 101;
         var gap = 3;
-        var segmentWidth = (width - 36 - (gap * 6)) / 7;
+        var segmentWidth = (width - 28 - (gap * 6)) / 7;
 
         for (var i = 1; i <= 7; i += 1) {
             var x = left + ((i - 1) * (segmentWidth + gap));
@@ -99,13 +87,13 @@ class DashboardView extends WatchUi.DataField {
             } else {
                 dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
             }
-            dc.fillRectangle(x, top, segmentWidth, 7);
+            dc.fillRectangle(x, top, segmentWidth, 9);
         }
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(
             width / 2,
-            123,
+            114,
             Graphics.FONT_SMALL,
             zone > 0 ? "ZONE " + zone.toString() : "ZONE --",
             Graphics.TEXT_JUSTIFY_CENTER
@@ -116,26 +104,11 @@ class DashboardView extends WatchUi.DataField {
         var center = width / 2;
 
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawLine(14, 160, width - 14, 160);
-        dc.drawLine(center, 170, center, 223);
+        dc.drawLine(14, 150, width - 14, 150);
+        dc.drawLine(center, 168, center, 218);
 
-        drawMetric(
-            dc,
-            center / 2,
-            171,
-            "HR",
-            valueOrDash(_heartRate),
-            "BPM"
-        );
-
-        drawMetric(
-            dc,
-            center + (center / 2),
-            171,
-            "CAD",
-            valueOrDash(_cadence),
-            "RPM"
-        );
+        drawMetric(dc, center / 2, 163, "HR", valueOrDash(_heartRate), "BPM");
+        drawMetric(dc, center + (center / 2), 163, "CAD", valueOrDash(_cadence), "RPM");
     }
 
     function drawMetric(dc, x, y, label, value, unit) {
@@ -143,26 +116,29 @@ class DashboardView extends WatchUi.DataField {
         dc.drawText(x, y, Graphics.FONT_XTINY, label, Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(x, y + 17, Graphics.FONT_MEDIUM, value, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(x, y + 18, Graphics.FONT_MEDIUM, value, Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(x, y + 43, Graphics.FONT_XTINY, unit, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(x, y + 44, Graphics.FONT_XTINY, unit, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     function drawFooter(dc, width) {
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawLine(14, 239, width - 14, 239);
+        dc.drawLine(14, 230, width - 14, 230);
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(14, 250, Graphics.FONT_XTINY, "SPEED", Graphics.TEXT_JUSTIFY_LEFT);
-        dc.drawText(width - 14, 250, Graphics.FONT_XTINY, "DIST", Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(14, 241, Graphics.FONT_XTINY, "SPEED", Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(width - 14, 241, Graphics.FONT_XTINY, "DIST", Graphics.TEXT_JUSTIFY_RIGHT);
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(14, 266, Graphics.FONT_SMALL, formatSpeed(), Graphics.TEXT_JUSTIFY_LEFT);
-        dc.drawText(width - 14, 266, Graphics.FONT_SMALL, formatDistance(), Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(14, 257, Graphics.FONT_SMALL, formatSpeed(), Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(width - 14, 257, Graphics.FONT_SMALL, formatDistance(), Graphics.TEXT_JUSTIFY_RIGHT);
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(width / 2, 266, Graphics.FONT_XTINY, formatElapsed(), Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(width / 2, 286, Graphics.FONT_XTINY, "TIME", Graphics.TEXT_JUSTIFY_CENTER);
+
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(width / 2, 302, Graphics.FONT_SMALL, formatElapsed(), Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     function getPowerZone() {
