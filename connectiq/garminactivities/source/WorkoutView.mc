@@ -1,37 +1,13 @@
 using Toybox.Activity as Activity;
-using Toybox.Application as App;
 using Toybox.Graphics as Gfx;
-using Toybox.Timer as Timer;
 using Toybox.WatchUi as Ui;
 
 class WorkoutView extends Ui.View {
     private var _engine;
-    private var _timer;
-    private var _finishedSaved = false;
 
     function initialize(engine) {
         Ui.View.initialize();
         _engine = engine;
-        _timer = new Timer.Timer();
-    }
-
-    function onShow() {
-        _timer.start(method(:onTick), 1000, true);
-    }
-
-    function onHide() {
-        _timer.stop();
-    }
-
-    function onTick() {
-        _engine.tick();
-
-        if (_engine.isComplete() && !_finishedSaved) {
-            _finishedSaved = true;
-            App.getApp().finishRecording();
-        }
-
-        Ui.requestUpdate();
     }
 
     function onUpdate(dc) {
@@ -48,16 +24,17 @@ class WorkoutView extends Ui.View {
 
         var step = _engine.currentStep();
         var info = Activity.getActivityInfo();
-        var power = info.currentPower;
-        var heartRate = info.currentHeartRate;
-        var cadence = info.currentCadence;
+        var power = info == null ? null : info.currentPower;
+        var heartRate = info == null ? null : info.currentHeartRate;
+        var cadence = info == null ? null : info.currentCadence;
 
         drawHeader(dc, w, step);
         drawProgress(dc, w, _engine.progressPercent());
-        drawPower(dc, w, h, power, step);
-        drawTimer(dc, w, h);
-        drawMetrics(dc, w, h, heartRate, cadence);
+        drawPower(dc, w, power, step);
+        drawTimer(dc, w);
+        drawMetrics(dc, w, heartRate, cadence);
         drawNext(dc, w, h);
+        drawNavigation(dc, w, h);
     }
 
     function drawHeader(dc, w, step) {
@@ -74,15 +51,14 @@ class WorkoutView extends Ui.View {
         var x = 10;
         var y = 38;
         var width = w - 20;
-        var height = 7;
 
         dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_BLACK);
-        dc.fillRectangle(x, y, width, height);
+        dc.fillRectangle(x, y, width, 7);
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
-        dc.fillRectangle(x, y, (width * percent) / 100, height);
+        dc.fillRectangle(x, y, (width * percent) / 100, 7);
     }
 
-    function drawPower(dc, w, h, power, step) {
+    function drawPower(dc, w, power, step) {
         var minPower = step[:minPower];
         var maxPower = step[:maxPower];
         var value = power == null ? "--" : power.toString();
@@ -102,20 +78,21 @@ class WorkoutView extends Ui.View {
         dc.drawText(w / 2, 72, Gfx.FONT_LARGE, value + " W", Gfx.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_BLACK);
-        var target = minPower.toString() + " - " + maxPower.toString() + " W";
-        dc.drawText(w / 2, 116, Gfx.FONT_SMALL, target, Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(w / 2, 116, Gfx.FONT_SMALL,
+            minPower.toString() + " - " + maxPower.toString() + " W",
+            Gfx.TEXT_JUSTIFY_CENTER);
     }
 
-    function drawTimer(dc, w, h) {
+    function drawTimer(dc, w) {
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
         dc.drawText(w / 2, 151, Gfx.FONT_MEDIUM, formatTime(_engine.getRemaining()), Gfx.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_BLACK);
-        var state = _engine.isRunning() ? "RIMANENTI" : "PAUSA - START PER PARTIRE";
+        var state = _engine.isRunning() ? "RIMANENTI" : "START PER PARTIRE";
         dc.drawText(w / 2, 184, Gfx.FONT_XTINY, state, Gfx.TEXT_JUSTIFY_CENTER);
     }
 
-    function drawMetrics(dc, w, h, heartRate, cadence) {
+    function drawMetrics(dc, w, heartRate, cadence) {
         var hrText = heartRate == null ? "-- bpm" : heartRate.toString() + " bpm";
         var cadText = cadence == null ? "-- rpm" : cadence.toString() + " rpm";
 
@@ -126,21 +103,25 @@ class WorkoutView extends Ui.View {
 
     function drawNext(dc, w, h) {
         var next = _engine.nextStep();
-        var y = h - 54;
+        var y = h - 58;
 
         dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_BLACK);
         dc.drawLine(10, y - 8, w - 10, y - 8);
 
-        if (next == null) {
-            return;
-        }
+        if (next == null) { return; }
 
         dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_BLACK);
         dc.drawText(10, y, Gfx.FONT_XTINY, "PROSSIMO", Gfx.TEXT_JUSTIFY_LEFT);
 
         dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
-        var nextText = formatTime(next[:duration]) + "  " + next[:minPower].toString() + "-" + next[:maxPower].toString() + " W";
-        dc.drawText(w - 10, y, Gfx.FONT_XTINY, nextText, Gfx.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(w - 10, y, Gfx.FONT_XTINY,
+            formatTime(next[:duration]) + "  " + next[:minPower].toString() + "-" + next[:maxPower].toString() + " W",
+            Gfx.TEXT_JUSTIFY_RIGHT);
+    }
+
+    function drawNavigation(dc, w, h) {
+        dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_BLACK);
+        dc.drawText(w / 2, h - 18, Gfx.FONT_XTINY, "UP: DASHBOARD", Gfx.TEXT_JUSTIFY_CENTER);
     }
 
     function drawCompleted(dc, w, h) {
@@ -150,6 +131,7 @@ class WorkoutView extends Ui.View {
         dc.drawText(w / 2, h / 2 + 12, Gfx.FONT_SMALL, "Allenamento completato", Gfx.TEXT_JUSTIFY_CENTER);
         dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_BLACK);
         dc.drawText(w / 2, h / 2 + 42, Gfx.FONT_XTINY, "Attivita FIT salvata", Gfx.TEXT_JUSTIFY_CENTER);
+        dc.drawText(w / 2, h - 18, Gfx.FONT_XTINY, "UP: DASHBOARD", Gfx.TEXT_JUSTIFY_CENTER);
     }
 
     function formatTime(totalSeconds) {

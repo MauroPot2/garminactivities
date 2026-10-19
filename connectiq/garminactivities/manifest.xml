@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <iq:manifest xmlns:iq="http://www.garmin.com/xml/connectiq" version="3">
     <iq:application
-        id="453d9c0618f14990bb328a3e951fa336"
+        id="3D0F0E817F9A4E3BA1B85BAA6C5D9C21"
         type="watch-app"
         name="@Strings.AppName"
-        entry="GarminActivitiesWorkoutApp"
+        entry="GarminActivitiesApp"
         minApiLevel="3.3.0">
         <iq:products>
             <iq:product id="edge530"/>
@@ -15,5 +15,6 @@
         <iq:languages>
             <iq:language>eng</iq:language>
         </iq:languages>
+        <iq:barrels/>
     </iq:application>
 </iq:manifest>

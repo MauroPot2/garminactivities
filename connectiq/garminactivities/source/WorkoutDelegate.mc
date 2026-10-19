@@ -2,12 +2,10 @@ using Toybox.Application as App;
 using Toybox.WatchUi as Ui;
 
 class WorkoutDelegate extends Ui.InputDelegate {
-    private var _view;
     private var _engine;
 
-    function initialize(view, engine) {
+    function initialize(engine) {
         Ui.InputDelegate.initialize();
-        _view = view;
         _engine = engine;
     }
 
@@ -15,7 +13,7 @@ class WorkoutDelegate extends Ui.InputDelegate {
         var key = keyEvent.getKey();
 
         if (key == Ui.KEY_START) {
-            toggleWorkout();
+            App.getApp().toggleWorkout();
             return true;
         }
 
@@ -27,25 +25,11 @@ class WorkoutDelegate extends Ui.InputDelegate {
             return true;
         }
 
-        if (key == Ui.KEY_ESC) {
-            App.getApp().finishRecording();
-            return false;
+        if (key == Ui.KEY_UP || key == Ui.KEY_ESC) {
+            App.getApp().showDashboard();
+            return true;
         }
 
         return false;
-    }
-
-    function toggleWorkout() {
-        if (_engine.isComplete()) {
-            return;
-        }
-
-        _engine.toggle();
-        if (_engine.isRunning()) {
-            App.getApp().startRecording();
-        } else {
-            App.getApp().pauseRecording();
-        }
-        Ui.requestUpdate();
     }
 }
