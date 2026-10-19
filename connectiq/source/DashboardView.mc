@@ -15,6 +15,7 @@ class DashboardView extends WatchUi.DataField {
     var _averageSpeed = null;
     var _distance = null;
     var _totalAscent = null;
+    var _elapsedTime = null;
     var _grade = null;
     var _previousAltitude = null;
     var _previousDistance = null;
@@ -42,6 +43,7 @@ class DashboardView extends WatchUi.DataField {
         _averageSpeed = info.averageSpeed;
         _distance = info.elapsedDistance;
         _totalAscent = info.totalAscent;
+        _elapsedTime = info.elapsedTime;
 
         updateGrade(info.altitude, info.elapsedDistance);
     }
@@ -89,6 +91,7 @@ class DashboardView extends WatchUi.DataField {
         _averageSpeed = 31.8 / 3.6;
         _distance = 12400.0;
         _totalAscent = 326;
+        _elapsedTime = 5058000;
         _grade = 7.2;
     }
 
@@ -210,10 +213,12 @@ class DashboardView extends WatchUi.DataField {
     function drawClimbMetrics(dc, width) {
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
         dc.drawText(14, 284, Graphics.FONT_XTINY, "GRADE", Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(width / 2, 284, Graphics.FONT_XTINY, "TIME", Graphics.TEXT_JUSTIFY_CENTER);
         dc.drawText(width - 14, 284, Graphics.FONT_XTINY, "ASCENT", Graphics.TEXT_JUSTIFY_RIGHT);
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(14, 299, Graphics.FONT_SMALL, formatGrade(), Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(width / 2, 302, Graphics.FONT_XTINY, formatElapsed(), Graphics.TEXT_JUSTIFY_CENTER);
         dc.drawText(width - 14, 299, Graphics.FONT_SMALL, formatAscentValue(), Graphics.TEXT_JUSTIFY_RIGHT);
     }
 
@@ -283,6 +288,27 @@ class DashboardView extends WatchUi.DataField {
         }
 
         return _grade.format("%.1f") + "%";
+    }
+
+    function formatElapsed() {
+        if (_elapsedTime == null) {
+            return "--:--";
+        }
+
+        var totalSeconds = Math.floor(_elapsedTime / 1000);
+        var hours = Math.floor(totalSeconds / 3600);
+        var minutes = Math.floor((totalSeconds % 3600) / 60);
+        var seconds = totalSeconds % 60;
+
+        if (hours > 0) {
+            return hours.toString() + ":" + twoDigits(minutes) + ":" + twoDigits(seconds);
+        }
+
+        return twoDigits(minutes) + ":" + twoDigits(seconds);
+    }
+
+    function twoDigits(value) {
+        return value < 10 ? "0" + value.toString() : value.toString();
     }
 
     function formatAscentValue() {
