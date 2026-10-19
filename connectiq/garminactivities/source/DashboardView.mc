@@ -3,7 +3,7 @@ using Toybox.Graphics as Graphics;
 using Toybox.Math as Math;
 using Toybox.WatchUi as WatchUi;
 
-class DashboardView extends WatchUi.View {
+class DashboardView extends WatchUi.DataField {
     const DEFAULT_FTP = 200;
 
     private var _ftp = DEFAULT_FTP;
@@ -22,7 +22,7 @@ class DashboardView extends WatchUi.View {
     private var _previousDistance = null;
 
     function initialize() {
-        WatchUi.View.initialize();
+        WatchUi.DataField.initialize();
     }
 
     function onUpdate(dc) {
@@ -90,8 +90,7 @@ class DashboardView extends WatchUi.View {
 
     function drawHeader(dc, width) {
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(10, 3, Graphics.FONT_XTINY, "DASHBOARD", Graphics.TEXT_JUSTIFY_LEFT);
-        dc.drawText(width - 10, 3, Graphics.FONT_XTINY, "DOWN WORKOUT", Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(width / 2, 3, Graphics.FONT_XTINY, "GARMINACTIVITIES", Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     function drawPower(dc, width) {
