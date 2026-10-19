@@ -4,6 +4,7 @@ using Toybox.WatchUi as WatchUi;
 
 class DashboardView extends WatchUi.DataField {
     const FTP = 200;
+    const USE_MOCK_DATA = true;
 
     var _power = null;
     var _heartRate = null;
@@ -14,9 +15,18 @@ class DashboardView extends WatchUi.DataField {
 
     function initialize() {
         DataField.initialize();
+
+        if (USE_MOCK_DATA) {
+            applyMockData();
+        }
     }
 
     function compute(info) {
+        if (USE_MOCK_DATA) {
+            applyMockData();
+            return;
+        }
+
         _power = info.currentPower;
         _heartRate = info.currentHeartRate;
         _cadence = info.currentCadence;
@@ -25,38 +35,32 @@ class DashboardView extends WatchUi.DataField {
         _elapsedTime = info.elapsedTime;
     }
 
+    function applyMockData() {
+        _power = 218;
+        _heartRate = 152;
+        _cadence = 87;
+        _speed = 34.7 / 3.6;
+        _distance = 12400.0;
+        _elapsedTime = 5058000;
+    }
+
     function onUpdate(dc) {
         var width = dc.getWidth();
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         dc.clear();
 
-        drawHeader(dc, width);
         drawPower(dc, width);
         drawPowerZone(dc, width);
         drawSecondaryMetrics(dc, width);
         drawFooter(dc, width);
     }
 
-    function drawHeader(dc, width) {
-        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(
-            width / 2,
-            8,
-            Graphics.FONT_XTINY,
-            "GARMINACTIVITIES",
-            Graphics.TEXT_JUSTIFY_CENTER
-        );
-
-        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawLine(14, 31, width - 14, 31);
-    }
-
     function drawPower(dc, width) {
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
         dc.drawText(
             width / 2,
-            42,
+            14,
             Graphics.FONT_XTINY,
             "POWER",
             Graphics.TEXT_JUSTIFY_CENTER
@@ -65,7 +69,7 @@ class DashboardView extends WatchUi.DataField {
         dc.setColor(getPowerColor(), Graphics.COLOR_TRANSPARENT);
         dc.drawText(
             width / 2,
-            60,
+            32,
             Graphics.FONT_NUMBER_MILD,
             valueOrDash(_power),
             Graphics.TEXT_JUSTIFY_CENTER
@@ -74,7 +78,7 @@ class DashboardView extends WatchUi.DataField {
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
         dc.drawText(
             width / 2,
-            112,
+            84,
             Graphics.FONT_XTINY,
             "WATTS",
             Graphics.TEXT_JUSTIFY_CENTER
@@ -84,7 +88,7 @@ class DashboardView extends WatchUi.DataField {
     function drawPowerZone(dc, width) {
         var zone = getPowerZone();
         var left = 18;
-        var top = 138;
+        var top = 110;
         var gap = 3;
         var segmentWidth = (width - 36 - (gap * 6)) / 7;
 
@@ -101,7 +105,7 @@ class DashboardView extends WatchUi.DataField {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(
             width / 2,
-            151,
+            123,
             Graphics.FONT_SMALL,
             zone > 0 ? "ZONE " + zone.toString() : "ZONE --",
             Graphics.TEXT_JUSTIFY_CENTER
@@ -112,13 +116,13 @@ class DashboardView extends WatchUi.DataField {
         var center = width / 2;
 
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawLine(14, 188, width - 14, 188);
-        dc.drawLine(center, 198, center, 251);
+        dc.drawLine(14, 160, width - 14, 160);
+        dc.drawLine(center, 170, center, 223);
 
         drawMetric(
             dc,
             center / 2,
-            199,
+            171,
             "HR",
             valueOrDash(_heartRate),
             "BPM"
@@ -127,7 +131,7 @@ class DashboardView extends WatchUi.DataField {
         drawMetric(
             dc,
             center + (center / 2),
-            199,
+            171,
             "CAD",
             valueOrDash(_cadence),
             "RPM"
@@ -147,18 +151,18 @@ class DashboardView extends WatchUi.DataField {
 
     function drawFooter(dc, width) {
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawLine(14, 267, width - 14, 267);
+        dc.drawLine(14, 239, width - 14, 239);
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(14, 278, Graphics.FONT_XTINY, "SPEED", Graphics.TEXT_JUSTIFY_LEFT);
-        dc.drawText(width - 14, 278, Graphics.FONT_XTINY, "DIST", Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(14, 250, Graphics.FONT_XTINY, "SPEED", Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(width - 14, 250, Graphics.FONT_XTINY, "DIST", Graphics.TEXT_JUSTIFY_RIGHT);
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(14, 294, Graphics.FONT_SMALL, formatSpeed(), Graphics.TEXT_JUSTIFY_LEFT);
-        dc.drawText(width - 14, 294, Graphics.FONT_SMALL, formatDistance(), Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(14, 266, Graphics.FONT_SMALL, formatSpeed(), Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(width - 14, 266, Graphics.FONT_SMALL, formatDistance(), Graphics.TEXT_JUSTIFY_RIGHT);
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(width / 2, 294, Graphics.FONT_XTINY, formatElapsed(), Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(width / 2, 266, Graphics.FONT_XTINY, formatElapsed(), Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     function getPowerZone() {
