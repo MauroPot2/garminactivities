@@ -299,6 +299,6 @@ class DashboardView extends WatchUi.DataField {
             return "-- m";
         }
 
-        return _totalAscent.toString() + " m";
+        return _totalAscent.format("%.0f") + " m";
     }
 }
