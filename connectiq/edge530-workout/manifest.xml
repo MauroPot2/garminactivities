@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<iq:manifest xmlns:iq="http://www.garmin.com/xml/connectiq" version="3">
+    <iq:application
+        id="453d9c0618f14990bb328a3e951fa336"
+        type="watch-app"
+        name="@Strings.AppName"
+        entry="GarminActivitiesWorkoutApp"
+        minApiLevel="3.3.0">
+        <iq:products>
+            <iq:product id="edge530"/>
+        </iq:products>
+        <iq:permissions>
+            <iq:uses-permission id="Fit"/>
+        </iq:permissions>
+        <iq:languages>
+            <iq:language>eng</iq:language>
+        </iq:languages>
+    </iq:application>
+</iq:manifest>
