@@ -2,7 +2,6 @@ class WorkoutEngine {
     private var _steps;
     private var _index = 0;
     private var _remaining = 0;
-    private var _running = false;
     private var _complete = false;
 
     function initialize() {
@@ -18,50 +17,43 @@ class WorkoutEngine {
             { :name=>"RECUPERO 4/4", :duration=>120, :minPower=>100, :maxPower=>130 },
             { :name=>"DEFATICAMENTO", :duration=>600, :minPower=>0, :maxPower=>130 }
         ];
-        reset();
+        sync(0);
     }
 
-    function reset() {
+    function sync(totalSeconds) {
+        var elapsed = totalSeconds;
         _index = 0;
-        _running = false;
         _complete = false;
-        _remaining = _steps[0][:duration];
-    }
 
-    function toggle() {
-        if (_complete) { return; }
-        _running = !_running;
-    }
-
-    function tick() {
-        if (!_running || _complete) { return; }
-        _remaining -= 1;
-        if (_remaining <= 0) { advance(); }
-    }
-
-    function advance() {
-        if (_complete) { return; }
-        if (_index >= (_steps.size() - 1)) {
-            _remaining = 0;
-            _running = false;
-            _complete = true;
-            return;
+        for (var i = 0; i < _steps.size(); i += 1) {
+            var duration = _steps[i][:duration];
+            if (elapsed < duration) {
+                _index = i;
+                _remaining = duration - elapsed;
+                return;
+            }
+            elapsed -= duration;
         }
-        _index += 1;
-        _remaining = _steps[_index][:duration];
+
+        _index = _steps.size() - 1;
+        _remaining = 0;
+        _complete = true;
     }
 
     function currentStep() { return _steps[_index]; }
+
     function nextStep() {
-        if (_index >= (_steps.size() - 1)) { return null; }
+        if (_complete || _index >= (_steps.size() - 1)) { return null; }
         return _steps[_index + 1];
     }
+
     function getRemaining() { return _remaining; }
     function getIndex() { return _index; }
     function getCount() { return _steps.size(); }
-    function isRunning() { return _running; }
     function isComplete() { return _complete; }
+
     function progressPercent() {
+        if (_complete) { return 100; }
         var duration = currentStep()[:duration];
         if (duration <= 0) { return 0; }
         return ((duration - _remaining) * 100) / duration;
