@@ -15,6 +15,7 @@ class DashboardView extends WatchUi.DataField {
     var _averageSpeed = null;
     var _distance = null;
     var _totalAscent = null;
+    var _grade = null;
 
     function initialize() {
         DataField.initialize();
@@ -39,6 +40,7 @@ class DashboardView extends WatchUi.DataField {
         _averageSpeed = info.averageSpeed;
         _distance = info.elapsedDistance;
         _totalAscent = info.totalAscent;
+        _grade = info.currentGrade;
     }
 
     function applyMockData() {
@@ -51,6 +53,7 @@ class DashboardView extends WatchUi.DataField {
         _averageSpeed = 31.8 / 3.6;
         _distance = 12400.0;
         _totalAscent = 326;
+        _grade = 7.2;
     }
 
     function onUpdate(dc) {
@@ -62,30 +65,31 @@ class DashboardView extends WatchUi.DataField {
         drawPower(dc, width);
         drawPowerZone(dc, width);
         drawSecondaryMetrics(dc, width);
-        drawFooter(dc, width);
+        drawRideMetrics(dc, width);
+        drawClimbMetrics(dc, width);
     }
 
     function drawPower(dc, width) {
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(width / 2, 8, Graphics.FONT_XTINY, "POWER", Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(width / 2, 4, Graphics.FONT_XTINY, "POWER", Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(getPowerColor(), Graphics.COLOR_TRANSPARENT);
         dc.drawText(
             width / 2,
-            26,
+            21,
             Graphics.FONT_NUMBER_MILD,
             valueOrDash(_power),
             Graphics.TEXT_JUSTIFY_CENTER
         );
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(width / 2, 78, Graphics.FONT_XTINY, "WATTS", Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(width / 2, 70, Graphics.FONT_XTINY, "WATTS", Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     function drawPowerZone(dc, width) {
         var zone = getPowerZone();
         var left = 14;
-        var top = 101;
+        var top = 91;
         var gap = 3;
         var segmentWidth = (width - 28 - (gap * 6)) / 7;
 
@@ -102,7 +106,7 @@ class DashboardView extends WatchUi.DataField {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(
             width / 2,
-            114,
+            104,
             Graphics.FONT_SMALL,
             zone > 0 ? "ZONE " + zone.toString() : "ZONE --",
             Graphics.TEXT_JUSTIFY_CENTER
@@ -113,13 +117,13 @@ class DashboardView extends WatchUi.DataField {
         var center = width / 2;
 
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawLine(14, 150, width - 14, 150);
-        dc.drawLine(center, 168, center, 222);
+        dc.drawLine(14, 137, width - 14, 137);
+        dc.drawLine(center, 151, center, 211);
 
         drawMetric(
             dc,
             center / 2,
-            163,
+            148,
             "HR",
             valueOrDash(_heartRate),
             formatAverageNumber(_averageHeartRate),
@@ -129,7 +133,7 @@ class DashboardView extends WatchUi.DataField {
         drawMetric(
             dc,
             center + (center / 2),
-            163,
+            148,
             "CAD",
             valueOrDash(_cadence),
             formatAverageNumber(_averageCadence),
@@ -142,30 +146,39 @@ class DashboardView extends WatchUi.DataField {
         dc.drawText(x, y, Graphics.FONT_XTINY, label, Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(x, y + 18, Graphics.FONT_MEDIUM, value, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(x, y + 16, Graphics.FONT_MEDIUM, value, Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(x, y + 43, Graphics.FONT_XTINY, average, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(x, y + 40, Graphics.FONT_XTINY, average, Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(x, y + 56, Graphics.FONT_XTINY, unit, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(x, y + 53, Graphics.FONT_XTINY, unit, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
-    function drawFooter(dc, width) {
+    function drawRideMetrics(dc, width) {
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawLine(14, 235, width - 14, 235);
+        dc.drawLine(14, 218, width - 14, 218);
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(14, 246, Graphics.FONT_XTINY, "SPEED", Graphics.TEXT_JUSTIFY_LEFT);
-        dc.drawText(width - 14, 246, Graphics.FONT_XTINY, "DIST", Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(14, 227, Graphics.FONT_XTINY, "SPEED", Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(width - 14, 227, Graphics.FONT_XTINY, "DIST", Graphics.TEXT_JUSTIFY_RIGHT);
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(14, 262, Graphics.FONT_SMALL, formatSpeed(), Graphics.TEXT_JUSTIFY_LEFT);
-        dc.drawText(width - 14, 262, Graphics.FONT_SMALL, formatDistance(), Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(14, 242, Graphics.FONT_SMALL, formatSpeed(), Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(width - 14, 242, Graphics.FONT_SMALL, formatDistance(), Graphics.TEXT_JUSTIFY_RIGHT);
 
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(14, 289, Graphics.FONT_XTINY, formatAverageSpeed(), Graphics.TEXT_JUSTIFY_LEFT);
-        dc.drawText(width - 14, 289, Graphics.FONT_XTINY, formatAscent(), Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(14, 266, Graphics.FONT_XTINY, formatAverageSpeed(), Graphics.TEXT_JUSTIFY_LEFT);
+    }
+
+    function drawClimbMetrics(dc, width) {
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(14, 284, Graphics.FONT_XTINY, "GRADE", Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(width - 14, 284, Graphics.FONT_XTINY, "ASCENT", Graphics.TEXT_JUSTIFY_RIGHT);
+
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(14, 299, Graphics.FONT_SMALL, formatGrade(), Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(width - 14, 299, Graphics.FONT_SMALL, formatAscentValue(), Graphics.TEXT_JUSTIFY_RIGHT);
     }
 
     function getPowerZone() {
@@ -228,11 +241,19 @@ class DashboardView extends WatchUi.DataField {
         return (_distance / 1000.0).format("%.1f") + " km";
     }
 
-    function formatAscent() {
-        if (_totalAscent == null) {
-            return "ASC -- m";
+    function formatGrade() {
+        if (_grade == null) {
+            return "--.-%";
         }
 
-        return "ASC +" + _totalAscent.toString() + " m";
+        return _grade.format("%.1f") + "%";
+    }
+
+    function formatAscentValue() {
+        if (_totalAscent == null) {
+            return "-- m";
+        }
+
+        return _totalAscent.toString() + " m";
     }
 }
