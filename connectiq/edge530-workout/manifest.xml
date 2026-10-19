@@ -5,7 +5,7 @@
         type="watch-app"
         name="@Strings.AppName"
         entry="GarminActivitiesWorkoutApp"
-        minApiLevel="3.1.0">
+        minApiLevel="3.3.0">
         <iq:products>
             <iq:product id="edge530"/>
         </iq:products>
