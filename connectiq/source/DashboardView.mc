@@ -16,6 +16,8 @@ class DashboardView extends WatchUi.DataField {
     var _distance = null;
     var _totalAscent = null;
     var _grade = null;
+    var _previousAltitude = null;
+    var _previousDistance = null;
 
     function initialize() {
         DataField.initialize();
@@ -40,7 +42,41 @@ class DashboardView extends WatchUi.DataField {
         _averageSpeed = info.averageSpeed;
         _distance = info.elapsedDistance;
         _totalAscent = info.totalAscent;
-        _grade = info.currentGrade;
+
+        updateGrade(info.altitude, info.elapsedDistance);
+    }
+
+    function updateGrade(altitude, distance) {
+        if (altitude == null || distance == null) {
+            return;
+        }
+
+        if (_previousAltitude != null && _previousDistance != null) {
+            var deltaDistance = distance - _previousDistance;
+            var deltaAltitude = altitude - _previousAltitude;
+
+            // Ignore tiny distance changes to avoid noisy/unstable percentages.
+            if (deltaDistance >= 3.0) {
+                var instantGrade = (deltaAltitude / deltaDistance) * 100.0;
+
+                // Reject unrealistic spikes from GPS/barometric jitter.
+                if (instantGrade > 30.0) {
+                    instantGrade = 30.0;
+                } else if (instantGrade < -30.0) {
+                    instantGrade = -30.0;
+                }
+
+                // Light smoothing so the value is useful while riding.
+                if (_grade == null) {
+                    _grade = instantGrade;
+                } else {
+                    _grade = (_grade * 0.7) + (instantGrade * 0.3);
+                }
+            }
+        }
+
+        _previousAltitude = altitude;
+        _previousDistance = distance;
     }
 
     function applyMockData() {
