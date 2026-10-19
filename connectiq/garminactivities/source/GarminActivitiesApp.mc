@@ -49,7 +49,7 @@ class GarminActivitiesApp extends App.AppBase {
         Ui.requestUpdate();
     }
 
-    function onTick() {
+    function onTick() as Void {
         _engine.tick();
 
         if (_engine.isComplete() && !_workoutSaved) {

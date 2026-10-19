@@ -1,0 +1,168 @@
+[ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc"; @line = 1; @symbol_usingdef<0> = [Toybox,1,6,12]; @symbol_usingdef<1> = [Application,1,13,24]; @symbol_usingAlias = [App,1,28,31]; ]
+using Toybox.Application as :App;
+[ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc"; @line = 2; @symbol_usingdef<0> = [Toybox,2,6,12]; @symbol_usingdef<1> = [WatchUi,2,13,20]; @symbol_usingAlias = [Ui,2,24,26]; ]
+using Toybox.WatchUi as :Ui;
+[ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc"; @line = 4; @symbol_classdef = [WorkoutDelegate,4,6,21]; @symbol_extends<0> = [Ui,4,30,32]; @symbol_extends<1> = [InputDelegate,4,33,46]; ]
+class WorkoutDelegate extends Ui.InputDelegate {
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc"; @line = 4; ]
+    <init> {
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc"; @line = 4; ]
+    static
+    <init> {
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc"; @line = 5; @position = 16; @symbol_vardef = [_engine,5,16,23]; ]
+    private
+    var _engine;
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc"; @line = 7; @symbol_functiondef = [initialize,7,13,23]; @symbol_param<0> = [engine,7,24,30]; ]
+    function initialize(engine) as Void {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_7_32_10_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc" 8 8 ]
+        symbol [ Ui %tmp.1 8 8 10 ];
+        %tmp.1 = getm $.Toybox.WatchUi;
+        symbol [ InputDelegate %tmp.2 8 11 24 ];
+        %tmp.2 = getv %tmp.1 :InputDelegate;
+        symbol [ initialize %tmp.3 8 25 35 ];
+        %tmp.3 = getv function %tmp.2 :initialize;
+        invoke %tmp.2 %tmp.3();
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc" 9 8 ]
+        %tmp.4 = lgetv %engine;
+        symbol [ engine %tmp.4 9 18 24 ];
+        symbol [ _engine ? 9 8 15 ];
+        putv self :_engine %tmp.4;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_7_32_10_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc"; @line = 12; @symbol_functiondef = [onKey,12,13,18]; @symbol_param<0> = [keyEvent,12,19,27]; ]
+    function onKey(keyEvent) {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_12_29_34_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc" 13 8 ]
+        [ "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_12_29_34_4_start" "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_12_29_34_4_stop" ]
+        %key.1 = local;
+        symbol [ key %key.1 13 12 15 ];
+        %tmp.1 = lgetv %keyEvent;
+        symbol [ keyEvent %tmp.1 13 18 26 ];
+        symbol [ getKey %tmp.2 13 27 33 ];
+        %tmp.2 = getv function %tmp.1 :getKey;
+        %tmp.3 = invoke %tmp.1 %tmp.2();
+        lputv %key.1 %tmp.3;
+        symbol [ key %key.1 13 12 15 ];
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc" 15 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_15_8_18_8_if_stmt:
+        %tmp.4 = lgetv %key.1;
+        symbol [ key %tmp.4 15 12 15 ];
+        symbol [ Ui %tmp.5 15 19 21 ];
+        %tmp.5 = getm $.Toybox.WatchUi;
+        symbol [ KEY_START %tmp.6 15 22 31 ];
+        %tmp.6 = getv %tmp.5 :KEY_START;
+        %tmp.7 = eq %tmp.4 %tmp.6;
+        bf %tmp.7 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_15_8_18_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_15_8_18_8_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_15_33_18_8_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc" 16 12 ]
+        symbol [ App %tmp.8 16 12 15 ];
+        %tmp.8 = getm $.Toybox.Application;
+        symbol [ getApp %tmp.9 16 16 22 ];
+        %tmp.9 = getv function %tmp.8 :getApp;
+        %tmp.10 = invoke %tmp.8 %tmp.9();
+        symbol [ toggleWorkout %tmp.11 16 25 38 ];
+        %tmp.11 = getv function %tmp.10 :toggleWorkout;
+        invoke %tmp.10 %tmp.11();
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc" 17 12 ]
+        %tmp.12 = true;
+        ret %tmp.12;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_15_33_18_8_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_15_8_18_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_15_8_18_8_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc" 20 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_20_8_26_8_if_stmt:
+        %tmp.13 = lgetv %key.1;
+        symbol [ key %tmp.13 20 12 15 ];
+        symbol [ Ui %tmp.14 20 19 21 ];
+        %tmp.14 = getm $.Toybox.WatchUi;
+        symbol [ KEY_LAP %tmp.15 20 22 29 ];
+        %tmp.15 = getv %tmp.14 :KEY_LAP;
+        %tmp.16 = eq %tmp.13 %tmp.15;
+        bf %tmp.16 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_20_8_26_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_20_8_26_8_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_20_31_26_8_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc" 21 12 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_21_12_24_12_if_stmt:
+        symbol [ _engine %tmp.18 21 17 24 ];
+        %tmp.18 = getv ? :_engine;
+        symbol [ isComplete %tmp.19 21 25 35 ];
+        %tmp.19 = getv function %tmp.18 :isComplete;
+        %tmp.20 = invoke %tmp.18 %tmp.19();
+        %tmp.21 = not %tmp.20;
+        bf %tmp.21 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_21_12_24_12_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_21_12_24_12_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_21_39_24_12_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc" 22 16 ]
+        symbol [ _engine %tmp.23 22 16 23 ];
+        %tmp.23 = getv ? :_engine;
+        symbol [ advance %tmp.24 22 24 31 ];
+        %tmp.24 = getv function %tmp.23 :advance;
+        invoke %tmp.23 %tmp.24();
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc" 23 16 ]
+        symbol [ Ui %tmp.25 23 16 18 ];
+        %tmp.25 = getm $.Toybox.WatchUi;
+        symbol [ requestUpdate %tmp.26 23 19 32 ];
+        %tmp.26 = getv function %tmp.25 :requestUpdate;
+        invoke %tmp.25 %tmp.26();
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_21_39_24_12_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_21_12_24_12_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_21_12_24_12_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc" 25 12 ]
+        %tmp.27 = true;
+        ret %tmp.27;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_20_31_26_8_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_20_8_26_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_20_8_26_8_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc" 28 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_28_8_31_8_if_stmt:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_28_12_28_42_begin:
+        %tmp.28 = lgetv %key.1;
+        symbol [ key %tmp.28 28 12 15 ];
+        symbol [ Ui %tmp.29 28 19 21 ];
+        %tmp.29 = getm $.Toybox.WatchUi;
+        symbol [ KEY_UP %tmp.30 28 22 28 ];
+        %tmp.30 = getv %tmp.29 :KEY_UP;
+        %tmp.31 = eq %tmp.28 %tmp.30;
+        bt %tmp.31 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_28_8_31_8_if_true;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_28_32_28_42_false:
+        %tmp.32 = lgetv %key.1;
+        symbol [ key %tmp.32 28 32 35 ];
+        symbol [ Ui %tmp.33 28 39 41 ];
+        %tmp.33 = getm $.Toybox.WatchUi;
+        symbol [ KEY_ESC %tmp.34 28 42 49 ];
+        %tmp.34 = getv %tmp.33 :KEY_ESC;
+        %tmp.35 = eq %tmp.32 %tmp.34;
+        push %tmp.35;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_28_32_28_42_end:
+        %tmp.36 = phi [%tmp.31 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_28_12_28_42_begin] [%tmp.35 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_28_32_28_42_false] [%tmp.36 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_28_32_28_42_end];
+        bf %tmp.36 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_28_8_31_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_28_8_31_8_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_28_51_31_8_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc" 29 12 ]
+        symbol [ App %tmp.37 29 12 15 ];
+        %tmp.37 = getm $.Toybox.Application;
+        symbol [ getApp %tmp.38 29 16 22 ];
+        %tmp.38 = getv function %tmp.37 :getApp;
+        %tmp.39 = invoke %tmp.37 %tmp.38();
+        symbol [ showDashboard %tmp.40 29 25 38 ];
+        %tmp.40 = getv function %tmp.39 :showDashboard;
+        invoke %tmp.39 %tmp.40();
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc" 30 12 ]
+        %tmp.41 = true;
+        ret %tmp.41;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_28_51_31_8_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_28_8_31_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_28_8_31_8_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc" 33 8 ]
+        %tmp.42 = false;
+        ret %tmp.42;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_garminactivities_source_WorkoutDelegate_mc_12_29_34_4_stop:
+    }
+}
+[ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/garminactivities/source/WorkoutDelegate.mc"; @line = 1; ]
+<init> {
+}
