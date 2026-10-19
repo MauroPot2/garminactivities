@@ -1,11 +1,13 @@
+using Toybox.Application.Properties as Properties;
 using Toybox.Graphics as Graphics;
 using Toybox.Math as Math;
 using Toybox.WatchUi as WatchUi;
 
 class DashboardView extends WatchUi.DataField {
-    const FTP = 200;
-    const USE_MOCK_DATA = true;
+    const DEFAULT_FTP = 200;
+    const USE_MOCK_DATA = false;
 
+    var _ftp = DEFAULT_FTP;
     var _power = null;
     var _heartRate = null;
     var _averageHeartRate = null;
@@ -22,13 +24,26 @@ class DashboardView extends WatchUi.DataField {
 
     function initialize() {
         DataField.initialize();
+        loadFtp();
 
         if (USE_MOCK_DATA) {
             applyMockData();
         }
     }
 
+    function loadFtp() {
+        var configuredFtp = Properties.getValue("ftp");
+
+        if (configuredFtp != null && configuredFtp >= 50 && configuredFtp <= 500) {
+            _ftp = configuredFtp;
+        } else {
+            _ftp = DEFAULT_FTP;
+        }
+    }
+
     function compute(info) {
+        loadFtp();
+
         if (USE_MOCK_DATA) {
             applyMockData();
             return;
@@ -57,18 +72,15 @@ class DashboardView extends WatchUi.DataField {
             var deltaDistance = distance - _previousDistance;
             var deltaAltitude = altitude - _previousAltitude;
 
-            // Ignore tiny distance changes to avoid noisy/unstable percentages.
             if (deltaDistance >= 3.0) {
                 var instantGrade = (deltaAltitude / deltaDistance) * 100.0;
 
-                // Reject unrealistic spikes from GPS/barometric jitter.
                 if (instantGrade > 30.0) {
                     instantGrade = 30.0;
                 } else if (instantGrade < -30.0) {
                     instantGrade = -30.0;
                 }
 
-                // Light smoothing so the value is useful while riding.
                 if (_grade == null) {
                     _grade = instantGrade;
                 } else {
@@ -113,13 +125,7 @@ class DashboardView extends WatchUi.DataField {
         dc.drawText(width / 2, 4, Graphics.FONT_XTINY, "POWER", Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(getPowerColor(), Graphics.COLOR_TRANSPARENT);
-        dc.drawText(
-            width / 2,
-            21,
-            Graphics.FONT_NUMBER_MILD,
-            valueOrDash(_power),
-            Graphics.TEXT_JUSTIFY_CENTER
-        );
+        dc.drawText(width / 2, 21, Graphics.FONT_NUMBER_MILD, valueOrDash(_power), Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
         dc.drawText(width / 2, 70, Graphics.FONT_XTINY, "WATTS", Graphics.TEXT_JUSTIFY_CENTER);
@@ -143,13 +149,7 @@ class DashboardView extends WatchUi.DataField {
         }
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(
-            width / 2,
-            104,
-            Graphics.FONT_SMALL,
-            zone > 0 ? "ZONE " + zone.toString() : "ZONE --",
-            Graphics.TEXT_JUSTIFY_CENTER
-        );
+        dc.drawText(width / 2, 104, Graphics.FONT_SMALL, zone > 0 ? "ZONE " + zone.toString() : "ZONE --", Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     function drawSecondaryMetrics(dc, width) {
@@ -159,25 +159,8 @@ class DashboardView extends WatchUi.DataField {
         dc.drawLine(14, 137, width - 14, 137);
         dc.drawLine(center, 151, center, 211);
 
-        drawMetric(
-            dc,
-            center / 2,
-            148,
-            "HR",
-            valueOrDash(_heartRate),
-            formatAverageNumber(_averageHeartRate),
-            "BPM"
-        );
-
-        drawMetric(
-            dc,
-            center + (center / 2),
-            148,
-            "CAD",
-            valueOrDash(_cadence),
-            formatAverageNumber(_averageCadence),
-            "RPM"
-        );
+        drawMetric(dc, center / 2, 148, "HR", valueOrDash(_heartRate), formatAverageNumber(_averageHeartRate), "BPM");
+        drawMetric(dc, center + (center / 2), 148, "CAD", valueOrDash(_cadence), formatAverageNumber(_averageCadence), "RPM");
     }
 
     function drawMetric(dc, x, y, label, value, average, unit) {
@@ -227,12 +210,12 @@ class DashboardView extends WatchUi.DataField {
             return 0;
         }
 
-        if (_power < (FTP * 55 / 100)) { return 1; }
-        if (_power < (FTP * 75 / 100)) { return 2; }
-        if (_power < (FTP * 90 / 100)) { return 3; }
-        if (_power < (FTP * 105 / 100)) { return 4; }
-        if (_power < (FTP * 120 / 100)) { return 5; }
-        if (_power < (FTP * 150 / 100)) { return 6; }
+        if (_power < (_ftp * 55 / 100)) { return 1; }
+        if (_power < (_ftp * 75 / 100)) { return 2; }
+        if (_power < (_ftp * 90 / 100)) { return 3; }
+        if (_power < (_ftp * 105 / 100)) { return 4; }
+        if (_power < (_ftp * 120 / 100)) { return 5; }
+        if (_power < (_ftp * 150 / 100)) { return 6; }
         return 7;
     }
 
