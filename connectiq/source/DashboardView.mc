@@ -8,10 +8,13 @@ class DashboardView extends WatchUi.DataField {
 
     var _power = null;
     var _heartRate = null;
+    var _averageHeartRate = null;
     var _cadence = null;
+    var _averageCadence = null;
     var _speed = null;
+    var _averageSpeed = null;
     var _distance = null;
-    var _elapsedTime = null;
+    var _totalAscent = null;
 
     function initialize() {
         DataField.initialize();
@@ -29,19 +32,25 @@ class DashboardView extends WatchUi.DataField {
 
         _power = info.currentPower;
         _heartRate = info.currentHeartRate;
+        _averageHeartRate = info.averageHeartRate;
         _cadence = info.currentCadence;
+        _averageCadence = info.averageCadence;
         _speed = info.currentSpeed;
+        _averageSpeed = info.averageSpeed;
         _distance = info.elapsedDistance;
-        _elapsedTime = info.elapsedTime;
+        _totalAscent = info.totalAscent;
     }
 
     function applyMockData() {
         _power = 218;
         _heartRate = 152;
+        _averageHeartRate = 148;
         _cadence = 87;
+        _averageCadence = 84;
         _speed = 34.7 / 3.6;
+        _averageSpeed = 31.8 / 3.6;
         _distance = 12400.0;
-        _elapsedTime = 5058000;
+        _totalAscent = 326;
     }
 
     function onUpdate(dc) {
@@ -105,40 +114,58 @@ class DashboardView extends WatchUi.DataField {
 
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
         dc.drawLine(14, 150, width - 14, 150);
-        dc.drawLine(center, 168, center, 218);
+        dc.drawLine(center, 168, center, 222);
 
-        drawMetric(dc, center / 2, 163, "HR", valueOrDash(_heartRate), "BPM");
-        drawMetric(dc, center + (center / 2), 163, "CAD", valueOrDash(_cadence), "RPM");
+        drawMetric(
+            dc,
+            center / 2,
+            163,
+            "HR",
+            valueOrDash(_heartRate),
+            formatAverageNumber(_averageHeartRate),
+            "BPM"
+        );
+
+        drawMetric(
+            dc,
+            center + (center / 2),
+            163,
+            "CAD",
+            valueOrDash(_cadence),
+            formatAverageNumber(_averageCadence),
+            "RPM"
+        );
     }
 
-    function drawMetric(dc, x, y, label, value, unit) {
+    function drawMetric(dc, x, y, label, value, average, unit) {
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
         dc.drawText(x, y, Graphics.FONT_XTINY, label, Graphics.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
         dc.drawText(x, y + 18, Graphics.FONT_MEDIUM, value, Graphics.TEXT_JUSTIFY_CENTER);
 
+        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(x, y + 43, Graphics.FONT_XTINY, average, Graphics.TEXT_JUSTIFY_CENTER);
+
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(x, y + 44, Graphics.FONT_XTINY, unit, Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(x, y + 56, Graphics.FONT_XTINY, unit, Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     function drawFooter(dc, width) {
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawLine(14, 230, width - 14, 230);
+        dc.drawLine(14, 235, width - 14, 235);
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(14, 241, Graphics.FONT_XTINY, "SPEED", Graphics.TEXT_JUSTIFY_LEFT);
-        dc.drawText(width - 14, 241, Graphics.FONT_XTINY, "DIST", Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(14, 246, Graphics.FONT_XTINY, "SPEED", Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(width - 14, 246, Graphics.FONT_XTINY, "DIST", Graphics.TEXT_JUSTIFY_RIGHT);
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(14, 257, Graphics.FONT_SMALL, formatSpeed(), Graphics.TEXT_JUSTIFY_LEFT);
-        dc.drawText(width - 14, 257, Graphics.FONT_SMALL, formatDistance(), Graphics.TEXT_JUSTIFY_RIGHT);
+        dc.drawText(14, 262, Graphics.FONT_SMALL, formatSpeed(), Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(width - 14, 262, Graphics.FONT_SMALL, formatDistance(), Graphics.TEXT_JUSTIFY_RIGHT);
 
-        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(width / 2, 286, Graphics.FONT_XTINY, "TIME", Graphics.TEXT_JUSTIFY_CENTER);
-
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(width / 2, 302, Graphics.FONT_SMALL, formatElapsed(), Graphics.TEXT_JUSTIFY_CENTER);
+        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
+        dc.drawText(14, 289, Graphics.FONT_XTINY, formatAverageSpeed(), Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(width - 14, 289, Graphics.FONT_XTINY, formatAscent(), Graphics.TEXT_JUSTIFY_RIGHT);
     }
 
     function getPowerZone() {
@@ -173,12 +200,24 @@ class DashboardView extends WatchUi.DataField {
         return value == null ? "--" : value.toString();
     }
 
+    function formatAverageNumber(value) {
+        return value == null ? "AVG --" : "AVG " + value.toString();
+    }
+
     function formatSpeed() {
         if (_speed == null) {
             return "--.- km/h";
         }
 
         return (_speed * 3.6).format("%.1f") + " km/h";
+    }
+
+    function formatAverageSpeed() {
+        if (_averageSpeed == null) {
+            return "AVG --.-";
+        }
+
+        return "AVG " + (_averageSpeed * 3.6).format("%.1f");
     }
 
     function formatDistance() {
@@ -189,24 +228,11 @@ class DashboardView extends WatchUi.DataField {
         return (_distance / 1000.0).format("%.1f") + " km";
     }
 
-    function formatElapsed() {
-        if (_elapsedTime == null) {
-            return "--:--";
+    function formatAscent() {
+        if (_totalAscent == null) {
+            return "ASC -- m";
         }
 
-        var totalSeconds = Math.floor(_elapsedTime / 1000);
-        var hours = Math.floor(totalSeconds / 3600);
-        var minutes = Math.floor((totalSeconds % 3600) / 60);
-        var seconds = totalSeconds % 60;
-
-        if (hours > 0) {
-            return hours.toString() + ":" + twoDigits(minutes) + ":" + twoDigits(seconds);
-        }
-
-        return twoDigits(minutes) + ":" + twoDigits(seconds);
-    }
-
-    function twoDigits(value) {
-        return value < 10 ? "0" + value.toString() : value.toString();
+        return "ASC +" + _totalAscent.toString() + " m";
     }
 }
