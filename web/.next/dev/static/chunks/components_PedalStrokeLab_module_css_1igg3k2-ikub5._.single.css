@@ -1,0 +1,247 @@
+/* [project]/components/PedalStrokeLab.module.css [app-client] (css) */
+.PedalStrokeLab-module__qrD-5W__lab {
+  background: radial-gradient(circle at 18% 30%, #8b5cf617, #0000 34%), linear-gradient(#10121bf7, #0a0c12fa);
+  border: 1px solid #ffffff14;
+  border-radius: 24px;
+  margin-top: 18px;
+  padding: 24px;
+  overflow: hidden;
+}
+
+.PedalStrokeLab-module__qrD-5W__header {
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  display: flex;
+}
+
+.PedalStrokeLab-module__qrD-5W__header > div:first-child > span {
+  letter-spacing: .15em;
+  color: #a78bfa;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.PedalStrokeLab-module__qrD-5W__header h2 {
+  letter-spacing: -.5px;
+  margin: 5px 0;
+  font-size: 20px;
+}
+
+.PedalStrokeLab-module__qrD-5W__header p {
+  color: #818897;
+  max-width: 680px;
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+.PedalStrokeLab-module__qrD-5W__legend {
+  flex-wrap: wrap;
+  gap: 10px;
+  display: flex;
+}
+
+.PedalStrokeLab-module__qrD-5W__legend span {
+  color: #747b89;
+  align-items: center;
+  gap: 5px;
+  font-size: 8px;
+  display: flex;
+}
+
+.PedalStrokeLab-module__qrD-5W__legend i, .PedalStrokeLab-module__qrD-5W__sideTitle i {
+  border-radius: 50%;
+  width: 7px;
+  height: 7px;
+  display: inline-block;
+}
+
+.PedalStrokeLab-module__qrD-5W__left {
+  background: #a78bfa;
+}
+
+.PedalStrokeLab-module__qrD-5W__right {
+  background: #ff8a3d;
+}
+
+.PedalStrokeLab-module__qrD-5W__peak {
+  background: #fff;
+}
+
+.PedalStrokeLab-module__qrD-5W__content {
+  grid-template-columns: 360px minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  margin-top: 17px;
+  display: grid;
+}
+
+.PedalStrokeLab-module__qrD-5W__dialWrap {
+  place-items: center;
+  display: grid;
+}
+
+.PedalStrokeLab-module__qrD-5W__dial {
+  filter: drop-shadow(0 18px 35px #00000038);
+  width: 100%;
+  max-width: 340px;
+}
+
+.PedalStrokeLab-module__qrD-5W__baseRing {
+  fill: none;
+  stroke: #ffffff0f;
+  stroke-width: 12px;
+}
+
+.PedalStrokeLab-module__qrD-5W__axis {
+  stroke: #ffffff0f;
+  stroke-width: 1px;
+}
+
+.PedalStrokeLab-module__qrD-5W__angleLabel {
+  fill: #596170;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.PedalStrokeLab-module__qrD-5W__phaseArc {
+  fill: none;
+  stroke-width: 12px;
+  stroke-linecap: round;
+}
+
+.PedalStrokeLab-module__qrD-5W__leftArc {
+  stroke: #8b5cf6;
+}
+
+.PedalStrokeLab-module__qrD-5W__rightArc {
+  stroke: #f97316;
+}
+
+.PedalStrokeLab-module__qrD-5W__peakArc {
+  fill: none;
+  stroke-width: 4px;
+  stroke-linecap: round;
+  stroke: #fff;
+  filter: drop-shadow(0 0 5px #ffffff73);
+}
+
+.PedalStrokeLab-module__qrD-5W__leftPeak {
+  opacity: .95;
+}
+
+.PedalStrokeLab-module__qrD-5W__rightPeak {
+  opacity: .8;
+}
+
+.PedalStrokeLab-module__qrD-5W__hub {
+  fill: #11141d;
+  stroke: #ffffff14;
+  stroke-width: 1px;
+}
+
+.PedalStrokeLab-module__qrD-5W__hubTop {
+  fill: #f3f4f7;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.PedalStrokeLab-module__qrD-5W__hubBottom {
+  fill: #656d7b;
+  letter-spacing: .14em;
+  font-size: 6px;
+}
+
+.PedalStrokeLab-module__qrD-5W__metrics {
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  display: grid;
+}
+
+.PedalStrokeLab-module__qrD-5W__sideCard {
+  background: #ffffff06;
+  border: 1px solid #ffffff0e;
+  border-radius: 17px;
+  padding: 16px;
+}
+
+.PedalStrokeLab-module__qrD-5W__sideTitle {
+  color: #9299a8;
+  letter-spacing: .1em;
+  border-bottom: 1px solid #ffffff0d;
+  align-items: center;
+  gap: 7px;
+  padding-bottom: 10px;
+  font-size: 9px;
+  font-weight: 800;
+  display: flex;
+}
+
+.PedalStrokeLab-module__qrD-5W__sideCard > div:not(.PedalStrokeLab-module__qrD-5W__sideTitle) {
+  border-bottom: 1px solid #ffffff0a;
+  grid-template-columns: 110px 1fr;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  display: grid;
+}
+
+.PedalStrokeLab-module__qrD-5W__sideCard > div:last-child {
+  border-bottom: 0;
+}
+
+.PedalStrokeLab-module__qrD-5W__sideCard span {
+  color: #6d7482;
+  font-size: 8px;
+}
+
+.PedalStrokeLab-module__qrD-5W__sideCard b {
+  text-align: right;
+  font-size: 10px;
+}
+
+@media (max-width: 980px) {
+  .PedalStrokeLab-module__qrD-5W__content {
+    grid-template-columns: 300px 1fr;
+  }
+
+  .PedalStrokeLab-module__qrD-5W__metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .PedalStrokeLab-module__qrD-5W__lab {
+    padding: 18px;
+  }
+
+  .PedalStrokeLab-module__qrD-5W__header {
+    flex-direction: column;
+  }
+
+  .PedalStrokeLab-module__qrD-5W__content {
+    grid-template-columns: 1fr;
+  }
+
+  .PedalStrokeLab-module__qrD-5W__dial {
+    max-width: 280px;
+  }
+
+  .PedalStrokeLab-module__qrD-5W__metrics {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .PedalStrokeLab-module__qrD-5W__metrics, .PedalStrokeLab-module__qrD-5W__sideCard > div:not(.PedalStrokeLab-module__qrD-5W__sideTitle) {
+    grid-template-columns: 1fr;
+  }
+
+  .PedalStrokeLab-module__qrD-5W__sideCard b {
+    text-align: left;
+    margin-top: 2px;
+  }
+}
+
+/*# sourceMappingURL=components_PedalStrokeLab_module_css_1igg3k2-ikub5._.single.css.map*/

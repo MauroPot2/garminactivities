@@ -1,0 +1,528 @@
+/* [project]/components/RouteMap.module.css [app-client] (css) */
+.RouteMap-module__EmR1Kq__wrap {
+  background: #0a0b10;
+  border: 1px solid #ffffff14;
+  border-radius: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: inset 0 1px #ffffff09, 0 24px 70px #00000038;
+}
+
+.RouteMap-module__EmR1Kq__map {
+  isolation: isolate;
+  background: #0a0b10;
+  width: 100%;
+  height: min(54vh, 560px);
+  min-height: 420px;
+}
+
+.RouteMap-module__EmR1Kq__badge {
+  z-index: 500;
+  color: #ffffffd6;
+  letter-spacing: .13em;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  pointer-events: none;
+  background: #090a0fc7;
+  border: 1px solid #ffffff1f;
+  border-radius: 999px;
+  padding: 9px 12px;
+  font-size: 10px;
+  font-weight: 800;
+  position: absolute;
+  top: 16px;
+  left: 16px;
+}
+
+.RouteMap-module__EmR1Kq__empty {
+  color: #ffffff6b;
+  place-items: center;
+  min-height: 320px;
+  font-size: 14px;
+  display: grid;
+}
+
+@media (max-width: 760px) {
+  .RouteMap-module__EmR1Kq__wrap {
+    border-radius: 18px;
+  }
+
+  .RouteMap-module__EmR1Kq__map {
+    height: 48vh;
+    min-height: 330px;
+  }
+
+  .RouteMap-module__EmR1Kq__badge {
+    top: 12px;
+    left: 12px;
+  }
+}
+
+/* [project]/components/PowerLab.module.css [app-client] (css) */
+.PowerLab-module__5769YG__powerLab {
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 18px;
+  display: flex;
+}
+
+.PowerLab-module__5769YG__hero {
+  background: radial-gradient(circle at 85% 10%, #8b5cf638, #0000 32%), linear-gradient(135deg, #12151ffa, #0b0d14fa);
+  border: 1px solid #8b5cf63d;
+  border-radius: 24px;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  padding: 26px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 18px 60px #00000042;
+}
+
+.PowerLab-module__5769YG__hero:after {
+  content: "";
+  pointer-events: none;
+  background: radial-gradient(circle, #f973162b, #0000 64%);
+  height: 230px;
+  position: absolute;
+  inset: auto -6% -55% 45%;
+}
+
+.PowerLab-module__5769YG__hero h2 {
+  letter-spacing: -.04em;
+  margin: 6px 0 7px;
+  font-size: clamp(22px, 3vw, 34px);
+}
+
+.PowerLab-module__5769YG__hero p {
+  color: #9ca3af;
+  max-width: 700px;
+  margin: 0;
+  line-height: 1.55;
+}
+
+.PowerLab-module__5769YG__eyebrow, .PowerLab-module__5769YG__panelHead span {
+  letter-spacing: .16em;
+  color: #a78bfa;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.PowerLab-module__5769YG__ftpBadge {
+  z-index: 1;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  text-align: right;
+  background: #ffffff0d;
+  border: 1px solid #ffffff1a;
+  border-radius: 18px;
+  min-width: 126px;
+  padding: 14px 17px;
+  position: relative;
+}
+
+.PowerLab-module__5769YG__ftpBadge small {
+  color: #9ca3af;
+  letter-spacing: .12em;
+  margin-bottom: 4px;
+  font-size: 10px;
+  display: block;
+}
+
+.PowerLab-module__5769YG__ftpBadge strong {
+  font-size: 24px;
+}
+
+.PowerLab-module__5769YG__primaryGrid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 11px;
+  display: grid;
+}
+
+.PowerLab-module__5769YG__metricCard {
+  background: linear-gradient(#12151ff0, #0d0f16f0);
+  border: 1px solid #ffffff14;
+  border-radius: 19px;
+  flex-direction: column;
+  min-height: 132px;
+  padding: 17px;
+  transition: transform .18s, border-color .18s, background .18s;
+  display: flex;
+}
+
+.PowerLab-module__5769YG__metricCard:hover {
+  background: linear-gradient(#181b27fa, #0e1018fa);
+  border-color: #a78bfa42;
+  transform: translateY(-2px);
+}
+
+.PowerLab-module__5769YG__metricCard > svg {
+  color: #a78bfa;
+  width: 18px;
+  height: 18px;
+  margin-bottom: 14px;
+}
+
+.PowerLab-module__5769YG__metricCard span {
+  color: #a7abb6;
+  font-size: 12px;
+}
+
+.PowerLab-module__5769YG__metricCard strong {
+  letter-spacing: -.025em;
+  margin-top: 4px;
+  font-size: 21px;
+}
+
+.PowerLab-module__5769YG__metricCard small {
+  color: #656b78;
+  margin-top: auto;
+  padding-top: 10px;
+  font-size: 10px;
+}
+
+.PowerLab-module__5769YG__twoCols {
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  display: grid;
+}
+
+.PowerLab-module__5769YG__panel {
+  background: linear-gradient(#10121bf5, #0b0d13f5);
+  border: 1px solid #ffffff14;
+  border-radius: 22px;
+  min-width: 0;
+  padding: 20px;
+}
+
+.PowerLab-module__5769YG__panelHead {
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 17px;
+  display: flex;
+}
+
+.PowerLab-module__5769YG__panelHead h3 {
+  letter-spacing: -.025em;
+  margin: 3px 0 0;
+  font-size: 18px;
+}
+
+.PowerLab-module__5769YG__panelHead > small, .PowerLab-module__5769YG__panelHead > b {
+  color: #858b98;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.PowerLab-module__5769YG__panelHead > svg {
+  color: #a78bfa;
+}
+
+.PowerLab-module__5769YG__curveGrid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  display: grid;
+}
+
+.PowerLab-module__5769YG__curveGrid > div {
+  text-align: center;
+  background: #ffffff09;
+  border: 1px solid #ffffff0d;
+  border-radius: 14px;
+  padding: 14px 10px;
+}
+
+.PowerLab-module__5769YG__curveGrid span {
+  color: #737986;
+  margin-bottom: 4px;
+  font-size: 10px;
+  display: block;
+}
+
+.PowerLab-module__5769YG__curveGrid strong {
+  font-size: 15px;
+}
+
+.PowerLab-module__5769YG__scatter {
+  color: #a78bfa;
+  width: 100%;
+  height: 255px;
+}
+
+.PowerLab-module__5769YG__grid {
+  stroke: #ffffff12;
+  stroke-width: 1px;
+}
+
+.PowerLab-module__5769YG__dot {
+  fill: #a78bfa;
+  fill-opacity: .38;
+}
+
+.PowerLab-module__5769YG__axis {
+  fill: #6b7280;
+  font-size: 10px;
+}
+
+.PowerLab-module__5769YG__emptyPlot, .PowerLab-module__5769YG__emptyDynamics {
+  color: #686f7c;
+  text-align: center;
+  border: 1px dashed #ffffff17;
+  border-radius: 16px;
+  justify-content: center;
+  align-items: center;
+  min-height: 150px;
+  padding: 20px;
+  font-size: 12px;
+  line-height: 1.5;
+  display: flex;
+}
+
+.PowerLab-module__5769YG__zones {
+  flex-direction: column;
+  gap: 10px;
+  display: flex;
+}
+
+.PowerLab-module__5769YG__zoneRow {
+  grid-template-columns: 180px minmax(120px, 1fr) 110px;
+  align-items: center;
+  gap: 14px;
+  display: grid;
+}
+
+.PowerLab-module__5769YG__zoneName b, .PowerLab-module__5769YG__zoneName span, .PowerLab-module__5769YG__zoneValue b, .PowerLab-module__5769YG__zoneValue span {
+  display: block;
+}
+
+.PowerLab-module__5769YG__zoneName b {
+  font-size: 12px;
+}
+
+.PowerLab-module__5769YG__zoneName span, .PowerLab-module__5769YG__zoneValue span {
+  color: #6f7683;
+  margin-top: 2px;
+  font-size: 10px;
+}
+
+.PowerLab-module__5769YG__zoneTrack {
+  background: #ffffff0b;
+  border-radius: 999px;
+  height: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px #ffffff09;
+}
+
+.PowerLab-module__5769YG__zoneTrack i {
+  background: linear-gradient(90deg, #8b5cf6, #f97316);
+  border-radius: 999px;
+  height: 100%;
+  display: block;
+  box-shadow: 0 0 22px #8b5cf661;
+}
+
+.PowerLab-module__5769YG__zoneValue {
+  text-align: right;
+}
+
+.PowerLab-module__5769YG__zoneValue b {
+  font-size: 12px;
+}
+
+.PowerLab-module__5769YG__dynamicsGrid {
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  display: grid;
+}
+
+.PowerLab-module__5769YG__dynamicsGrid > div {
+  background: #ffffff08;
+  border: 1px solid #ffffff0b;
+  border-radius: 14px;
+  padding: 12px 13px;
+}
+
+.PowerLab-module__5769YG__dynamicsGrid span {
+  color: #7f8591;
+  margin-bottom: 5px;
+  font-size: 10px;
+  display: block;
+}
+
+.PowerLab-module__5769YG__dynamicsGrid b {
+  font-size: 13px;
+}
+
+.PowerLab-module__5769YG__balanceCard {
+  grid-column: 1 / -1;
+}
+
+.PowerLab-module__5769YG__balanceCard strong {
+  margin-bottom: 9px;
+  font-size: 22px;
+  display: block;
+}
+
+.PowerLab-module__5769YG__balanceBar {
+  background: #f97316;
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.PowerLab-module__5769YG__balanceBar i {
+  background: #8b5cf6;
+  border-right: 2px solid #fff;
+  height: 100%;
+  display: block;
+}
+
+.PowerLab-module__5769YG__sensorList {
+  flex-direction: column;
+  gap: 8px;
+  display: flex;
+}
+
+.PowerLab-module__5769YG__sensor {
+  background: #ffffff06;
+  border: 1px solid #ffffff0d;
+  border-radius: 15px;
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  padding: 11px;
+  display: grid;
+}
+
+.PowerLab-module__5769YG__sensorIcon {
+  color: #a78bfa;
+  background: #8b5cf61f;
+  border-radius: 12px;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  display: grid;
+}
+
+.PowerLab-module__5769YG__sensor b, .PowerLab-module__5769YG__sensor span {
+  display: block;
+}
+
+.PowerLab-module__5769YG__sensor > div:nth-child(2) b {
+  font-size: 12px;
+}
+
+.PowerLab-module__5769YG__sensor > div:nth-child(2) span {
+  color: #727987;
+  margin-top: 3px;
+  font-size: 10px;
+}
+
+.PowerLab-module__5769YG__sensorMeta {
+  text-align: right;
+}
+
+.PowerLab-module__5769YG__sensorMeta b {
+  font-size: 11px;
+}
+
+.PowerLab-module__5769YG__sensorMeta span {
+  color: #6f7683;
+  margin-top: 3px;
+  font-size: 9px;
+}
+
+@media (max-width: 1180px) {
+  .PowerLab-module__5769YG__primaryGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .PowerLab-module__5769YG__curveGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .PowerLab-module__5769YG__twoCols {
+    grid-template-columns: 1fr;
+  }
+
+  .PowerLab-module__5769YG__hero {
+    align-items: flex-start;
+  }
+
+  .PowerLab-module__5769YG__primaryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .PowerLab-module__5769YG__hero {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .PowerLab-module__5769YG__ftpBadge {
+    text-align: left;
+    align-self: stretch;
+  }
+
+  .PowerLab-module__5769YG__primaryGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .PowerLab-module__5769YG__metricCard {
+    min-height: 120px;
+    padding: 14px;
+  }
+
+  .PowerLab-module__5769YG__metricCard strong {
+    font-size: 18px;
+  }
+
+  .PowerLab-module__5769YG__curveGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .PowerLab-module__5769YG__zoneRow {
+    grid-template-columns: 1fr;
+  }
+
+  .PowerLab-module__5769YG__zoneValue {
+    text-align: left;
+    align-items: center;
+    gap: 8px;
+    display: flex;
+  }
+
+  .PowerLab-module__5769YG__zoneValue span {
+    margin-top: 0;
+  }
+
+  .PowerLab-module__5769YG__dynamicsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .PowerLab-module__5769YG__balanceCard {
+    grid-column: auto;
+  }
+
+  .PowerLab-module__5769YG__sensor {
+    grid-template-columns: 36px minmax(0, 1fr);
+  }
+
+  .PowerLab-module__5769YG__sensorMeta {
+    text-align: left;
+    grid-column: 2;
+    gap: 8px;
+    display: flex;
+  }
+
+  .PowerLab-module__5769YG__scatter {
+    height: 220px;
+  }
+}
+
+/*# sourceMappingURL=components_1tjyk7ws6xsa7._.css.map*/

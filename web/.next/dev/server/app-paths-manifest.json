@@ -1,0 +1,9 @@
+{
+  "/api/settings/route": "app/api/settings/route.js",
+  "/coach/page": "app/coach/page.js",
+  "/compare/page": "app/compare/page.js",
+  "/page": "app/page.js",
+  "/performance/page": "app/performance/page.js",
+  "/settings/page": "app/settings/page.js",
+  "/workouts/page": "app/workouts/page.js"
+}
