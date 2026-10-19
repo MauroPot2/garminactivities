@@ -90,9 +90,9 @@ class DashboardView extends WatchUi.DataField {
 
     function drawHeader(dc, width) {
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(width / 2, 3, Graphics.FONT_XTINY, "GARMINACTIVITIES", Graphics.TEXT_JUSTIFY_CENTER);
+        dc.drawText(width / 2, 3, Graphics.FONT_XTINY, "MAUROPOT", Graphics.TEXT_JUSTIFY_CENTER);
     }
-
+    
     function drawPower(dc, width) {
         dc.setColor(getPowerColor(), Graphics.COLOR_TRANSPARENT);
         dc.drawText(width / 2, 18, Graphics.FONT_NUMBER_MILD, valueOrDash(_power), Graphics.TEXT_JUSTIFY_CENTER);
