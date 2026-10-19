@@ -111,7 +111,7 @@ class WorkoutView extends Ui.View {
         dc.drawText(w / 2, 151, Gfx.FONT_MEDIUM, formatTime(_engine.getRemaining()), Gfx.TEXT_JUSTIFY_CENTER);
 
         dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_BLACK);
-        var state = _engine.isRunning() ? "RIMANENTI" : "PAUSA - ENTER PER PARTIRE";
+        var state = _engine.isRunning() ? "RIMANENTI" : "PAUSA - START PER PARTIRE";
         dc.drawText(w / 2, 184, Gfx.FONT_XTINY, state, Gfx.TEXT_JUSTIFY_CENTER);
     }
 
