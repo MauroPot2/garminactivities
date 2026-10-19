@@ -29,7 +29,7 @@ class WorkoutView extends Ui.View {
         var cadence = info == null ? null : info.currentCadence;
 
         drawHeader(dc, w, step);
-        drawProgress(dc, w, _engine.progressPercent());
+        drawProgress(dc, w, _engine.progressPercent(), step);
         drawPower(dc, w, power, step);
         drawTimer(dc, w);
         drawMetrics(dc, w, heartRate, cadence);
@@ -43,18 +43,18 @@ class WorkoutView extends Ui.View {
             (_engine.getIndex() + 1).toString() + "/" + _engine.getCount().toString(),
             Gfx.TEXT_JUSTIFY_LEFT);
 
-        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
+        dc.setColor(getStepColor(step), Gfx.COLOR_BLACK);
         dc.drawText(w / 2, 7, Gfx.FONT_SMALL, step[:name], Gfx.TEXT_JUSTIFY_CENTER);
     }
 
-    function drawProgress(dc, w, percent) {
+    function drawProgress(dc, w, percent, step) {
         var x = 10;
         var y = 38;
         var width = w - 20;
 
         dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_BLACK);
         dc.fillRectangle(x, y, width, 7);
-        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
+        dc.setColor(getStepColor(step), Gfx.COLOR_BLACK);
         dc.fillRectangle(x, y, (width * percent) / 100, 7);
     }
 
@@ -113,7 +113,7 @@ class WorkoutView extends Ui.View {
         dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_BLACK);
         dc.drawText(10, y, Gfx.FONT_XTINY, "PROSSIMO", Gfx.TEXT_JUSTIFY_LEFT);
 
-        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
+        dc.setColor(getStepColor(next), Gfx.COLOR_BLACK);
         dc.drawText(w - 10, y, Gfx.FONT_XTINY,
             formatTime(next[:duration]) + "  " + next[:minPower].toString() + "-" + next[:maxPower].toString() + " W",
             Gfx.TEXT_JUSTIFY_RIGHT);
@@ -132,6 +132,17 @@ class WorkoutView extends Ui.View {
         dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_BLACK);
         dc.drawText(w / 2, h / 2 + 42, Gfx.FONT_XTINY, "Attivita FIT salvata", Gfx.TEXT_JUSTIFY_CENTER);
         dc.drawText(w / 2, h - 18, Gfx.FONT_XTINY, "UP: DASHBOARD", Gfx.TEXT_JUSTIFY_CENTER);
+    }
+
+    function getStepColor(step) {
+        var maxPower = step[:maxPower];
+
+        if (maxPower <= 130) { return Gfx.COLOR_BLUE; }
+        if (maxPower <= 160) { return Gfx.COLOR_GREEN; }
+        if (maxPower <= 190) { return Gfx.COLOR_YELLOW; }
+        if (maxPower <= 220) { return Gfx.COLOR_ORANGE; }
+        if (maxPower <= 260) { return Gfx.COLOR_RED; }
+        return Gfx.COLOR_PURPLE;
     }
 
     function formatTime(totalSeconds) {
