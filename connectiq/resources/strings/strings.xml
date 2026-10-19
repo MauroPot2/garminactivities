@@ -1,3 +1,4 @@
 <resources>
     <string id="AppName">GarminActivities</string>
+    <string id="FtpTitle">FTP (W)</string>
 </resources>
