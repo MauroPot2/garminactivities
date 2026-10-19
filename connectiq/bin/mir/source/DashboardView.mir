@@ -1,0 +1,1490 @@
+[ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 1; @symbol_usingdef<0> = [Toybox,1,6,12]; @symbol_usingdef<1> = [Graphics,1,13,21]; @symbol_usingAlias = [Graphics,1,25,33]; ]
+using Toybox.Graphics as :Graphics;
+[ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 2; @symbol_usingdef<0> = [Toybox,2,6,12]; @symbol_usingdef<1> = [Math,2,13,17]; @symbol_usingAlias = [Math,2,21,25]; ]
+using Toybox.Math as :Math;
+[ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 3; @symbol_usingdef<0> = [Toybox,3,6,12]; @symbol_usingdef<1> = [WatchUi,3,13,20]; @symbol_usingAlias = [WatchUi,3,24,31]; ]
+using Toybox.WatchUi as :WatchUi;
+[ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 5; @symbol_classdef = [DashboardView,5,6,19]; @symbol_extends<0> = [WatchUi,5,28,35]; @symbol_extends<1> = [DataField,5,36,45]; ]
+class DashboardView extends WatchUi.DataField {
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 5; ]
+    <init> {
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 5; ]
+    static
+    <init> {
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 6; @position = 10; @symbol_constdef = [FTP,6,10,13]; ]
+    const FTP = 200;
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 8; @position = 8; @symbol_vardef = [_power,8,8,14]; ]
+    var _power = null;
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 9; @position = 8; @symbol_vardef = [_heartRate,9,8,18]; ]
+    var _heartRate = null;
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 10; @position = 8; @symbol_vardef = [_cadence,10,8,16]; ]
+    var _cadence = null;
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 11; @position = 8; @symbol_vardef = [_speed,11,8,14]; ]
+    var _speed = null;
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 12; @position = 8; @symbol_vardef = [_distance,12,8,17]; ]
+    var _distance = null;
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 13; @position = 8; @symbol_vardef = [_elapsedTime,13,8,20]; ]
+    var _elapsedTime = null;
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 15; @symbol_functiondef = [initialize,15,13,23]; ]
+    function initialize() as Void {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_15_26_17_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 16 8 ]
+        symbol [ DataField %tmp.2 16 8 17 ];
+        %tmp.2 = getv ? :DataField;
+        symbol [ initialize %tmp.3 16 18 28 ];
+        %tmp.3 = getv function %tmp.2 :initialize;
+        invoke %tmp.2 %tmp.3();
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_15_26_17_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 19; @symbol_functiondef = [compute,19,13,20]; @symbol_param<0> = [info,19,21,25]; ]
+    function compute(info) {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_19_27_26_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 20 8 ]
+        %tmp.1 = lgetv %info;
+        symbol [ info %tmp.1 20 17 21 ];
+        symbol [ currentPower %tmp.2 20 22 34 ];
+        %tmp.2 = getv %tmp.1 :currentPower;
+        symbol [ _power ? 20 8 14 ];
+        putv self :_power %tmp.2;
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 21 8 ]
+        %tmp.3 = lgetv %info;
+        symbol [ info %tmp.3 21 21 25 ];
+        symbol [ currentHeartRate %tmp.4 21 26 42 ];
+        %tmp.4 = getv %tmp.3 :currentHeartRate;
+        symbol [ _heartRate ? 21 8 18 ];
+        putv self :_heartRate %tmp.4;
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 22 8 ]
+        %tmp.5 = lgetv %info;
+        symbol [ info %tmp.5 22 19 23 ];
+        symbol [ currentCadence %tmp.6 22 24 38 ];
+        %tmp.6 = getv %tmp.5 :currentCadence;
+        symbol [ _cadence ? 22 8 16 ];
+        putv self :_cadence %tmp.6;
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 23 8 ]
+        %tmp.7 = lgetv %info;
+        symbol [ info %tmp.7 23 17 21 ];
+        symbol [ currentSpeed %tmp.8 23 22 34 ];
+        %tmp.8 = getv %tmp.7 :currentSpeed;
+        symbol [ _speed ? 23 8 14 ];
+        putv self :_speed %tmp.8;
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 24 8 ]
+        %tmp.9 = lgetv %info;
+        symbol [ info %tmp.9 24 20 24 ];
+        symbol [ elapsedDistance %tmp.10 24 25 40 ];
+        %tmp.10 = getv %tmp.9 :elapsedDistance;
+        symbol [ _distance ? 24 8 17 ];
+        putv self :_distance %tmp.10;
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 25 8 ]
+        %tmp.11 = lgetv %info;
+        symbol [ info %tmp.11 25 23 27 ];
+        symbol [ elapsedTime %tmp.12 25 28 39 ];
+        %tmp.12 = getv %tmp.11 :elapsedTime;
+        symbol [ _elapsedTime ? 25 8 20 ];
+        putv self :_elapsedTime %tmp.12;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_19_27_26_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 28; @symbol_functiondef = [onUpdate,28,13,21]; @symbol_param<0> = [dc,28,22,24]; ]
+    function onUpdate(dc) {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_28_26_39_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 29 8 ]
+        [ "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_28_26_39_4_start" "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_28_26_39_4_stop" ]
+        %width.1 = local;
+        symbol [ width %width.1 29 12 17 ];
+        %tmp.1 = lgetv %dc;
+        symbol [ dc %tmp.1 29 20 22 ];
+        symbol [ getWidth %tmp.2 29 23 31 ];
+        %tmp.2 = getv function %tmp.1 :getWidth;
+        %tmp.3 = invoke %tmp.1 %tmp.2();
+        lputv %width.1 %tmp.3;
+        symbol [ width %width.1 29 12 17 ];
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 31 8 ]
+        %tmp.4 = lgetv %dc;
+        symbol [ dc %tmp.4 31 8 10 ];
+        symbol [ setColor %tmp.5 31 11 19 ];
+        %tmp.5 = getv function %tmp.4 :setColor;
+        symbol [ Graphics %tmp.6 31 20 28 ];
+        %tmp.6 = getm $.Toybox.Graphics;
+        symbol [ COLOR_WHITE %tmp.7 31 29 40 ];
+        %tmp.7 = getv %tmp.6 :COLOR_WHITE;
+        symbol [ Graphics %tmp.8 31 42 50 ];
+        %tmp.8 = getm $.Toybox.Graphics;
+        symbol [ COLOR_BLACK %tmp.9 31 51 62 ];
+        %tmp.9 = getv %tmp.8 :COLOR_BLACK;
+        invoke %tmp.4 %tmp.5(%tmp.7, %tmp.9);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 32 8 ]
+        %tmp.10 = lgetv %dc;
+        symbol [ dc %tmp.10 32 8 10 ];
+        symbol [ clear %tmp.11 32 11 16 ];
+        %tmp.11 = getv function %tmp.10 :clear;
+        invoke %tmp.10 %tmp.11();
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 34 8 ]
+        %tmp.12 = self;
+        symbol [ drawHeader %tmp.13 34 8 18 ];
+        %tmp.13 = getv function %tmp.12 :drawHeader;
+        %tmp.14 = lgetv %dc;
+        symbol [ dc %tmp.14 34 19 21 ];
+        %tmp.15 = lgetv %width.1;
+        symbol [ width %tmp.15 34 23 28 ];
+        invoke %tmp.12 %tmp.13(%tmp.14, %tmp.15);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 35 8 ]
+        %tmp.16 = self;
+        symbol [ drawPower %tmp.17 35 8 17 ];
+        %tmp.17 = getv function %tmp.16 :drawPower;
+        %tmp.18 = lgetv %dc;
+        symbol [ dc %tmp.18 35 18 20 ];
+        %tmp.19 = lgetv %width.1;
+        symbol [ width %tmp.19 35 22 27 ];
+        invoke %tmp.16 %tmp.17(%tmp.18, %tmp.19);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 36 8 ]
+        %tmp.20 = self;
+        symbol [ drawPowerZone %tmp.21 36 8 21 ];
+        %tmp.21 = getv function %tmp.20 :drawPowerZone;
+        %tmp.22 = lgetv %dc;
+        symbol [ dc %tmp.22 36 22 24 ];
+        %tmp.23 = lgetv %width.1;
+        symbol [ width %tmp.23 36 26 31 ];
+        invoke %tmp.20 %tmp.21(%tmp.22, %tmp.23);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 37 8 ]
+        %tmp.24 = self;
+        symbol [ drawSecondaryMetrics %tmp.25 37 8 28 ];
+        %tmp.25 = getv function %tmp.24 :drawSecondaryMetrics;
+        %tmp.26 = lgetv %dc;
+        symbol [ dc %tmp.26 37 29 31 ];
+        %tmp.27 = lgetv %width.1;
+        symbol [ width %tmp.27 37 33 38 ];
+        invoke %tmp.24 %tmp.25(%tmp.26, %tmp.27);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 38 8 ]
+        %tmp.28 = self;
+        symbol [ drawFooter %tmp.29 38 8 18 ];
+        %tmp.29 = getv function %tmp.28 :drawFooter;
+        %tmp.30 = lgetv %dc;
+        symbol [ dc %tmp.30 38 19 21 ];
+        %tmp.31 = lgetv %width.1;
+        symbol [ width %tmp.31 38 23 28 ];
+        invoke %tmp.28 %tmp.29(%tmp.30, %tmp.31);
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_28_26_39_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 41; @symbol_functiondef = [drawHeader,41,13,23]; @symbol_param<0> = [dc,41,24,26]; @symbol_param<1> = [width,41,28,33]; ]
+    function drawHeader(dc, width) {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_41_35_53_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 42 8 ]
+        %tmp.1 = lgetv %dc;
+        symbol [ dc %tmp.1 42 8 10 ];
+        symbol [ setColor %tmp.2 42 11 19 ];
+        %tmp.2 = getv function %tmp.1 :setColor;
+        symbol [ Graphics %tmp.3 42 20 28 ];
+        %tmp.3 = getm $.Toybox.Graphics;
+        symbol [ COLOR_LT_GRAY %tmp.4 42 29 42 ];
+        %tmp.4 = getv %tmp.3 :COLOR_LT_GRAY;
+        symbol [ Graphics %tmp.5 42 44 52 ];
+        %tmp.5 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.6 42 53 70 ];
+        %tmp.6 = getv %tmp.5 :COLOR_TRANSPARENT;
+        invoke %tmp.1 %tmp.2(%tmp.4, %tmp.6);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 43 8 ]
+        %tmp.7 = lgetv %dc;
+        symbol [ dc %tmp.7 43 8 10 ];
+        symbol [ drawText %tmp.8 43 11 19 ];
+        %tmp.8 = getv function %tmp.7 :drawText;
+        %tmp.9 = lgetv %width;
+        symbol [ width %tmp.9 44 12 17 ];
+        %tmp.10 = 2;
+        %tmp.11 = div %tmp.9 %tmp.10;
+        %tmp.12 = 8;
+        symbol [ Graphics %tmp.13 46 12 20 ];
+        %tmp.13 = getm $.Toybox.Graphics;
+        symbol [ FONT_XTINY %tmp.14 46 21 31 ];
+        %tmp.14 = getv %tmp.13 :FONT_XTINY;
+        %tmp.15 = "GARMINACTIVITIES";
+        symbol [ Graphics %tmp.16 48 12 20 ];
+        %tmp.16 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.17 48 21 40 ];
+        %tmp.17 = getv %tmp.16 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.7 %tmp.8(%tmp.11, %tmp.12, %tmp.14, %tmp.15, %tmp.17);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 51 8 ]
+        %tmp.18 = lgetv %dc;
+        symbol [ dc %tmp.18 51 8 10 ];
+        symbol [ setColor %tmp.19 51 11 19 ];
+        %tmp.19 = getv function %tmp.18 :setColor;
+        symbol [ Graphics %tmp.20 51 20 28 ];
+        %tmp.20 = getm $.Toybox.Graphics;
+        symbol [ COLOR_DK_GRAY %tmp.21 51 29 42 ];
+        %tmp.21 = getv %tmp.20 :COLOR_DK_GRAY;
+        symbol [ Graphics %tmp.22 51 44 52 ];
+        %tmp.22 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.23 51 53 70 ];
+        %tmp.23 = getv %tmp.22 :COLOR_TRANSPARENT;
+        invoke %tmp.18 %tmp.19(%tmp.21, %tmp.23);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 52 8 ]
+        %tmp.24 = lgetv %dc;
+        symbol [ dc %tmp.24 52 8 10 ];
+        symbol [ drawLine %tmp.25 52 11 19 ];
+        %tmp.25 = getv function %tmp.24 :drawLine;
+        %tmp.26 = 14;
+        %tmp.27 = 31;
+        %tmp.28 = lgetv %width;
+        symbol [ width %tmp.28 52 28 33 ];
+        %tmp.29 = 14;
+        %tmp.30 = sub %tmp.28 %tmp.29;
+        %tmp.31 = 31;
+        invoke %tmp.24 %tmp.25(%tmp.26, %tmp.27, %tmp.30, %tmp.31);
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_41_35_53_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 55; @symbol_functiondef = [drawPower,55,13,22]; @symbol_param<0> = [dc,55,23,25]; @symbol_param<1> = [width,55,27,32]; ]
+    function drawPower(dc, width) {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_55_34_82_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 56 8 ]
+        %tmp.1 = lgetv %dc;
+        symbol [ dc %tmp.1 56 8 10 ];
+        symbol [ setColor %tmp.2 56 11 19 ];
+        %tmp.2 = getv function %tmp.1 :setColor;
+        symbol [ Graphics %tmp.3 56 20 28 ];
+        %tmp.3 = getm $.Toybox.Graphics;
+        symbol [ COLOR_LT_GRAY %tmp.4 56 29 42 ];
+        %tmp.4 = getv %tmp.3 :COLOR_LT_GRAY;
+        symbol [ Graphics %tmp.5 56 44 52 ];
+        %tmp.5 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.6 56 53 70 ];
+        %tmp.6 = getv %tmp.5 :COLOR_TRANSPARENT;
+        invoke %tmp.1 %tmp.2(%tmp.4, %tmp.6);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 57 8 ]
+        %tmp.7 = lgetv %dc;
+        symbol [ dc %tmp.7 57 8 10 ];
+        symbol [ drawText %tmp.8 57 11 19 ];
+        %tmp.8 = getv function %tmp.7 :drawText;
+        %tmp.9 = lgetv %width;
+        symbol [ width %tmp.9 58 12 17 ];
+        %tmp.10 = 2;
+        %tmp.11 = div %tmp.9 %tmp.10;
+        %tmp.12 = 42;
+        symbol [ Graphics %tmp.13 60 12 20 ];
+        %tmp.13 = getm $.Toybox.Graphics;
+        symbol [ FONT_XTINY %tmp.14 60 21 31 ];
+        %tmp.14 = getv %tmp.13 :FONT_XTINY;
+        %tmp.15 = "POWER";
+        symbol [ Graphics %tmp.16 62 12 20 ];
+        %tmp.16 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.17 62 21 40 ];
+        %tmp.17 = getv %tmp.16 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.7 %tmp.8(%tmp.11, %tmp.12, %tmp.14, %tmp.15, %tmp.17);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 65 8 ]
+        %tmp.18 = lgetv %dc;
+        symbol [ dc %tmp.18 65 8 10 ];
+        symbol [ setColor %tmp.19 65 11 19 ];
+        %tmp.19 = getv function %tmp.18 :setColor;
+        %tmp.20 = self;
+        symbol [ getPowerColor %tmp.21 65 20 33 ];
+        %tmp.21 = getv function %tmp.20 :getPowerColor;
+        %tmp.22 = invoke %tmp.20 %tmp.21();
+        symbol [ Graphics %tmp.23 65 37 45 ];
+        %tmp.23 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.24 65 46 63 ];
+        %tmp.24 = getv %tmp.23 :COLOR_TRANSPARENT;
+        invoke %tmp.18 %tmp.19(%tmp.22, %tmp.24);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 66 8 ]
+        %tmp.25 = lgetv %dc;
+        symbol [ dc %tmp.25 66 8 10 ];
+        symbol [ drawText %tmp.26 66 11 19 ];
+        %tmp.26 = getv function %tmp.25 :drawText;
+        %tmp.27 = lgetv %width;
+        symbol [ width %tmp.27 67 12 17 ];
+        %tmp.28 = 2;
+        %tmp.29 = div %tmp.27 %tmp.28;
+        %tmp.30 = 60;
+        symbol [ Graphics %tmp.31 69 12 20 ];
+        %tmp.31 = getm $.Toybox.Graphics;
+        symbol [ FONT_NUMBER_MILD %tmp.32 69 21 37 ];
+        %tmp.32 = getv %tmp.31 :FONT_NUMBER_MILD;
+        %tmp.33 = self;
+        symbol [ valueOrDash %tmp.34 70 12 23 ];
+        %tmp.34 = getv function %tmp.33 :valueOrDash;
+        symbol [ _power %tmp.36 70 24 30 ];
+        %tmp.36 = getv ? :_power;
+        %tmp.37 = invoke %tmp.33 %tmp.34(%tmp.36);
+        symbol [ Graphics %tmp.38 71 12 20 ];
+        %tmp.38 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.39 71 21 40 ];
+        %tmp.39 = getv %tmp.38 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.25 %tmp.26(%tmp.29, %tmp.30, %tmp.32, %tmp.37, %tmp.39);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 74 8 ]
+        %tmp.40 = lgetv %dc;
+        symbol [ dc %tmp.40 74 8 10 ];
+        symbol [ setColor %tmp.41 74 11 19 ];
+        %tmp.41 = getv function %tmp.40 :setColor;
+        symbol [ Graphics %tmp.42 74 20 28 ];
+        %tmp.42 = getm $.Toybox.Graphics;
+        symbol [ COLOR_LT_GRAY %tmp.43 74 29 42 ];
+        %tmp.43 = getv %tmp.42 :COLOR_LT_GRAY;
+        symbol [ Graphics %tmp.44 74 44 52 ];
+        %tmp.44 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.45 74 53 70 ];
+        %tmp.45 = getv %tmp.44 :COLOR_TRANSPARENT;
+        invoke %tmp.40 %tmp.41(%tmp.43, %tmp.45);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 75 8 ]
+        %tmp.46 = lgetv %dc;
+        symbol [ dc %tmp.46 75 8 10 ];
+        symbol [ drawText %tmp.47 75 11 19 ];
+        %tmp.47 = getv function %tmp.46 :drawText;
+        %tmp.48 = lgetv %width;
+        symbol [ width %tmp.48 76 12 17 ];
+        %tmp.49 = 2;
+        %tmp.50 = div %tmp.48 %tmp.49;
+        %tmp.51 = 112;
+        symbol [ Graphics %tmp.52 78 12 20 ];
+        %tmp.52 = getm $.Toybox.Graphics;
+        symbol [ FONT_XTINY %tmp.53 78 21 31 ];
+        %tmp.53 = getv %tmp.52 :FONT_XTINY;
+        %tmp.54 = "WATTS";
+        symbol [ Graphics %tmp.55 80 12 20 ];
+        %tmp.55 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.56 80 21 40 ];
+        %tmp.56 = getv %tmp.55 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.46 %tmp.47(%tmp.50, %tmp.51, %tmp.53, %tmp.54, %tmp.56);
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_55_34_82_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 84; @symbol_functiondef = [drawPowerZone,84,13,26]; @symbol_param<0> = [dc,84,27,29]; @symbol_param<1> = [width,84,31,36]; ]
+    function drawPowerZone(dc, width) {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_84_38_109_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 85 8 ]
+        [ "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_84_38_109_4_start" "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_84_38_109_4_stop" ]
+        %zone.1 = local;
+        symbol [ zone %zone.1 85 12 16 ];
+        %tmp.1 = self;
+        symbol [ getPowerZone %tmp.2 85 19 31 ];
+        %tmp.2 = getv function %tmp.1 :getPowerZone;
+        %tmp.3 = invoke %tmp.1 %tmp.2();
+        lputv %zone.1 %tmp.3;
+        symbol [ zone %zone.1 85 12 16 ];
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 86 8 ]
+        [ "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_84_38_109_4_start" "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_84_38_109_4_stop" ]
+        %left.2 = local;
+        symbol [ left %left.2 86 12 16 ];
+        %tmp.4 = 18;
+        lputv %left.2 %tmp.4;
+        symbol [ left %left.2 86 12 16 ];
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 87 8 ]
+        [ "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_84_38_109_4_start" "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_84_38_109_4_stop" ]
+        %top.3 = local;
+        symbol [ top %top.3 87 12 15 ];
+        %tmp.5 = 138;
+        lputv %top.3 %tmp.5;
+        symbol [ top %top.3 87 12 15 ];
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 88 8 ]
+        [ "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_84_38_109_4_start" "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_84_38_109_4_stop" ]
+        %gap.4 = local;
+        symbol [ gap %gap.4 88 12 15 ];
+        %tmp.6 = 3;
+        lputv %gap.4 %tmp.6;
+        symbol [ gap %gap.4 88 12 15 ];
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 89 8 ]
+        [ "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_84_38_109_4_start" "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_84_38_109_4_stop" ]
+        %segmentWidth.5 = local;
+        symbol [ segmentWidth %segmentWidth.5 89 12 24 ];
+        %tmp.7 = lgetv %width;
+        symbol [ width %tmp.7 89 28 33 ];
+        %tmp.8 = 36;
+        %tmp.9 = sub %tmp.7 %tmp.8;
+        %tmp.10 = lgetv %gap.4;
+        symbol [ gap %tmp.10 89 42 45 ];
+        %tmp.11 = 6;
+        %tmp.12 = mul %tmp.10 %tmp.11;
+        %tmp.13 = sub %tmp.9 %tmp.12;
+        %tmp.14 = 7;
+        %tmp.15 = div %tmp.13 %tmp.14;
+        lputv %segmentWidth.5 %tmp.15;
+        symbol [ segmentWidth %segmentWidth.5 89 12 24 ];
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 91 8 ]
+        for @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_8_99_8_for_test @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_8_99_8_for_incr @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_8_99_8_for_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_8_99_8_for_init:
+        [ "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_8_99_8_for_begin" "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_8_99_8_for_end" ]
+        %i.6 = local;
+        symbol [ i %i.6 91 17 18 ];
+        %tmp.16 = 1;
+        lputv %i.6 %tmp.16;
+        symbol [ i %i.6 91 17 18 ];
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_8_99_8_for_test:
+        %tmp.17 = lgetv %i.6;
+        symbol [ i %tmp.17 91 24 25 ];
+        %tmp.18 = 7;
+        %tmp.19 = lte %tmp.17 %tmp.18;
+        bf %tmp.19 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_8_99_8_for_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_8_99_8_for_begin:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_40_99_8_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 92 12 ]
+        [ "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_40_99_8_start" "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_40_99_8_stop" ]
+        %x.7 = local;
+        symbol [ x %x.7 92 16 17 ];
+        %tmp.20 = lgetv %left.2;
+        symbol [ left %tmp.20 92 20 24 ];
+        %tmp.21 = lgetv %i.6;
+        symbol [ i %tmp.21 92 29 30 ];
+        %tmp.22 = 1;
+        %tmp.23 = sub %tmp.21 %tmp.22;
+        %tmp.24 = lgetv %segmentWidth.5;
+        symbol [ segmentWidth %tmp.24 92 39 51 ];
+        %tmp.25 = lgetv %gap.4;
+        symbol [ gap %tmp.25 92 54 57 ];
+        %tmp.26 = add %tmp.24 %tmp.25;
+        %tmp.27 = mul %tmp.23 %tmp.26;
+        %tmp.28 = add %tmp.20 %tmp.27;
+        lputv %x.7 %tmp.28;
+        symbol [ x %x.7 92 16 17 ];
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 93 12 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_93_12_97_12_if_stmt:
+        %tmp.29 = lgetv %i.6;
+        symbol [ i %tmp.29 93 16 17 ];
+        %tmp.30 = lgetv %zone.1;
+        symbol [ zone %tmp.30 93 21 25 ];
+        %tmp.31 = eq %tmp.29 %tmp.30;
+        bf %tmp.31 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_93_12_97_12_if_else_false;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_93_12_97_12_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_93_27_95_12_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 94 16 ]
+        %tmp.32 = lgetv %dc;
+        symbol [ dc %tmp.32 94 16 18 ];
+        symbol [ setColor %tmp.33 94 19 27 ];
+        %tmp.33 = getv function %tmp.32 :setColor;
+        %tmp.34 = self;
+        symbol [ getPowerColor %tmp.35 94 28 41 ];
+        %tmp.35 = getv function %tmp.34 :getPowerColor;
+        %tmp.36 = invoke %tmp.34 %tmp.35();
+        symbol [ Graphics %tmp.37 94 45 53 ];
+        %tmp.37 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.38 94 54 71 ];
+        %tmp.38 = getv %tmp.37 :COLOR_TRANSPARENT;
+        invoke %tmp.32 %tmp.33(%tmp.36, %tmp.38);
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_93_27_95_12_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_93_12_97_12_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_93_12_97_12_if_else_false:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_95_19_97_12_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 96 16 ]
+        %tmp.39 = lgetv %dc;
+        symbol [ dc %tmp.39 96 16 18 ];
+        symbol [ setColor %tmp.40 96 19 27 ];
+        %tmp.40 = getv function %tmp.39 :setColor;
+        symbol [ Graphics %tmp.41 96 28 36 ];
+        %tmp.41 = getm $.Toybox.Graphics;
+        symbol [ COLOR_DK_GRAY %tmp.42 96 37 50 ];
+        %tmp.42 = getv %tmp.41 :COLOR_DK_GRAY;
+        symbol [ Graphics %tmp.43 96 52 60 ];
+        %tmp.43 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.44 96 61 78 ];
+        %tmp.44 = getv %tmp.43 :COLOR_TRANSPARENT;
+        invoke %tmp.39 %tmp.40(%tmp.42, %tmp.44);
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_95_19_97_12_stop:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_93_12_97_12_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 98 12 ]
+        %tmp.45 = lgetv %dc;
+        symbol [ dc %tmp.45 98 12 14 ];
+        symbol [ fillRectangle %tmp.46 98 15 28 ];
+        %tmp.46 = getv function %tmp.45 :fillRectangle;
+        %tmp.47 = lgetv %x.7;
+        symbol [ x %tmp.47 98 29 30 ];
+        %tmp.48 = lgetv %top.3;
+        symbol [ top %tmp.48 98 32 35 ];
+        %tmp.49 = lgetv %segmentWidth.5;
+        symbol [ segmentWidth %tmp.49 98 37 49 ];
+        %tmp.50 = 7;
+        invoke %tmp.45 %tmp.46(%tmp.47, %tmp.48, %tmp.49, %tmp.50);
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_40_99_8_stop:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_8_99_8_for_incr:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 91 ]
+        %tmp.51 = lgetv %i.6;
+        symbol [ i %tmp.51 91 32 33 ];
+        %tmp.52 = 1;
+        %tmp.53 = add %tmp.51 %tmp.52;
+        lputv %i.6 %tmp.53;
+        symbol [ i %i.6 91 32 33 ];
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_8_99_8_for_test;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_91_8_99_8_for_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 101 8 ]
+        %tmp.54 = lgetv %dc;
+        symbol [ dc %tmp.54 101 8 10 ];
+        symbol [ setColor %tmp.55 101 11 19 ];
+        %tmp.55 = getv function %tmp.54 :setColor;
+        symbol [ Graphics %tmp.56 101 20 28 ];
+        %tmp.56 = getm $.Toybox.Graphics;
+        symbol [ COLOR_WHITE %tmp.57 101 29 40 ];
+        %tmp.57 = getv %tmp.56 :COLOR_WHITE;
+        symbol [ Graphics %tmp.58 101 42 50 ];
+        %tmp.58 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.59 101 51 68 ];
+        %tmp.59 = getv %tmp.58 :COLOR_TRANSPARENT;
+        invoke %tmp.54 %tmp.55(%tmp.57, %tmp.59);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 102 8 ]
+        %tmp.60 = lgetv %dc;
+        symbol [ dc %tmp.60 102 8 10 ];
+        symbol [ drawText %tmp.61 102 11 19 ];
+        %tmp.61 = getv function %tmp.60 :drawText;
+        %tmp.62 = lgetv %width;
+        symbol [ width %tmp.62 103 12 17 ];
+        %tmp.63 = 2;
+        %tmp.64 = div %tmp.62 %tmp.63;
+        %tmp.65 = 151;
+        symbol [ Graphics %tmp.66 105 12 20 ];
+        %tmp.66 = getm $.Toybox.Graphics;
+        symbol [ FONT_SMALL %tmp.67 105 21 31 ];
+        %tmp.67 = getv %tmp.66 :FONT_SMALL;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_106_12_106_51_begin:
+        %tmp.68 = lgetv %zone.1;
+        symbol [ zone %tmp.68 106 12 16 ];
+        %tmp.69 = 0;
+        %tmp.70 = gt %tmp.68 %tmp.69;
+        bf %tmp.70 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_106_12_106_51_else_false;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_106_12_106_51_true:
+        %tmp.71 = "ZONE ";
+        %tmp.72 = lgetv %zone.1;
+        symbol [ zone %tmp.72 106 33 37 ];
+        symbol [ toString %tmp.73 106 38 46 ];
+        %tmp.73 = getv function %tmp.72 :toString;
+        %tmp.74 = invoke %tmp.72 %tmp.73();
+        %tmp.75 = add %tmp.71 %tmp.74;
+        push %tmp.75;
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_106_12_106_51_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_106_12_106_51_else_false:
+        %tmp.76 = "ZONE --";
+        push %tmp.76;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_106_12_106_51_end:
+        %tmp.77 = phi [%tmp.70 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_106_12_106_51_begin] [%tmp.75 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_106_12_106_51_true] [%tmp.76 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_106_12_106_51_else_false] [%tmp.77 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_106_12_106_51_end];
+        symbol [ Graphics %tmp.78 107 12 20 ];
+        %tmp.78 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.79 107 21 40 ];
+        %tmp.79 = getv %tmp.78 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.60 %tmp.61(%tmp.64, %tmp.65, %tmp.67, %tmp.77, %tmp.79);
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_84_38_109_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 111; @symbol_functiondef = [drawSecondaryMetrics,111,13,33]; @symbol_param<0> = [dc,111,34,36]; @symbol_param<1> = [width,111,38,43]; ]
+    function drawSecondaryMetrics(dc, width) {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_111_45_135_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 112 8 ]
+        [ "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_111_45_135_4_start" "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_111_45_135_4_stop" ]
+        %center.1 = local;
+        symbol [ center %center.1 112 12 18 ];
+        %tmp.1 = lgetv %width;
+        symbol [ width %tmp.1 112 21 26 ];
+        %tmp.2 = 2;
+        %tmp.3 = div %tmp.1 %tmp.2;
+        lputv %center.1 %tmp.3;
+        symbol [ center %center.1 112 12 18 ];
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 114 8 ]
+        %tmp.4 = lgetv %dc;
+        symbol [ dc %tmp.4 114 8 10 ];
+        symbol [ setColor %tmp.5 114 11 19 ];
+        %tmp.5 = getv function %tmp.4 :setColor;
+        symbol [ Graphics %tmp.6 114 20 28 ];
+        %tmp.6 = getm $.Toybox.Graphics;
+        symbol [ COLOR_DK_GRAY %tmp.7 114 29 42 ];
+        %tmp.7 = getv %tmp.6 :COLOR_DK_GRAY;
+        symbol [ Graphics %tmp.8 114 44 52 ];
+        %tmp.8 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.9 114 53 70 ];
+        %tmp.9 = getv %tmp.8 :COLOR_TRANSPARENT;
+        invoke %tmp.4 %tmp.5(%tmp.7, %tmp.9);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 115 8 ]
+        %tmp.10 = lgetv %dc;
+        symbol [ dc %tmp.10 115 8 10 ];
+        symbol [ drawLine %tmp.11 115 11 19 ];
+        %tmp.11 = getv function %tmp.10 :drawLine;
+        %tmp.12 = 14;
+        %tmp.13 = 188;
+        %tmp.14 = lgetv %width;
+        symbol [ width %tmp.14 115 29 34 ];
+        %tmp.15 = 14;
+        %tmp.16 = sub %tmp.14 %tmp.15;
+        %tmp.17 = 188;
+        invoke %tmp.10 %tmp.11(%tmp.12, %tmp.13, %tmp.16, %tmp.17);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 116 8 ]
+        %tmp.18 = lgetv %dc;
+        symbol [ dc %tmp.18 116 8 10 ];
+        symbol [ drawLine %tmp.19 116 11 19 ];
+        %tmp.19 = getv function %tmp.18 :drawLine;
+        %tmp.20 = lgetv %center.1;
+        symbol [ center %tmp.20 116 20 26 ];
+        %tmp.21 = 198;
+        %tmp.22 = lgetv %center.1;
+        symbol [ center %tmp.22 116 33 39 ];
+        %tmp.23 = 251;
+        invoke %tmp.18 %tmp.19(%tmp.20, %tmp.21, %tmp.22, %tmp.23);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 118 8 ]
+        %tmp.24 = self;
+        symbol [ drawMetric %tmp.25 118 8 18 ];
+        %tmp.25 = getv function %tmp.24 :drawMetric;
+        %tmp.26 = lgetv %dc;
+        symbol [ dc %tmp.26 119 12 14 ];
+        %tmp.27 = lgetv %center.1;
+        symbol [ center %tmp.27 120 12 18 ];
+        %tmp.28 = 2;
+        %tmp.29 = div %tmp.27 %tmp.28;
+        %tmp.30 = 199;
+        %tmp.31 = "HR";
+        %tmp.32 = self;
+        symbol [ valueOrDash %tmp.33 123 12 23 ];
+        %tmp.33 = getv function %tmp.32 :valueOrDash;
+        symbol [ _heartRate %tmp.35 123 24 34 ];
+        %tmp.35 = getv ? :_heartRate;
+        %tmp.36 = invoke %tmp.32 %tmp.33(%tmp.35);
+        %tmp.37 = "BPM";
+        invoke %tmp.24 %tmp.25(%tmp.26, %tmp.29, %tmp.30, %tmp.31, %tmp.36, %tmp.37);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 127 8 ]
+        %tmp.38 = self;
+        symbol [ drawMetric %tmp.39 127 8 18 ];
+        %tmp.39 = getv function %tmp.38 :drawMetric;
+        %tmp.40 = lgetv %dc;
+        symbol [ dc %tmp.40 128 12 14 ];
+        %tmp.41 = lgetv %center.1;
+        symbol [ center %tmp.41 129 12 18 ];
+        %tmp.42 = lgetv %center.1;
+        symbol [ center %tmp.42 129 22 28 ];
+        %tmp.43 = 2;
+        %tmp.44 = div %tmp.42 %tmp.43;
+        %tmp.45 = add %tmp.41 %tmp.44;
+        %tmp.46 = 199;
+        %tmp.47 = "CAD";
+        %tmp.48 = self;
+        symbol [ valueOrDash %tmp.49 132 12 23 ];
+        %tmp.49 = getv function %tmp.48 :valueOrDash;
+        symbol [ _cadence %tmp.51 132 24 32 ];
+        %tmp.51 = getv ? :_cadence;
+        %tmp.52 = invoke %tmp.48 %tmp.49(%tmp.51);
+        %tmp.53 = "RPM";
+        invoke %tmp.38 %tmp.39(%tmp.40, %tmp.45, %tmp.46, %tmp.47, %tmp.52, %tmp.53);
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_111_45_135_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 137; @symbol_functiondef = [drawMetric,137,13,23]; @symbol_param<0> = [dc,137,24,26]; @symbol_param<1> = [x,137,28,29]; @symbol_param<2> = [y,137,31,32]; @symbol_param<3> = [label,137,34,39]; @symbol_param<4> = [value,137,41,46]; @symbol_param<5> = [unit,137,48,52]; ]
+    function drawMetric(dc, x, y, label, value, unit) {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_137_54_146_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 138 8 ]
+        %tmp.1 = lgetv %dc;
+        symbol [ dc %tmp.1 138 8 10 ];
+        symbol [ setColor %tmp.2 138 11 19 ];
+        %tmp.2 = getv function %tmp.1 :setColor;
+        symbol [ Graphics %tmp.3 138 20 28 ];
+        %tmp.3 = getm $.Toybox.Graphics;
+        symbol [ COLOR_LT_GRAY %tmp.4 138 29 42 ];
+        %tmp.4 = getv %tmp.3 :COLOR_LT_GRAY;
+        symbol [ Graphics %tmp.5 138 44 52 ];
+        %tmp.5 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.6 138 53 70 ];
+        %tmp.6 = getv %tmp.5 :COLOR_TRANSPARENT;
+        invoke %tmp.1 %tmp.2(%tmp.4, %tmp.6);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 139 8 ]
+        %tmp.7 = lgetv %dc;
+        symbol [ dc %tmp.7 139 8 10 ];
+        symbol [ drawText %tmp.8 139 11 19 ];
+        %tmp.8 = getv function %tmp.7 :drawText;
+        %tmp.9 = lgetv %x;
+        symbol [ x %tmp.9 139 20 21 ];
+        %tmp.10 = lgetv %y;
+        symbol [ y %tmp.10 139 23 24 ];
+        symbol [ Graphics %tmp.11 139 26 34 ];
+        %tmp.11 = getm $.Toybox.Graphics;
+        symbol [ FONT_XTINY %tmp.12 139 35 45 ];
+        %tmp.12 = getv %tmp.11 :FONT_XTINY;
+        %tmp.13 = lgetv %label;
+        symbol [ label %tmp.13 139 47 52 ];
+        symbol [ Graphics %tmp.14 139 54 62 ];
+        %tmp.14 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.15 139 63 82 ];
+        %tmp.15 = getv %tmp.14 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.7 %tmp.8(%tmp.9, %tmp.10, %tmp.12, %tmp.13, %tmp.15);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 141 8 ]
+        %tmp.16 = lgetv %dc;
+        symbol [ dc %tmp.16 141 8 10 ];
+        symbol [ setColor %tmp.17 141 11 19 ];
+        %tmp.17 = getv function %tmp.16 :setColor;
+        symbol [ Graphics %tmp.18 141 20 28 ];
+        %tmp.18 = getm $.Toybox.Graphics;
+        symbol [ COLOR_WHITE %tmp.19 141 29 40 ];
+        %tmp.19 = getv %tmp.18 :COLOR_WHITE;
+        symbol [ Graphics %tmp.20 141 42 50 ];
+        %tmp.20 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.21 141 51 68 ];
+        %tmp.21 = getv %tmp.20 :COLOR_TRANSPARENT;
+        invoke %tmp.16 %tmp.17(%tmp.19, %tmp.21);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 142 8 ]
+        %tmp.22 = lgetv %dc;
+        symbol [ dc %tmp.22 142 8 10 ];
+        symbol [ drawText %tmp.23 142 11 19 ];
+        %tmp.23 = getv function %tmp.22 :drawText;
+        %tmp.24 = lgetv %x;
+        symbol [ x %tmp.24 142 20 21 ];
+        %tmp.25 = lgetv %y;
+        symbol [ y %tmp.25 142 23 24 ];
+        %tmp.26 = 17;
+        %tmp.27 = add %tmp.25 %tmp.26;
+        symbol [ Graphics %tmp.28 142 31 39 ];
+        %tmp.28 = getm $.Toybox.Graphics;
+        symbol [ FONT_MEDIUM %tmp.29 142 40 51 ];
+        %tmp.29 = getv %tmp.28 :FONT_MEDIUM;
+        %tmp.30 = lgetv %value;
+        symbol [ value %tmp.30 142 53 58 ];
+        symbol [ Graphics %tmp.31 142 60 68 ];
+        %tmp.31 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.32 142 69 88 ];
+        %tmp.32 = getv %tmp.31 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.22 %tmp.23(%tmp.24, %tmp.27, %tmp.29, %tmp.30, %tmp.32);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 144 8 ]
+        %tmp.33 = lgetv %dc;
+        symbol [ dc %tmp.33 144 8 10 ];
+        symbol [ setColor %tmp.34 144 11 19 ];
+        %tmp.34 = getv function %tmp.33 :setColor;
+        symbol [ Graphics %tmp.35 144 20 28 ];
+        %tmp.35 = getm $.Toybox.Graphics;
+        symbol [ COLOR_LT_GRAY %tmp.36 144 29 42 ];
+        %tmp.36 = getv %tmp.35 :COLOR_LT_GRAY;
+        symbol [ Graphics %tmp.37 144 44 52 ];
+        %tmp.37 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.38 144 53 70 ];
+        %tmp.38 = getv %tmp.37 :COLOR_TRANSPARENT;
+        invoke %tmp.33 %tmp.34(%tmp.36, %tmp.38);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 145 8 ]
+        %tmp.39 = lgetv %dc;
+        symbol [ dc %tmp.39 145 8 10 ];
+        symbol [ drawText %tmp.40 145 11 19 ];
+        %tmp.40 = getv function %tmp.39 :drawText;
+        %tmp.41 = lgetv %x;
+        symbol [ x %tmp.41 145 20 21 ];
+        %tmp.42 = lgetv %y;
+        symbol [ y %tmp.42 145 23 24 ];
+        %tmp.43 = 43;
+        %tmp.44 = add %tmp.42 %tmp.43;
+        symbol [ Graphics %tmp.45 145 31 39 ];
+        %tmp.45 = getm $.Toybox.Graphics;
+        symbol [ FONT_XTINY %tmp.46 145 40 50 ];
+        %tmp.46 = getv %tmp.45 :FONT_XTINY;
+        %tmp.47 = lgetv %unit;
+        symbol [ unit %tmp.47 145 52 56 ];
+        symbol [ Graphics %tmp.48 145 58 66 ];
+        %tmp.48 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.49 145 67 86 ];
+        %tmp.49 = getv %tmp.48 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.39 %tmp.40(%tmp.41, %tmp.44, %tmp.46, %tmp.47, %tmp.49);
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_137_54_146_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 148; @symbol_functiondef = [drawFooter,148,13,23]; @symbol_param<0> = [dc,148,24,26]; @symbol_param<1> = [width,148,28,33]; ]
+    function drawFooter(dc, width) {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_148_35_162_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 149 8 ]
+        %tmp.1 = lgetv %dc;
+        symbol [ dc %tmp.1 149 8 10 ];
+        symbol [ setColor %tmp.2 149 11 19 ];
+        %tmp.2 = getv function %tmp.1 :setColor;
+        symbol [ Graphics %tmp.3 149 20 28 ];
+        %tmp.3 = getm $.Toybox.Graphics;
+        symbol [ COLOR_DK_GRAY %tmp.4 149 29 42 ];
+        %tmp.4 = getv %tmp.3 :COLOR_DK_GRAY;
+        symbol [ Graphics %tmp.5 149 44 52 ];
+        %tmp.5 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.6 149 53 70 ];
+        %tmp.6 = getv %tmp.5 :COLOR_TRANSPARENT;
+        invoke %tmp.1 %tmp.2(%tmp.4, %tmp.6);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 150 8 ]
+        %tmp.7 = lgetv %dc;
+        symbol [ dc %tmp.7 150 8 10 ];
+        symbol [ drawLine %tmp.8 150 11 19 ];
+        %tmp.8 = getv function %tmp.7 :drawLine;
+        %tmp.9 = 14;
+        %tmp.10 = 267;
+        %tmp.11 = lgetv %width;
+        symbol [ width %tmp.11 150 29 34 ];
+        %tmp.12 = 14;
+        %tmp.13 = sub %tmp.11 %tmp.12;
+        %tmp.14 = 267;
+        invoke %tmp.7 %tmp.8(%tmp.9, %tmp.10, %tmp.13, %tmp.14);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 152 8 ]
+        %tmp.15 = lgetv %dc;
+        symbol [ dc %tmp.15 152 8 10 ];
+        symbol [ setColor %tmp.16 152 11 19 ];
+        %tmp.16 = getv function %tmp.15 :setColor;
+        symbol [ Graphics %tmp.17 152 20 28 ];
+        %tmp.17 = getm $.Toybox.Graphics;
+        symbol [ COLOR_LT_GRAY %tmp.18 152 29 42 ];
+        %tmp.18 = getv %tmp.17 :COLOR_LT_GRAY;
+        symbol [ Graphics %tmp.19 152 44 52 ];
+        %tmp.19 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.20 152 53 70 ];
+        %tmp.20 = getv %tmp.19 :COLOR_TRANSPARENT;
+        invoke %tmp.15 %tmp.16(%tmp.18, %tmp.20);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 153 8 ]
+        %tmp.21 = lgetv %dc;
+        symbol [ dc %tmp.21 153 8 10 ];
+        symbol [ drawText %tmp.22 153 11 19 ];
+        %tmp.22 = getv function %tmp.21 :drawText;
+        %tmp.23 = 14;
+        %tmp.24 = 278;
+        symbol [ Graphics %tmp.25 153 29 37 ];
+        %tmp.25 = getm $.Toybox.Graphics;
+        symbol [ FONT_XTINY %tmp.26 153 38 48 ];
+        %tmp.26 = getv %tmp.25 :FONT_XTINY;
+        %tmp.27 = "SPEED";
+        symbol [ Graphics %tmp.28 153 59 67 ];
+        %tmp.28 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_LEFT %tmp.29 153 68 85 ];
+        %tmp.29 = getv %tmp.28 :TEXT_JUSTIFY_LEFT;
+        invoke %tmp.21 %tmp.22(%tmp.23, %tmp.24, %tmp.26, %tmp.27, %tmp.29);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 154 8 ]
+        %tmp.30 = lgetv %dc;
+        symbol [ dc %tmp.30 154 8 10 ];
+        symbol [ drawText %tmp.31 154 11 19 ];
+        %tmp.31 = getv function %tmp.30 :drawText;
+        %tmp.32 = lgetv %width;
+        symbol [ width %tmp.32 154 20 25 ];
+        %tmp.33 = 14;
+        %tmp.34 = sub %tmp.32 %tmp.33;
+        %tmp.35 = 278;
+        symbol [ Graphics %tmp.36 154 37 45 ];
+        %tmp.36 = getm $.Toybox.Graphics;
+        symbol [ FONT_XTINY %tmp.37 154 46 56 ];
+        %tmp.37 = getv %tmp.36 :FONT_XTINY;
+        %tmp.38 = "DIST";
+        symbol [ Graphics %tmp.39 154 66 74 ];
+        %tmp.39 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_RIGHT %tmp.40 154 75 93 ];
+        %tmp.40 = getv %tmp.39 :TEXT_JUSTIFY_RIGHT;
+        invoke %tmp.30 %tmp.31(%tmp.34, %tmp.35, %tmp.37, %tmp.38, %tmp.40);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 156 8 ]
+        %tmp.41 = lgetv %dc;
+        symbol [ dc %tmp.41 156 8 10 ];
+        symbol [ setColor %tmp.42 156 11 19 ];
+        %tmp.42 = getv function %tmp.41 :setColor;
+        symbol [ Graphics %tmp.43 156 20 28 ];
+        %tmp.43 = getm $.Toybox.Graphics;
+        symbol [ COLOR_WHITE %tmp.44 156 29 40 ];
+        %tmp.44 = getv %tmp.43 :COLOR_WHITE;
+        symbol [ Graphics %tmp.45 156 42 50 ];
+        %tmp.45 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.46 156 51 68 ];
+        %tmp.46 = getv %tmp.45 :COLOR_TRANSPARENT;
+        invoke %tmp.41 %tmp.42(%tmp.44, %tmp.46);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 157 8 ]
+        %tmp.47 = lgetv %dc;
+        symbol [ dc %tmp.47 157 8 10 ];
+        symbol [ drawText %tmp.48 157 11 19 ];
+        %tmp.48 = getv function %tmp.47 :drawText;
+        %tmp.49 = 14;
+        %tmp.50 = 294;
+        symbol [ Graphics %tmp.51 157 29 37 ];
+        %tmp.51 = getm $.Toybox.Graphics;
+        symbol [ FONT_SMALL %tmp.52 157 38 48 ];
+        %tmp.52 = getv %tmp.51 :FONT_SMALL;
+        %tmp.53 = self;
+        symbol [ formatSpeed %tmp.54 157 50 61 ];
+        %tmp.54 = getv function %tmp.53 :formatSpeed;
+        %tmp.55 = invoke %tmp.53 %tmp.54();
+        symbol [ Graphics %tmp.56 157 65 73 ];
+        %tmp.56 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_LEFT %tmp.57 157 74 91 ];
+        %tmp.57 = getv %tmp.56 :TEXT_JUSTIFY_LEFT;
+        invoke %tmp.47 %tmp.48(%tmp.49, %tmp.50, %tmp.52, %tmp.55, %tmp.57);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 158 8 ]
+        %tmp.58 = lgetv %dc;
+        symbol [ dc %tmp.58 158 8 10 ];
+        symbol [ drawText %tmp.59 158 11 19 ];
+        %tmp.59 = getv function %tmp.58 :drawText;
+        %tmp.60 = lgetv %width;
+        symbol [ width %tmp.60 158 20 25 ];
+        %tmp.61 = 14;
+        %tmp.62 = sub %tmp.60 %tmp.61;
+        %tmp.63 = 294;
+        symbol [ Graphics %tmp.64 158 37 45 ];
+        %tmp.64 = getm $.Toybox.Graphics;
+        symbol [ FONT_SMALL %tmp.65 158 46 56 ];
+        %tmp.65 = getv %tmp.64 :FONT_SMALL;
+        %tmp.66 = self;
+        symbol [ formatDistance %tmp.67 158 58 72 ];
+        %tmp.67 = getv function %tmp.66 :formatDistance;
+        %tmp.68 = invoke %tmp.66 %tmp.67();
+        symbol [ Graphics %tmp.69 158 76 84 ];
+        %tmp.69 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_RIGHT %tmp.70 158 85 103 ];
+        %tmp.70 = getv %tmp.69 :TEXT_JUSTIFY_RIGHT;
+        invoke %tmp.58 %tmp.59(%tmp.62, %tmp.63, %tmp.65, %tmp.68, %tmp.70);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 160 8 ]
+        %tmp.71 = lgetv %dc;
+        symbol [ dc %tmp.71 160 8 10 ];
+        symbol [ setColor %tmp.72 160 11 19 ];
+        %tmp.72 = getv function %tmp.71 :setColor;
+        symbol [ Graphics %tmp.73 160 20 28 ];
+        %tmp.73 = getm $.Toybox.Graphics;
+        symbol [ COLOR_LT_GRAY %tmp.74 160 29 42 ];
+        %tmp.74 = getv %tmp.73 :COLOR_LT_GRAY;
+        symbol [ Graphics %tmp.75 160 44 52 ];
+        %tmp.75 = getm $.Toybox.Graphics;
+        symbol [ COLOR_TRANSPARENT %tmp.76 160 53 70 ];
+        %tmp.76 = getv %tmp.75 :COLOR_TRANSPARENT;
+        invoke %tmp.71 %tmp.72(%tmp.74, %tmp.76);
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 161 8 ]
+        %tmp.77 = lgetv %dc;
+        symbol [ dc %tmp.77 161 8 10 ];
+        symbol [ drawText %tmp.78 161 11 19 ];
+        %tmp.78 = getv function %tmp.77 :drawText;
+        %tmp.79 = lgetv %width;
+        symbol [ width %tmp.79 161 20 25 ];
+        %tmp.80 = 2;
+        %tmp.81 = div %tmp.79 %tmp.80;
+        %tmp.82 = 294;
+        symbol [ Graphics %tmp.83 161 36 44 ];
+        %tmp.83 = getm $.Toybox.Graphics;
+        symbol [ FONT_XTINY %tmp.84 161 45 55 ];
+        %tmp.84 = getv %tmp.83 :FONT_XTINY;
+        %tmp.85 = self;
+        symbol [ formatElapsed %tmp.86 161 57 70 ];
+        %tmp.86 = getv function %tmp.85 :formatElapsed;
+        %tmp.87 = invoke %tmp.85 %tmp.86();
+        symbol [ Graphics %tmp.88 161 74 82 ];
+        %tmp.88 = getm $.Toybox.Graphics;
+        symbol [ TEXT_JUSTIFY_CENTER %tmp.89 161 83 102 ];
+        %tmp.89 = getv %tmp.88 :TEXT_JUSTIFY_CENTER;
+        invoke %tmp.77 %tmp.78(%tmp.81, %tmp.82, %tmp.84, %tmp.87, %tmp.89);
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_148_35_162_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 164; @symbol_functiondef = [getPowerZone,164,13,25]; ]
+    function getPowerZone() {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_164_28_176_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 165 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_165_8_167_8_if_stmt:
+        symbol [ _power %tmp.2 165 12 18 ];
+        %tmp.2 = getv ? :_power;
+        %tmp.3 = null;
+        %tmp.4 = eq %tmp.2 %tmp.3;
+        bf %tmp.4 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_165_8_167_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_165_8_167_8_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_165_28_167_8_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 166 12 ]
+        %tmp.5 = 0;
+        ret %tmp.5;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_165_28_167_8_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_165_8_167_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_165_8_167_8_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 169 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_169_8_169_51_if_stmt:
+        symbol [ _power %tmp.7 169 12 18 ];
+        %tmp.7 = getv ? :_power;
+        symbol [ FTP %tmp.9 169 22 25 ];
+        %tmp.9 = getv ? :FTP;
+        %tmp.10 = 55;
+        %tmp.11 = mul %tmp.9 %tmp.10;
+        %tmp.12 = 100;
+        %tmp.13 = div %tmp.11 %tmp.12;
+        %tmp.14 = lt %tmp.7 %tmp.13;
+        bf %tmp.14 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_169_8_169_51_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_169_8_169_51_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_169_39_169_51_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 169 41 ]
+        %tmp.15 = 1;
+        ret %tmp.15;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_169_39_169_51_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_169_8_169_51_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_169_8_169_51_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 170 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_170_8_170_51_if_stmt:
+        symbol [ _power %tmp.17 170 12 18 ];
+        %tmp.17 = getv ? :_power;
+        symbol [ FTP %tmp.19 170 22 25 ];
+        %tmp.19 = getv ? :FTP;
+        %tmp.20 = 75;
+        %tmp.21 = mul %tmp.19 %tmp.20;
+        %tmp.22 = 100;
+        %tmp.23 = div %tmp.21 %tmp.22;
+        %tmp.24 = lt %tmp.17 %tmp.23;
+        bf %tmp.24 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_170_8_170_51_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_170_8_170_51_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_170_39_170_51_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 170 41 ]
+        %tmp.25 = 2;
+        ret %tmp.25;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_170_39_170_51_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_170_8_170_51_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_170_8_170_51_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 171 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_171_8_171_51_if_stmt:
+        symbol [ _power %tmp.27 171 12 18 ];
+        %tmp.27 = getv ? :_power;
+        symbol [ FTP %tmp.29 171 22 25 ];
+        %tmp.29 = getv ? :FTP;
+        %tmp.30 = 90;
+        %tmp.31 = mul %tmp.29 %tmp.30;
+        %tmp.32 = 100;
+        %tmp.33 = div %tmp.31 %tmp.32;
+        %tmp.34 = lt %tmp.27 %tmp.33;
+        bf %tmp.34 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_171_8_171_51_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_171_8_171_51_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_171_39_171_51_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 171 41 ]
+        %tmp.35 = 3;
+        ret %tmp.35;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_171_39_171_51_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_171_8_171_51_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_171_8_171_51_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 172 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_172_8_172_52_if_stmt:
+        symbol [ _power %tmp.37 172 12 18 ];
+        %tmp.37 = getv ? :_power;
+        symbol [ FTP %tmp.39 172 22 25 ];
+        %tmp.39 = getv ? :FTP;
+        %tmp.40 = 105;
+        %tmp.41 = mul %tmp.39 %tmp.40;
+        %tmp.42 = 100;
+        %tmp.43 = div %tmp.41 %tmp.42;
+        %tmp.44 = lt %tmp.37 %tmp.43;
+        bf %tmp.44 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_172_8_172_52_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_172_8_172_52_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_172_40_172_52_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 172 42 ]
+        %tmp.45 = 4;
+        ret %tmp.45;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_172_40_172_52_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_172_8_172_52_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_172_8_172_52_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 173 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_173_8_173_52_if_stmt:
+        symbol [ _power %tmp.47 173 12 18 ];
+        %tmp.47 = getv ? :_power;
+        symbol [ FTP %tmp.49 173 22 25 ];
+        %tmp.49 = getv ? :FTP;
+        %tmp.50 = 120;
+        %tmp.51 = mul %tmp.49 %tmp.50;
+        %tmp.52 = 100;
+        %tmp.53 = div %tmp.51 %tmp.52;
+        %tmp.54 = lt %tmp.47 %tmp.53;
+        bf %tmp.54 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_173_8_173_52_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_173_8_173_52_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_173_40_173_52_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 173 42 ]
+        %tmp.55 = 5;
+        ret %tmp.55;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_173_40_173_52_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_173_8_173_52_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_173_8_173_52_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 174 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_174_8_174_52_if_stmt:
+        symbol [ _power %tmp.57 174 12 18 ];
+        %tmp.57 = getv ? :_power;
+        symbol [ FTP %tmp.59 174 22 25 ];
+        %tmp.59 = getv ? :FTP;
+        %tmp.60 = 150;
+        %tmp.61 = mul %tmp.59 %tmp.60;
+        %tmp.62 = 100;
+        %tmp.63 = div %tmp.61 %tmp.62;
+        %tmp.64 = lt %tmp.57 %tmp.63;
+        bf %tmp.64 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_174_8_174_52_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_174_8_174_52_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_174_40_174_52_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 174 42 ]
+        %tmp.65 = 6;
+        ret %tmp.65;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_174_40_174_52_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_174_8_174_52_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_174_8_174_52_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 175 8 ]
+        %tmp.66 = 7;
+        ret %tmp.66;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_164_28_176_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 178; @symbol_functiondef = [getPowerColor,178,13,26]; ]
+    function getPowerColor() {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_178_29_190_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 179 8 ]
+        [ "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_178_29_190_4_start" "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_178_29_190_4_stop" ]
+        %zone.1 = local;
+        symbol [ zone %zone.1 179 12 16 ];
+        %tmp.1 = self;
+        symbol [ getPowerZone %tmp.2 179 19 31 ];
+        %tmp.2 = getv function %tmp.1 :getPowerZone;
+        %tmp.3 = invoke %tmp.1 %tmp.2();
+        lputv %zone.1 %tmp.3;
+        symbol [ zone %zone.1 179 12 16 ];
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 181 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_181_8_181_56_if_stmt:
+        %tmp.4 = lgetv %zone.1;
+        symbol [ zone %tmp.4 181 12 16 ];
+        %tmp.5 = 1;
+        %tmp.6 = eq %tmp.4 %tmp.5;
+        bf %tmp.6 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_181_8_181_56_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_181_8_181_56_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_181_23_181_56_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 181 25 ]
+        symbol [ Graphics %tmp.7 181 32 40 ];
+        %tmp.7 = getm $.Toybox.Graphics;
+        symbol [ COLOR_LT_GRAY %tmp.8 181 41 54 ];
+        %tmp.8 = getv %tmp.7 :COLOR_LT_GRAY;
+        ret %tmp.8;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_181_23_181_56_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_181_8_181_56_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_181_8_181_56_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 182 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_182_8_182_53_if_stmt:
+        %tmp.9 = lgetv %zone.1;
+        symbol [ zone %tmp.9 182 12 16 ];
+        %tmp.10 = 2;
+        %tmp.11 = eq %tmp.9 %tmp.10;
+        bf %tmp.11 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_182_8_182_53_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_182_8_182_53_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_182_23_182_53_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 182 25 ]
+        symbol [ Graphics %tmp.12 182 32 40 ];
+        %tmp.12 = getm $.Toybox.Graphics;
+        symbol [ COLOR_BLUE %tmp.13 182 41 51 ];
+        %tmp.13 = getv %tmp.12 :COLOR_BLUE;
+        ret %tmp.13;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_182_23_182_53_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_182_8_182_53_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_182_8_182_53_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 183 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_183_8_183_54_if_stmt:
+        %tmp.14 = lgetv %zone.1;
+        symbol [ zone %tmp.14 183 12 16 ];
+        %tmp.15 = 3;
+        %tmp.16 = eq %tmp.14 %tmp.15;
+        bf %tmp.16 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_183_8_183_54_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_183_8_183_54_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_183_23_183_54_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 183 25 ]
+        symbol [ Graphics %tmp.17 183 32 40 ];
+        %tmp.17 = getm $.Toybox.Graphics;
+        symbol [ COLOR_GREEN %tmp.18 183 41 52 ];
+        %tmp.18 = getv %tmp.17 :COLOR_GREEN;
+        ret %tmp.18;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_183_23_183_54_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_183_8_183_54_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_183_8_183_54_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 184 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_184_8_184_55_if_stmt:
+        %tmp.19 = lgetv %zone.1;
+        symbol [ zone %tmp.19 184 12 16 ];
+        %tmp.20 = 4;
+        %tmp.21 = eq %tmp.19 %tmp.20;
+        bf %tmp.21 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_184_8_184_55_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_184_8_184_55_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_184_23_184_55_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 184 25 ]
+        symbol [ Graphics %tmp.22 184 32 40 ];
+        %tmp.22 = getm $.Toybox.Graphics;
+        symbol [ COLOR_YELLOW %tmp.23 184 41 53 ];
+        %tmp.23 = getv %tmp.22 :COLOR_YELLOW;
+        ret %tmp.23;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_184_23_184_55_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_184_8_184_55_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_184_8_184_55_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 185 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_185_8_185_55_if_stmt:
+        %tmp.24 = lgetv %zone.1;
+        symbol [ zone %tmp.24 185 12 16 ];
+        %tmp.25 = 5;
+        %tmp.26 = eq %tmp.24 %tmp.25;
+        bf %tmp.26 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_185_8_185_55_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_185_8_185_55_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_185_23_185_55_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 185 25 ]
+        symbol [ Graphics %tmp.27 185 32 40 ];
+        %tmp.27 = getm $.Toybox.Graphics;
+        symbol [ COLOR_ORANGE %tmp.28 185 41 53 ];
+        %tmp.28 = getv %tmp.27 :COLOR_ORANGE;
+        ret %tmp.28;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_185_23_185_55_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_185_8_185_55_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_185_8_185_55_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 186 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_186_8_186_52_if_stmt:
+        %tmp.29 = lgetv %zone.1;
+        symbol [ zone %tmp.29 186 12 16 ];
+        %tmp.30 = 6;
+        %tmp.31 = eq %tmp.29 %tmp.30;
+        bf %tmp.31 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_186_8_186_52_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_186_8_186_52_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_186_23_186_52_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 186 25 ]
+        symbol [ Graphics %tmp.32 186 32 40 ];
+        %tmp.32 = getm $.Toybox.Graphics;
+        symbol [ COLOR_RED %tmp.33 186 41 50 ];
+        %tmp.33 = getv %tmp.32 :COLOR_RED;
+        ret %tmp.33;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_186_23_186_52_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_186_8_186_52_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_186_8_186_52_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 187 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_187_8_187_55_if_stmt:
+        %tmp.34 = lgetv %zone.1;
+        symbol [ zone %tmp.34 187 12 16 ];
+        %tmp.35 = 7;
+        %tmp.36 = eq %tmp.34 %tmp.35;
+        bf %tmp.36 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_187_8_187_55_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_187_8_187_55_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_187_23_187_55_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 187 25 ]
+        symbol [ Graphics %tmp.37 187 32 40 ];
+        %tmp.37 = getm $.Toybox.Graphics;
+        symbol [ COLOR_PURPLE %tmp.38 187 41 53 ];
+        %tmp.38 = getv %tmp.37 :COLOR_PURPLE;
+        ret %tmp.38;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_187_23_187_55_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_187_8_187_55_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_187_8_187_55_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 189 8 ]
+        symbol [ Graphics %tmp.39 189 15 23 ];
+        %tmp.39 = getm $.Toybox.Graphics;
+        symbol [ COLOR_WHITE %tmp.40 189 24 35 ];
+        %tmp.40 = getv %tmp.39 :COLOR_WHITE;
+        ret %tmp.40;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_178_29_190_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 192; @symbol_functiondef = [valueOrDash,192,13,24]; @symbol_param<0> = [value,192,25,30]; ]
+    function valueOrDash(value) {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_192_32_194_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 193 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_193_15_193_53_begin:
+        %tmp.1 = lgetv %value;
+        symbol [ value %tmp.1 193 15 20 ];
+        %tmp.2 = null;
+        %tmp.3 = eq %tmp.1 %tmp.2;
+        bf %tmp.3 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_193_15_193_53_else_false;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_193_15_193_53_true:
+        %tmp.4 = "--";
+        push %tmp.4;
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_193_15_193_53_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_193_15_193_53_else_false:
+        %tmp.5 = lgetv %value;
+        symbol [ value %tmp.5 193 38 43 ];
+        %tmp.6 = as %tmp.5 { (!Null) };
+        symbol [ toString %tmp.7 193 44 52 ];
+        %tmp.7 = getv function %tmp.6 :toString;
+        %tmp.8 = invoke %tmp.6 %tmp.7();
+        push %tmp.8;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_193_15_193_53_end:
+        %tmp.9 = phi [%tmp.3 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_193_15_193_53_begin] [%tmp.4 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_193_15_193_53_true] [%tmp.8 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_193_15_193_53_else_false] [%tmp.9 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_193_15_193_53_end];
+        ret %tmp.9;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_192_32_194_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 196; @symbol_functiondef = [formatSpeed,196,13,24]; ]
+    function formatSpeed() {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_196_27_202_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 197 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_197_8_199_8_if_stmt:
+        symbol [ _speed %tmp.2 197 12 18 ];
+        %tmp.2 = getv ? :_speed;
+        %tmp.3 = null;
+        %tmp.4 = eq %tmp.2 %tmp.3;
+        bf %tmp.4 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_197_8_199_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_197_8_199_8_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_197_28_199_8_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 198 12 ]
+        %tmp.5 = "--.- km/h";
+        ret %tmp.5;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_197_28_199_8_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_197_8_199_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_197_8_199_8_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 201 8 ]
+        symbol [ _speed %tmp.7 201 16 22 ];
+        %tmp.7 = getv ? :_speed;
+        %tmp.8 = 3.6;
+        %tmp.9 = mul %tmp.7 %tmp.8;
+        symbol [ format %tmp.10 201 30 36 ];
+        %tmp.10 = getv function %tmp.9 :format;
+        %tmp.11 = "%.1f";
+        %tmp.12 = invoke %tmp.9 %tmp.10(%tmp.11);
+        %tmp.13 = " km/h";
+        %tmp.14 = add %tmp.12 %tmp.13;
+        ret %tmp.14;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_196_27_202_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 204; @symbol_functiondef = [formatDistance,204,13,27]; ]
+    function formatDistance() {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_204_30_210_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 205 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_205_8_207_8_if_stmt:
+        symbol [ _distance %tmp.2 205 12 21 ];
+        %tmp.2 = getv ? :_distance;
+        %tmp.3 = null;
+        %tmp.4 = eq %tmp.2 %tmp.3;
+        bf %tmp.4 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_205_8_207_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_205_8_207_8_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_205_31_207_8_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 206 12 ]
+        %tmp.5 = "--.- km";
+        ret %tmp.5;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_205_31_207_8_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_205_8_207_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_205_8_207_8_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 209 8 ]
+        symbol [ _distance %tmp.7 209 16 25 ];
+        %tmp.7 = getv ? :_distance;
+        %tmp.8 = 1000.0;
+        %tmp.9 = div %tmp.7 %tmp.8;
+        symbol [ format %tmp.10 209 36 42 ];
+        %tmp.10 = getv function %tmp.9 :format;
+        %tmp.11 = "%.1f";
+        %tmp.12 = invoke %tmp.9 %tmp.10(%tmp.11);
+        %tmp.13 = " km";
+        %tmp.14 = add %tmp.12 %tmp.13;
+        ret %tmp.14;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_204_30_210_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 212; @symbol_functiondef = [formatElapsed,212,13,26]; ]
+    function formatElapsed() {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_212_29_227_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 213 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_213_8_215_8_if_stmt:
+        symbol [ _elapsedTime %tmp.2 213 12 24 ];
+        %tmp.2 = getv ? :_elapsedTime;
+        %tmp.3 = null;
+        %tmp.4 = eq %tmp.2 %tmp.3;
+        bf %tmp.4 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_213_8_215_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_213_8_215_8_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_213_34_215_8_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 214 12 ]
+        %tmp.5 = "--:--";
+        ret %tmp.5;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_213_34_215_8_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_213_8_215_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_213_8_215_8_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 217 8 ]
+        [ "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_212_29_227_4_start" "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_212_29_227_4_stop" ]
+        %totalSeconds.1 = local;
+        symbol [ totalSeconds %totalSeconds.1 217 12 24 ];
+        symbol [ Math %tmp.6 217 27 31 ];
+        %tmp.6 = getm $.Toybox.Math;
+        symbol [ floor %tmp.7 217 32 37 ];
+        %tmp.7 = getv function %tmp.6 :floor;
+        symbol [ _elapsedTime %tmp.9 217 38 50 ];
+        %tmp.9 = getv ? :_elapsedTime;
+        %tmp.10 = 1000;
+        %tmp.11 = div %tmp.9 %tmp.10;
+        %tmp.12 = invoke %tmp.6 %tmp.7(%tmp.11);
+        lputv %totalSeconds.1 %tmp.12;
+        symbol [ totalSeconds %totalSeconds.1 217 12 24 ];
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 218 8 ]
+        [ "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_212_29_227_4_start" "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_212_29_227_4_stop" ]
+        %hours.2 = local;
+        symbol [ hours %hours.2 218 12 17 ];
+        symbol [ Math %tmp.13 218 20 24 ];
+        %tmp.13 = getm $.Toybox.Math;
+        symbol [ floor %tmp.14 218 25 30 ];
+        %tmp.14 = getv function %tmp.13 :floor;
+        %tmp.15 = lgetv %totalSeconds.1;
+        symbol [ totalSeconds %tmp.15 218 31 43 ];
+        %tmp.16 = 3600;
+        %tmp.17 = div %tmp.15 %tmp.16;
+        %tmp.18 = invoke %tmp.13 %tmp.14(%tmp.17);
+        lputv %hours.2 %tmp.18;
+        symbol [ hours %hours.2 218 12 17 ];
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 219 8 ]
+        [ "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_212_29_227_4_start" "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_212_29_227_4_stop" ]
+        %minutes.3 = local;
+        symbol [ minutes %minutes.3 219 12 19 ];
+        symbol [ Math %tmp.19 219 22 26 ];
+        %tmp.19 = getm $.Toybox.Math;
+        symbol [ floor %tmp.20 219 27 32 ];
+        %tmp.20 = getv function %tmp.19 :floor;
+        %tmp.21 = lgetv %totalSeconds.1;
+        symbol [ totalSeconds %tmp.21 219 34 46 ];
+        %tmp.22 = 3600;
+        %tmp.23 = mod %tmp.21 %tmp.22;
+        %tmp.24 = 60;
+        %tmp.25 = div %tmp.23 %tmp.24;
+        %tmp.26 = invoke %tmp.19 %tmp.20(%tmp.25);
+        lputv %minutes.3 %tmp.26;
+        symbol [ minutes %minutes.3 219 12 19 ];
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 220 8 ]
+        [ "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_212_29_227_4_start" "_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_212_29_227_4_stop" ]
+        %seconds.4 = local;
+        symbol [ seconds %seconds.4 220 12 19 ];
+        %tmp.27 = lgetv %totalSeconds.1;
+        symbol [ totalSeconds %tmp.27 220 22 34 ];
+        %tmp.28 = 60;
+        %tmp.29 = mod %tmp.27 %tmp.28;
+        lputv %seconds.4 %tmp.29;
+        symbol [ seconds %seconds.4 220 12 19 ];
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 222 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_222_8_224_8_if_stmt:
+        %tmp.30 = lgetv %hours.2;
+        symbol [ hours %tmp.30 222 12 17 ];
+        %tmp.31 = 0;
+        %tmp.32 = gt %tmp.30 %tmp.31;
+        bf %tmp.32 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_222_8_224_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_222_8_224_8_if_true:
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_222_23_224_8_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 223 12 ]
+        %tmp.33 = lgetv %hours.2;
+        symbol [ hours %tmp.33 223 19 24 ];
+        symbol [ toString %tmp.34 223 25 33 ];
+        %tmp.34 = getv function %tmp.33 :toString;
+        %tmp.35 = invoke %tmp.33 %tmp.34();
+        %tmp.36 = ":";
+        %tmp.37 = add %tmp.35 %tmp.36;
+        %tmp.38 = self;
+        symbol [ twoDigits %tmp.39 223 44 53 ];
+        %tmp.39 = getv function %tmp.38 :twoDigits;
+        %tmp.40 = lgetv %minutes.3;
+        symbol [ minutes %tmp.40 223 54 61 ];
+        %tmp.41 = invoke %tmp.38 %tmp.39(%tmp.40);
+        %tmp.42 = add %tmp.37 %tmp.41;
+        %tmp.43 = ":";
+        %tmp.44 = add %tmp.42 %tmp.43;
+        %tmp.45 = self;
+        symbol [ twoDigits %tmp.46 223 71 80 ];
+        %tmp.46 = getv function %tmp.45 :twoDigits;
+        %tmp.47 = lgetv %seconds.4;
+        symbol [ seconds %tmp.47 223 81 88 ];
+        %tmp.48 = invoke %tmp.45 %tmp.46(%tmp.47);
+        %tmp.49 = add %tmp.44 %tmp.48;
+        ret %tmp.49;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_222_23_224_8_stop:
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_222_8_224_8_if_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_222_8_224_8_if_end:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 226 8 ]
+        %tmp.50 = self;
+        symbol [ twoDigits %tmp.51 226 15 24 ];
+        %tmp.51 = getv function %tmp.50 :twoDigits;
+        %tmp.52 = lgetv %minutes.3;
+        symbol [ minutes %tmp.52 226 25 32 ];
+        %tmp.53 = invoke %tmp.50 %tmp.51(%tmp.52);
+        %tmp.54 = ":";
+        %tmp.55 = add %tmp.53 %tmp.54;
+        %tmp.56 = self;
+        symbol [ twoDigits %tmp.57 226 42 51 ];
+        %tmp.57 = getv function %tmp.56 :twoDigits;
+        %tmp.58 = lgetv %seconds.4;
+        symbol [ seconds %tmp.58 226 52 59 ];
+        %tmp.59 = invoke %tmp.56 %tmp.57(%tmp.58);
+        %tmp.60 = add %tmp.55 %tmp.59;
+        ret %tmp.60;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_212_29_227_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 229; @symbol_functiondef = [twoDigits,229,13,22]; @symbol_param<0> = [value,229,23,28]; ]
+    function twoDigits(value) {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_229_30_231_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" 230 8 ]
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_230_15_230_68_begin:
+        %tmp.1 = lgetv %value;
+        symbol [ value %tmp.1 230 15 20 ];
+        %tmp.2 = 10;
+        %tmp.3 = lt %tmp.1 %tmp.2;
+        bf %tmp.3 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_230_15_230_68_else_false;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_230_15_230_68_true:
+        %tmp.4 = "0";
+        %tmp.5 = lgetv %value;
+        symbol [ value %tmp.5 230 34 39 ];
+        symbol [ toString %tmp.6 230 40 48 ];
+        %tmp.6 = getv function %tmp.5 :toString;
+        %tmp.7 = invoke %tmp.5 %tmp.6();
+        %tmp.8 = add %tmp.4 %tmp.7;
+        push %tmp.8;
+        goto @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_230_15_230_68_end;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_230_15_230_68_else_false:
+        %tmp.9 = lgetv %value;
+        symbol [ value %tmp.9 230 53 58 ];
+        symbol [ toString %tmp.10 230 59 67 ];
+        %tmp.10 = getv function %tmp.9 :toString;
+        %tmp.11 = invoke %tmp.9 %tmp.10();
+        push %tmp.11;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_230_15_230_68_end:
+        %tmp.12 = phi [%tmp.3 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_230_15_230_68_begin] [%tmp.8 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_230_15_230_68_true] [%tmp.11 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_230_15_230_68_else_false] [%tmp.12 @_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_230_15_230_68_end];
+        ret %tmp.12;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_DashboardView_mc_229_30_231_4_stop:
+    }
+}
+[ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc"; @line = 1; ]
+<init> {
+}

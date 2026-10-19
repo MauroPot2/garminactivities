@@ -1,0 +1,39 @@
+[ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/GarminActivitiesApp.mc"; @line = 1; @symbol_usingdef<0> = [Toybox,1,6,12]; @symbol_usingdef<1> = [Application,1,13,24]; @symbol_usingAlias = [Application,1,28,39]; ]
+using Toybox.Application as :Application;
+[ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/GarminActivitiesApp.mc"; @line = 3; @symbol_classdef = [GarminActivitiesApp,3,6,25]; @symbol_extends<0> = [Application,3,34,45]; @symbol_extends<1> = [AppBase,3,46,53]; ]
+class GarminActivitiesApp extends Application.AppBase {
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/GarminActivitiesApp.mc"; @line = 3; ]
+    <init> {
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/GarminActivitiesApp.mc"; @line = 3; ]
+    static
+    <init> {
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/GarminActivitiesApp.mc"; @line = 4; @symbol_functiondef = [initialize,4,13,23]; ]
+    function initialize() as Void {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_GarminActivitiesApp_mc_4_26_6_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/GarminActivitiesApp.mc" 5 8 ]
+        symbol [ AppBase %tmp.2 5 8 15 ];
+        %tmp.2 = getv ? :AppBase;
+        symbol [ initialize %tmp.3 5 16 26 ];
+        %tmp.3 = getv function %tmp.2 :initialize;
+        invoke %tmp.2 %tmp.3();
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_GarminActivitiesApp_mc_4_26_6_4_stop:
+    }
+    [ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/GarminActivitiesApp.mc"; @line = 8; @symbol_functiondef = [getInitialView,8,13,27]; ]
+    function getInitialView() {
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_GarminActivitiesApp_mc_8_30_10_4_start:
+[ "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/GarminActivitiesApp.mc" 9 8 ]
+        %tmp.1 = newa 1;
+        symbol [ DashboardView %tmp.5 9 21 34 ];
+        %tmp.5 = getv ? :DashboardView;
+        %tmp.2 = newc %tmp.5 ();
+        %tmp.6 = dup %tmp.1;
+        %tmp.7 = aputv %tmp.6 0 %tmp.2;
+        ret %tmp.7;
+_Users_mauropot_Documents_Dev_GarminActivities_connectiq_source_GarminActivitiesApp_mc_8_30_10_4_stop:
+    }
+}
+[ @file = "/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/GarminActivitiesApp.mc"; @line = 1; ]
+<init> {
+}

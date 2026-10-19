@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<debugInfo>
+    <manifest filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/manifest.xml"/>
+    <pcToLineNum>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/gen/006-B3121-00/source/Rez.mcgen" id="1" lineNum="7" parent="globals/Rez" pc="268435460" symbol="&lt;init&gt;"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="2" lineNum="5" parent="globals/DashboardView" pc="268435484" symbol="&lt;init&gt;"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/GarminActivitiesApp.mc" id="3" lineNum="3" parent="globals/GarminActivitiesApp" pc="268435503" symbol="&lt;init&gt;"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="4" lineNum="204" parent="globals/DashboardView" pc="268435522" symbol="formatDistance"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="4" lineNum="205" parent="globals/DashboardView" pc="268435524" symbol="formatDistance"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="4" lineNum="206" parent="globals/DashboardView" pc="268435536" symbol="formatDistance"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="4" lineNum="209" parent="globals/DashboardView" pc="268435545" symbol="formatDistance"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="5" lineNum="84" parent="globals/DashboardView" pc="268435580" symbol="drawPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="5" lineNum="85" parent="globals/DashboardView" pc="268435584" symbol="drawPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="5" lineNum="86" parent="globals/DashboardView" pc="268435597" symbol="drawPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="5" lineNum="87" parent="globals/DashboardView" pc="268435604" symbol="drawPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="5" lineNum="88" parent="globals/DashboardView" pc="268435611" symbol="drawPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="5" lineNum="89" parent="globals/DashboardView" pc="268435618" symbol="drawPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="5" lineNum="91" parent="globals/DashboardView" pc="268435643" symbol="drawPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="5" lineNum="92" parent="globals/DashboardView" pc="268435661" symbol="drawPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="5" lineNum="93" parent="globals/DashboardView" pc="268435680" symbol="drawPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="5" lineNum="94" parent="globals/DashboardView" pc="268435688" symbol="drawPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="5" lineNum="96" parent="globals/DashboardView" pc="268435719" symbol="drawPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="5" lineNum="98" parent="globals/DashboardView" pc="268435741" symbol="drawPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="5" lineNum="101" parent="globals/DashboardView" pc="268435777" symbol="drawPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="5" lineNum="102" parent="globals/DashboardView" pc="268435799" symbol="drawPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="178" parent="globals/DashboardView" pc="268435871" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="179" parent="globals/DashboardView" pc="268435875" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="181" parent="globals/DashboardView" pc="268435888" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="181" parent="globals/DashboardView" pc="268435899" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="182" parent="globals/DashboardView" pc="268435908" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="182" parent="globals/DashboardView" pc="268435919" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="183" parent="globals/DashboardView" pc="268435928" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="183" parent="globals/DashboardView" pc="268435939" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="184" parent="globals/DashboardView" pc="268435948" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="184" parent="globals/DashboardView" pc="268435959" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="185" parent="globals/DashboardView" pc="268435968" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="185" parent="globals/DashboardView" pc="268435979" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="186" parent="globals/DashboardView" pc="268435988" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="186" parent="globals/DashboardView" pc="268435999" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="187" parent="globals/DashboardView" pc="268436008" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="187" parent="globals/DashboardView" pc="268436019" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="6" lineNum="189" parent="globals/DashboardView" pc="268436028" symbol="getPowerColor"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="7" lineNum="41" parent="globals/DashboardView" pc="268436034" symbol="drawHeader"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="7" lineNum="42" parent="globals/DashboardView" pc="268436036" symbol="drawHeader"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="7" lineNum="43" parent="globals/DashboardView" pc="268436058" symbol="drawHeader"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="7" lineNum="51" parent="globals/DashboardView" pc="268436098" symbol="drawHeader"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="7" lineNum="52" parent="globals/DashboardView" pc="268436120" symbol="drawHeader"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="8" lineNum="55" parent="globals/DashboardView" pc="268436156" symbol="drawPower"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="8" lineNum="56" parent="globals/DashboardView" pc="268436158" symbol="drawPower"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="8" lineNum="57" parent="globals/DashboardView" pc="268436180" symbol="drawPower"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="8" lineNum="65" parent="globals/DashboardView" pc="268436220" symbol="drawPower"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="8" lineNum="66" parent="globals/DashboardView" pc="268436248" symbol="drawPower"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="8" lineNum="74" parent="globals/DashboardView" pc="268436302" symbol="drawPower"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="8" lineNum="75" parent="globals/DashboardView" pc="268436324" symbol="drawPower"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="164" parent="globals/DashboardView" pc="268436365" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="165" parent="globals/DashboardView" pc="268436367" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="166" parent="globals/DashboardView" pc="268436379" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="169" parent="globals/DashboardView" pc="268436388" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="169" parent="globals/DashboardView" pc="268436405" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="170" parent="globals/DashboardView" pc="268436414" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="170" parent="globals/DashboardView" pc="268436431" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="171" parent="globals/DashboardView" pc="268436440" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="171" parent="globals/DashboardView" pc="268436457" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="172" parent="globals/DashboardView" pc="268436466" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="172" parent="globals/DashboardView" pc="268436483" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="173" parent="globals/DashboardView" pc="268436492" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="173" parent="globals/DashboardView" pc="268436509" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="174" parent="globals/DashboardView" pc="268436518" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="174" parent="globals/DashboardView" pc="268436535" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="9" lineNum="175" parent="globals/DashboardView" pc="268436544" symbol="getPowerZone"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="10" lineNum="111" parent="globals/DashboardView" pc="268436550" symbol="drawSecondaryMetrics"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="10" lineNum="112" parent="globals/DashboardView" pc="268436554" symbol="drawSecondaryMetrics"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="10" lineNum="114" parent="globals/DashboardView" pc="268436564" symbol="drawSecondaryMetrics"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="10" lineNum="115" parent="globals/DashboardView" pc="268436586" symbol="drawSecondaryMetrics"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="10" lineNum="116" parent="globals/DashboardView" pc="268436621" symbol="drawSecondaryMetrics"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="10" lineNum="118" parent="globals/DashboardView" pc="268436647" symbol="drawSecondaryMetrics"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="10" lineNum="127" parent="globals/DashboardView" pc="268436703" symbol="drawSecondaryMetrics"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="11" lineNum="19" parent="globals/DashboardView" pc="268436763" symbol="compute"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="11" lineNum="20" parent="globals/DashboardView" pc="268436765" symbol="compute"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="11" lineNum="21" parent="globals/DashboardView" pc="268436781" symbol="compute"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="11" lineNum="22" parent="globals/DashboardView" pc="268436797" symbol="compute"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="11" lineNum="23" parent="globals/DashboardView" pc="268436813" symbol="compute"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="11" lineNum="24" parent="globals/DashboardView" pc="268436829" symbol="compute"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="11" lineNum="25" parent="globals/DashboardView" pc="268436845" symbol="compute"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="12" lineNum="229" parent="globals/DashboardView" pc="268436862" symbol="twoDigits"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="12" lineNum="230" parent="globals/DashboardView" pc="268436864" symbol="twoDigits"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="13" lineNum="196" parent="globals/DashboardView" pc="268436907" symbol="formatSpeed"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="13" lineNum="197" parent="globals/DashboardView" pc="268436909" symbol="formatSpeed"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="13" lineNum="198" parent="globals/DashboardView" pc="268436921" symbol="formatSpeed"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="13" lineNum="201" parent="globals/DashboardView" pc="268436930" symbol="formatSpeed"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="14" lineNum="212" parent="globals/DashboardView" pc="268436965" symbol="formatElapsed"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="14" lineNum="213" parent="globals/DashboardView" pc="268436969" symbol="formatElapsed"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="14" lineNum="214" parent="globals/DashboardView" pc="268436981" symbol="formatElapsed"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="14" lineNum="217" parent="globals/DashboardView" pc="268436990" symbol="formatElapsed"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="14" lineNum="218" parent="globals/DashboardView" pc="268437021" symbol="formatElapsed"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="14" lineNum="219" parent="globals/DashboardView" pc="268437046" symbol="formatElapsed"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="14" lineNum="220" parent="globals/DashboardView" pc="268437077" symbol="formatElapsed"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="14" lineNum="222" parent="globals/DashboardView" pc="268437087" symbol="formatElapsed"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="14" lineNum="223" parent="globals/DashboardView" pc="268437098" symbol="formatElapsed"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="14" lineNum="226" parent="globals/DashboardView" pc="268437153" symbol="formatElapsed"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="15" lineNum="192" parent="globals/DashboardView" pc="268437187" symbol="valueOrDash"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="15" lineNum="193" parent="globals/DashboardView" pc="268437189" symbol="valueOrDash"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="16" lineNum="137" parent="globals/DashboardView" pc="268437215" symbol="drawMetric"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="16" lineNum="138" parent="globals/DashboardView" pc="268437217" symbol="drawMetric"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="16" lineNum="139" parent="globals/DashboardView" pc="268437239" symbol="drawMetric"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="16" lineNum="141" parent="globals/DashboardView" pc="268437267" symbol="drawMetric"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="16" lineNum="142" parent="globals/DashboardView" pc="268437289" symbol="drawMetric"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="16" lineNum="144" parent="globals/DashboardView" pc="268437323" symbol="drawMetric"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="16" lineNum="145" parent="globals/DashboardView" pc="268437345" symbol="drawMetric"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="17" lineNum="15" parent="globals/DashboardView" pc="268437380" symbol="initialize"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="17" lineNum="16" parent="globals/DashboardView" pc="268437382" symbol="initialize"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="18" lineNum="148" parent="globals/DashboardView" pc="268437401" symbol="drawFooter"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="18" lineNum="149" parent="globals/DashboardView" pc="268437403" symbol="drawFooter"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="18" lineNum="150" parent="globals/DashboardView" pc="268437425" symbol="drawFooter"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="18" lineNum="152" parent="globals/DashboardView" pc="268437460" symbol="drawFooter"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="18" lineNum="153" parent="globals/DashboardView" pc="268437482" symbol="drawFooter"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="18" lineNum="154" parent="globals/DashboardView" pc="268437519" symbol="drawFooter"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="18" lineNum="156" parent="globals/DashboardView" pc="268437559" symbol="drawFooter"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="18" lineNum="157" parent="globals/DashboardView" pc="268437581" symbol="drawFooter"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="18" lineNum="158" parent="globals/DashboardView" pc="268437624" symbol="drawFooter"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="18" lineNum="160" parent="globals/DashboardView" pc="268437670" symbol="drawFooter"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="18" lineNum="161" parent="globals/DashboardView" pc="268437692" symbol="drawFooter"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="19" lineNum="28" parent="globals/DashboardView" pc="268437739" symbol="onUpdate"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="19" lineNum="29" parent="globals/DashboardView" pc="268437743" symbol="onUpdate"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="19" lineNum="31" parent="globals/DashboardView" pc="268437756" symbol="onUpdate"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="19" lineNum="32" parent="globals/DashboardView" pc="268437778" symbol="onUpdate"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="19" lineNum="34" parent="globals/DashboardView" pc="268437790" symbol="onUpdate"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="19" lineNum="35" parent="globals/DashboardView" pc="268437806" symbol="onUpdate"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="19" lineNum="36" parent="globals/DashboardView" pc="268437822" symbol="onUpdate"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="19" lineNum="37" parent="globals/DashboardView" pc="268437838" symbol="onUpdate"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/DashboardView.mc" id="19" lineNum="38" parent="globals/DashboardView" pc="268437854" symbol="onUpdate"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/GarminActivitiesApp.mc" id="20" lineNum="8" parent="globals/GarminActivitiesApp" pc="268437871" symbol="getInitialView"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/GarminActivitiesApp.mc" id="20" lineNum="9" parent="globals/GarminActivitiesApp" pc="268437873" symbol="getInitialView"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/GarminActivitiesApp.mc" id="21" lineNum="4" parent="globals/GarminActivitiesApp" pc="268437910" symbol="initialize"/>
+        <entry filename="/Users/mauropot/Documents/Dev/GarminActivities/connectiq/source/GarminActivitiesApp.mc" id="21" lineNum="5" parent="globals/GarminActivitiesApp" pc="268437912" symbol="initialize"/>
+    </pcToLineNum>
+    <symbolTable>
+        <entry id="8388639" module="true" symbol="Graphics"/>
+        <entry id="5" object="true" symbol="DashboardView"/>
+        <entry id="8388632" method="true" symbol="&lt;init&gt;"/>
+        <entry field="true" id="12" symbol="_speed"/>
+        <entry field="true" id="11" symbol="_power"/>
+        <entry id="14" method="true" symbol="drawMetric"/>
+        <entry field="true" id="10" symbol="_heartRate"/>
+        <entry field="true" id="8388611" module="true" symbol="Toybox"/>
+        <entry id="20" method="true" symbol="formatSpeed"/>
+        <entry field="true" id="26" symbol="AppName"/>
+        <entry id="4" module="true" symbol="globals/Rez/Strings"/>
+        <entry id="8388648" module="true" symbol="WatchUi"/>
+        <entry id="2" module="true" symbol="globals/Rez"/>
+        <entry id="8389124" method="true" symbol="onUpdate"/>
+        <entry id="8388771" module="true" object="true" symbol="Drawables"/>
+        <entry field="true" id="8" symbol="_distance"/>
+        <entry field="true" id="9" symbol="_elapsedTime"/>
+        <entry id="24" method="true" symbol="valueOrDash"/>
+        <entry id="17" method="true" symbol="drawSecondaryMetrics"/>
+        <entry id="8389137" method="true" symbol="compute"/>
+        <entry field="true" id="7" symbol="_cadence"/>
+        <entry id="3" module="true" symbol="globals/Rez/Drawables"/>
+        <entry id="16" method="true" symbol="drawPowerZone"/>
+        <entry id="8388769" module="true" object="true" symbol="Rez"/>
+        <entry id="19" method="true" symbol="formatElapsed"/>
+        <entry id="8388640" module="true" symbol="Lang"/>
+        <entry field="true" id="25" symbol="LauncherIcon"/>
+        <entry id="8388610" symbol="statics"/>
+        <entry id="18" method="true" symbol="formatDistance"/>
+        <entry id="8389350" module="true" symbol="globals"/>
+        <entry id="8388770" module="true" object="true" symbol="Strings"/>
+        <entry id="8388702" method="true" symbol="initialize"/>
+        <entry id="23" method="true" symbol="twoDigits"/>
+        <entry id="13" method="true" symbol="drawHeader"/>
+        <entry id="8388641" module="true" symbol="Math"/>
+        <entry id="8389280" method="true" symbol="getInitialView"/>
+        <entry id="21" method="true" symbol="getPowerColor"/>
+        <entry id="22" method="true" symbol="getPowerZone"/>
+        <entry id="6" object="true" symbol="GarminActivitiesApp"/>
+        <entry id="15" method="true" symbol="drawPower"/>
+        <entry id="8390741" method="true" symbol="drawFooter"/>
+        <entry id="8388635" module="true" symbol="Application"/>
+    </symbolTable>
+    <localVars>
+        <entry arg="true" endPc="268435870" name="dc" stackId="1" startPc="268435580"/>
+        <entry arg="true" endPc="268435870" name="width" stackId="2" startPc="268435580"/>
+        <entry endPc="268435869" name="zone" stackId="3" startPc="268435584"/>
+        <entry endPc="268435869" name="left" stackId="4" startPc="268435584"/>
+        <entry endPc="268435869" name="top" stackId="5" startPc="268435584"/>
+        <entry endPc="268435869" name="gap" stackId="6" startPc="268435584"/>
+        <entry endPc="268435869" name="segmentWidth" stackId="7" startPc="268435584"/>
+        <entry endPc="268435776" name="i" stackId="8" startPc="268435661"/>
+        <entry endPc="268435763" name="x" stackId="9" startPc="268435661"/>
+        <entry endPc="268436033" name="zone" stackId="1" startPc="268435875"/>
+        <entry arg="true" endPc="268436155" name="dc" stackId="1" startPc="268436034"/>
+        <entry arg="true" endPc="268436155" name="width" stackId="2" startPc="268436034"/>
+        <entry arg="true" endPc="268436364" name="dc" stackId="1" startPc="268436156"/>
+        <entry arg="true" endPc="268436364" name="width" stackId="2" startPc="268436156"/>
+        <entry arg="true" endPc="268436762" name="dc" stackId="1" startPc="268436550"/>
+        <entry arg="true" endPc="268436762" name="width" stackId="2" startPc="268436550"/>
+        <entry endPc="268436761" name="center" stackId="3" startPc="268436554"/>
+        <entry arg="true" endPc="268436861" name="info" stackId="1" startPc="268436763"/>
+        <entry arg="true" endPc="268436906" name="value" stackId="1" startPc="268436862"/>
+        <entry endPc="268437186" name="totalSeconds" stackId="1" startPc="268436969"/>
+        <entry endPc="268437186" name="hours" stackId="2" startPc="268436969"/>
+        <entry endPc="268437186" name="minutes" stackId="3" startPc="268436969"/>
+        <entry endPc="268437186" name="seconds" stackId="4" startPc="268436969"/>
+        <entry arg="true" endPc="268437214" name="value" stackId="1" startPc="268437187"/>
+        <entry arg="true" endPc="268437379" name="dc" stackId="1" startPc="268437215"/>
+        <entry arg="true" endPc="268437379" name="x" stackId="2" startPc="268437215"/>
+        <entry arg="true" endPc="268437379" name="y" stackId="3" startPc="268437215"/>
+        <entry arg="true" endPc="268437379" name="label" stackId="4" startPc="268437215"/>
+        <entry arg="true" endPc="268437379" name="value" stackId="5" startPc="268437215"/>
+        <entry arg="true" endPc="268437379" name="unit" stackId="6" startPc="268437215"/>
+        <entry arg="true" endPc="268437738" name="dc" stackId="1" startPc="268437401"/>
+        <entry arg="true" endPc="268437738" name="width" stackId="2" startPc="268437401"/>
+        <entry arg="true" endPc="268437870" name="dc" stackId="1" startPc="268437739"/>
+        <entry endPc="268437869" name="width" stackId="2" startPc="268437743"/>
+    </localVars>
+    <deviceInfo deviceVersion="3d0fb192a2cf01699aefd0f384af3f527e5885bd" partNumber="006-B3121-00"/>
+    <annotations>
+        <annotationEntry annotation="initialized" class="Drawables" module="globals/Rez" symbol="LauncherIcon"/>
+        <annotationEntry annotation="initialized" class="Strings" module="globals/Rez" symbol="AppName"/>
+    </annotations>
+    <dataEntryOffsetMappings>
+        <dataEntry label="globals" offset="55" parentId="" symbolId="globals" type="module"/>
+        <dataEntry label="globals/Rez" offset="118" parentId="globals" symbolId="Rez" type="module"/>
+        <dataEntry label="globals/DashboardView" offset="165" parentId="globals" symbolId="DashboardView" type="class"/>
+        <dataEntry label="globals/GarminActivitiesApp" offset="380" parentId="globals" symbolId="GarminActivitiesApp" type="class"/>
+        <dataEntry label="globals/Rez/Drawables" offset="435" parentId="Rez" symbolId="Drawables" type="module"/>
+        <dataEntry label="globals/Rez/Strings" offset="474" parentId="Rez" symbolId="Strings" type="module"/>
+    </dataEntryOffsetMappings>
+    <functions>
+        <functionEntry accessMode="public" endPc="268435483" name="&lt;init&gt;" parent="Rez" startPc="268435460">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435502" name="&lt;init&gt;" parent="DashboardView" startPc="268435484">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435521" name="&lt;init&gt;" parent="GarminActivitiesApp" startPc="268435503">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="&lt;init&gt;" parent="Drawables">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" name="&lt;init&gt;" parent="Strings">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435579" name="formatDistance" parent="DashboardView" startPc="268435522">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268435870" name="drawPowerZone" parent="DashboardView" startPc="268435580">
+            <param id="dc"/>
+            <param id="width"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436033" name="getPowerColor" parent="DashboardView" startPc="268435871">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436155" name="drawHeader" parent="DashboardView" startPc="268436034">
+            <param id="dc"/>
+            <param id="width"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436364" name="drawPower" parent="DashboardView" startPc="268436156">
+            <param id="dc"/>
+            <param id="width"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436549" name="getPowerZone" parent="DashboardView" startPc="268436365">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436762" name="drawSecondaryMetrics" parent="DashboardView" startPc="268436550">
+            <param id="dc"/>
+            <param id="width"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436861" name="compute" parent="DashboardView" startPc="268436763">
+            <param id="info"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436906" name="twoDigits" parent="DashboardView" startPc="268436862">
+            <param id="value"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268436964" name="formatSpeed" parent="DashboardView" startPc="268436907">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268437186" name="formatElapsed" parent="DashboardView" startPc="268436965">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268437214" name="valueOrDash" parent="DashboardView" startPc="268437187">
+            <param id="value"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268437379" name="drawMetric" parent="DashboardView" startPc="268437215">
+            <param id="dc"/>
+            <param id="x"/>
+            <param id="y"/>
+            <param id="label"/>
+            <param id="value"/>
+            <param id="unit"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268437400" name="initialize" parent="DashboardView" startPc="268437380">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268437738" name="drawFooter" parent="DashboardView" startPc="268437401">
+            <param id="dc"/>
+            <param id="width"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268437870" name="onUpdate" parent="DashboardView" startPc="268437739">
+            <param id="dc"/>
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268437909" name="getInitialView" parent="GarminActivitiesApp" startPc="268437871">
+            <documentation/>
+        </functionEntry>
+        <functionEntry accessMode="public" endPc="268437930" name="initialize" parent="GarminActivitiesApp" startPc="268437910">
+            <documentation/>
+        </functionEntry>
+    </functions>
+</debugInfo>
