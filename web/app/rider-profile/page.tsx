@@ -55,7 +55,10 @@ export default function RiderProfilePage() {
         <h1>Che ciclista <span>sei davvero.</span></h1>
         <p>Fenotipo calcolato sull'intero archivio FIT. Gli indici descrivono la forma della tua power curve e la tenuta con la durata: non sono percentili rispetto ad altri ciclisti.</p>
       </div>
-      <Link className="secondaryButton" href="/settings"><Gauge size={16}/>Peso e FTP</Link>
+      <div className="topActions">
+        <Link className="secondaryButton" href="/settings"><Gauge size={16}/>Peso e FTP</Link>
+        <Link className="primaryButton" href="/workouts?preset=profile-sprint"><Zap size={16}/>Inizia i test</Link>
+      </div>
     </header>
 
     <section className={styles.heroGrid}>
@@ -87,6 +90,16 @@ export default function RiderProfilePage() {
             <span>{historic.date ? formatDate(historic.date, true) : "—"}{historic.file ? <Link href={`/activity/${encodeURIComponent(historic.file)}`} aria-label={`Apri attività ${historic.label}`}><ArrowUpRight size={14}/></Link> : null}</span>
           </div>;
         })}
+      </div>
+    </section>
+
+    <section className={`panel ${styles.curvePanel}`}>
+      <div className="panelHeader"><div><span className="sectionLabel">RIDER PROFILE TEST</span><h2>Tre uscite per misurare il motore attuale</h2></div><span className="countPill">≥ 48 h tra i test</span></div>
+      <p>Falli con gambe fresche, su strada sicura e regolare, senza scie o rilanci di gruppo. I blocchi MAX non hanno target watt: devi produrre il miglior sforzo sostenibile per quella durata.</p>
+      <div className="topActions">
+        <Link className="secondaryButton" href="/workouts?preset=profile-sprint">A · 5s + 30s</Link>
+        <Link className="secondaryButton" href="/workouts?preset=profile-vo2">B · 1m + 5m</Link>
+        <Link className="secondaryButton" href="/workouts?preset=profile-threshold">C · 20m</Link>
       </div>
     </section>
 
