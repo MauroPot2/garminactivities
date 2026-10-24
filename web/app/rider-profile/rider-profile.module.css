@@ -1,0 +1,49 @@
+.page { padding-bottom: 56px; }
+.heroGrid { display:grid; grid-template-columns:minmax(0,1fr) minmax(380px,.9fr); gap:18px; margin-bottom:18px; }
+.identityPanel,.radarPanel { min-height:420px; }
+.identityPanel { display:flex; flex-direction:column; justify-content:space-between; }
+.identity { display:flex; align-items:center; gap:16px; margin:24px 0; }
+.identity > svg { width:58px; height:58px; padding:14px; border-radius:18px; background:rgba(132,91,255,.12); }
+.identity h2 { margin:0; font-size:clamp(2rem,4vw,4.2rem); line-height:.95; letter-spacing:-.055em; }
+.identity p { margin:10px 0 0; color:var(--muted); }
+.period { display:flex; align-items:center; gap:12px; color:var(--muted); font-size:.88rem; }
+.period i { height:1px; flex:1; background:var(--line); }
+.callouts { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:20px; }
+.callouts > div { padding:16px; border:1px solid var(--line); border-radius:16px; display:grid; grid-template-columns:auto 1fr; gap:5px 10px; align-items:center; }
+.callouts span { color:var(--muted); font-size:.78rem; text-transform:uppercase; letter-spacing:.08em; }
+.callouts b { grid-column:2; font-size:.96rem; }
+.radarPanel { display:flex; align-items:center; justify-content:center; }
+.radarWrap { width:min(100%,480px); }
+.radar { width:100%; overflow:visible; }
+.ring,.axis { fill:none; stroke:rgba(255,255,255,.10); stroke-width:1; }
+.axisLabel { fill:var(--muted); font-size:11px; font-weight:650; letter-spacing:.02em; }
+.allTimePoly { fill:rgba(255,255,255,.035); stroke:rgba(255,255,255,.35); stroke-width:1.5; stroke-dasharray:5 5; }
+.recentPoly { fill:rgba(132,91,255,.16); stroke:rgb(151,116,255); stroke-width:2.5; }
+.recentDot { fill:rgb(180,155,255); stroke:var(--panel); stroke-width:2; }
+.legend { display:flex; justify-content:center; gap:18px; color:var(--muted); font-size:.8rem; }
+.legend span { display:flex; align-items:center; gap:7px; }
+.legend i { width:18px; height:3px; border-radius:4px; }
+.legendRecent { background:rgb(151,116,255); }
+.legendAll { background:rgba(255,255,255,.38); }
+.scoreGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-bottom:18px; }
+.scoreCard { padding:18px; border:1px solid var(--line); border-radius:18px; background:var(--panel); }
+.scoreCard > div:first-child { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; }
+.scoreCard span { color:var(--muted); font-size:.84rem; text-transform:uppercase; letter-spacing:.07em; }
+.scoreCard strong { font-size:1.8rem; letter-spacing:-.04em; }
+.scoreCard small { color:var(--muted); font-size:.72rem; margin-left:3px; }
+.scoreTrack { height:6px; border-radius:99px; background:rgba(255,255,255,.07); overflow:hidden; margin:13px 0 11px; }
+.scoreTrack i { display:block; height:100%; border-radius:inherit; background:linear-gradient(90deg,rgba(132,91,255,.55),rgba(214,115,255,.95)); }
+.scoreCard p { margin:0; color:var(--muted); font-size:.82rem; line-height:1.45; }
+.curvePanel { margin-bottom:18px; }
+.curveTable { display:grid; }
+.curveRow { display:grid; grid-template-columns:.8fr 1fr 1fr 1fr 1.4fr; align-items:center; min-height:52px; border-top:1px solid var(--line); gap:10px; }
+.curveRow > span:last-child { display:flex; align-items:center; gap:6px; }
+.curveRow a { display:inline-flex; color:inherit; opacity:.7; }
+.curveHead { min-height:38px; color:var(--muted); text-transform:uppercase; letter-spacing:.07em; font-size:.7rem; border-top:0; }
+.notesGrid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.notesGrid p { color:var(--muted); line-height:1.65; margin:18px 0 0; }
+.noteTitle { display:flex; gap:12px; align-items:flex-start; }
+.noteTitle > svg { margin-top:2px; }
+.noteTitle h3 { margin:4px 0 0; font-size:1.15rem; }
+@media (max-width:980px) { .heroGrid { grid-template-columns:1fr; } .scoreGrid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:700px) { .heroGrid { grid-template-columns:1fr; } .identityPanel,.radarPanel { min-height:auto; } .callouts,.scoreGrid,.notesGrid { grid-template-columns:1fr; } .curveTable { overflow-x:auto; } .curveRow { grid-template-columns:80px 90px 90px 100px 150px; min-width:540px; } .axisLabel { font-size:10px; } }
