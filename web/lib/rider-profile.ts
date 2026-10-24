@@ -119,7 +119,7 @@ function scoreDimensions(curve: CurveBest[], activities: ActivitySummary[], weig
   const threshold = clamp((scale(thresholdRetention, .20, .43) * .65) + (scale(ratio(p1200, p300), .72, .94) * .35));
   const climbing = twentyMinuteWkg !== undefined
     ? clamp(scale(twentyMinuteWkg, 1.7, 4.2) * .8 + scale(hillyShare, .05, .35) * .2)
-    : clamp(threshold * .72 + scale(hillyShare, .05, .35) * .28);
+    : 50;
   const endurance = clamp((scale(hourRetention, .68, .94) * .75) + (scale(longRideShare, .08, .45) * .25));
 
   return [
@@ -127,32 +127,35 @@ function scoreDimensions(curve: CurveBest[], activities: ActivitySummary[], weig
     { key: "anaerobic", label: "Anaerobico", score: Math.round(anaerobic), evidence: anaerobicRatio ? `30 s / 20 min = ${anaerobicRatio.toFixed(2)}×` : "Curva anaerobica insufficiente" },
     { key: "puncheur", label: "Puncheur", score: Math.round(puncheur), evidence: fiveMinuteRatio ? `5 min / 20 min = ${fiveMinuteRatio.toFixed(2)}×` : "Curva 5 min insufficiente" },
     { key: "threshold", label: "Soglia", score: Math.round(threshold), evidence: thresholdRetention ? `20 min conserva ${(thresholdRetention * 100).toFixed(0)}% della potenza 5 s` : "Curva soglia insufficiente" },
-    { key: "climbing", label: "Climbing", score: Math.round(climbing), evidence: twentyMinuteWkg ? `${twentyMinuteWkg.toFixed(2)} W/kg sui migliori 20 min` : `${hillyRides} uscite con almeno 700 m D+` },
+    { key: "climbing", label: "Climbing", score: Math.round(climbing), evidence: twentyMinuteWkg ? `${twentyMinuteWkg.toFixed(2)} W/kg sui migliori 20 min` : "Peso non configurato: W/kg non disponibile" },
     { key: "endurance", label: "Endurance", score: Math.round(endurance), evidence: hourRetention ? `60 min / 20 min = ${(hourRetention * 100).toFixed(0)}%` : `${longRides} uscite da almeno 2 h` },
   ];
 }
 
-function archetype(dimensions: RiderDimension[]) {
+function archetype(dimensions: RiderDimension[], poweredActivityCount: number) {
+  if (poweredActivityCount < 8) return "Profilo in ricostruzione";
   const map = new Map(dimensions.map((item) => [item.key, item.score]));
   const s = (key: RiderDimensionKey) => map.get(key) ?? 0;
   if (s("sprint") >= 78 && s("anaerobic") >= 68) return "Sprinter";
-  if (s("climbing") >= 72 && s("endurance") >= 62) return "Scalatore resistente";
   if (s("puncheur") >= 72 && s("anaerobic") >= 60) return "Puncheur";
   if (s("threshold") >= 68 && s("endurance") >= 65 && s("climbing") >= 58) return "Passista-scalatore";
   if (s("threshold") >= 65 && s("endurance") >= 62) return "Passista / rouleur";
+  if (s("anaerobic") >= 75 && s("sprint") >= 55) return "All-rounder esplosivo";
+  if (s("climbing") >= 72 && s("endurance") >= 62) return "Scalatore resistente";
   return "All-rounder";
 }
 
 function snapshot(label: string, activities: ActivitySummary[], details: ActivityDetail[], weightKg?: number): RiderSnapshot {
   const curve = bestCurve(details, weightKg);
   const dimensions = scoreDimensions(curve, activities, weightKg);
+  const poweredActivityCount = details.filter((activity) => activity.powerCurve.some((point) => (point.watts ?? 0) > 0)).length;
   return {
     label,
     activityCount: activities.length,
-    poweredActivityCount: details.filter((activity) => activity.powerCurve.some((point) => (point.watts ?? 0) > 0)).length,
+    poweredActivityCount,
     curve,
     dimensions,
-    archetype: archetype(dimensions),
+    archetype: archetype(dimensions, poweredActivityCount),
   };
 }
 
