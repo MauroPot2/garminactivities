@@ -9,6 +9,7 @@ on:
   pull_request:
     paths:
       - "web/**"
+      - ".github/workflows/velolab-ci.yml"
 
 jobs:
   build:
@@ -25,3 +26,4 @@ jobs:
           cache-dependency-path: web/package.json
       - run: npm install --no-audit --no-fund
       - run: npm run build
+      - run: npm run profile:report

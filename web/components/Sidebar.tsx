@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Activity, Bike, Gauge, GitCompareArrows, Home, Settings2, Sparkles, TrendingUp } from "lucide-react";
+import { Activity, Bike, Gauge, GitCompareArrows, Home, Settings2, Sparkles, Target, TrendingUp } from "lucide-react";
 
 const nav = [
   { href: "/", label: "Panoramica", icon: Home, exact: true },
   { href: "/#attivita", label: "Attività", icon: Bike, path: "/activity" },
   { href: "/performance", label: "Performance", icon: TrendingUp },
+  { href: "/rider-profile", label: "Rider Profile", icon: Target },
   { href: "/compare", label: "Confronta", icon: GitCompareArrows },
   { href: "/workouts", label: "Allenamenti", icon: Activity },
   { href: "/coach", label: "Coach", icon: Sparkles },

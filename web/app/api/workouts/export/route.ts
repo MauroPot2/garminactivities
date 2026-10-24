@@ -4,6 +4,7 @@ export const runtime = "nodejs";
 
 const MAX_STEPS = 50;
 const MAX_POWER_WATTS = 3000;
+const MIN_STEP_MINUTES = 1 / 60;
 
 type Step = {
   name?: string;
@@ -28,7 +29,7 @@ export async function POST(request: Request) {
 
     for (const [index, step] of steps.entries()) {
       const minutes = Number(step.minutes);
-      if (!Number.isFinite(minutes) || minutes <= 0 || minutes > 300) {
+      if (!Number.isFinite(minutes) || minutes < MIN_STEP_MINUTES || minutes > 300) {
         return new Response(`Durata non valida nel blocco ${index + 1}`, { status: 400 });
       }
 
@@ -65,7 +66,7 @@ export async function POST(request: Request) {
     } as any);
 
     steps.forEach((step, index) => {
-      const durationMs = Math.round(clamp(Number(step.minutes), 0.1, 300) * 60_000);
+      const durationMs = Math.round(clamp(Number(step.minutes), MIN_STEP_MINUTES, 300) * 60_000);
       const low = typeof step.targetMin === "number" ? Math.round(step.targetMin) : undefined;
       const high = typeof step.targetMax === "number" ? Math.round(step.targetMax) : undefined;
       const hasPowerTarget = low !== undefined && high !== undefined;
