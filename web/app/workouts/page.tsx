@@ -9,6 +9,7 @@ type Draft = { name: string; steps: WorkoutStep[] };
 type Preset = { slug: string; label: string; hint: string; steps: WorkoutStep[] };
 
 const MAX_STEPS = 50;
+const MIN_STEP_MINUTES = 1 / 60;
 const DRAFT_KEY = "velolab-workout-draft-v1";
 
 const starter: WorkoutStep[] = [
@@ -27,10 +28,44 @@ const presets: Preset[] = [
   { slug: "threshold", label: "FTP 3×10'", hint: "lavoro di soglia controllato", steps: [{ id: "t0", name: "Warm up", minutes: 15, targetMin: 95, targetMax: 120, intensity: "warmup" }, ...Array.from({ length: 3 }).flatMap((_, index) => [{ id: `t${index}-on`, name: `Soglia ${index + 1}`, minutes: 10, targetMin: 180, targetMax: 190, intensity: "active" as Intensity }, ...(index < 2 ? [{ id: `t${index}-off`, name: "Recupero", minutes: 5, targetMin: 90, targetMax: 110, intensity: "rest" as Intensity }] : [])]), { id: "t-end", name: "Cool down", minutes: 10, targetMin: 85, targetMax: 105, intensity: "cooldown" }] },
   { slug: "vo2", label: "VO₂ 5×3'", hint: "qualità breve · recupero completo", steps: [{ id: "v0", name: "Warm up", minutes: 20, targetMin: 95, targetMax: 125, intensity: "warmup" }, ...Array.from({ length: 5 }).flatMap((_, index) => [{ id: `v${index}-on`, name: `VO₂ ${index + 1}`, minutes: 3, targetMin: 220, targetMax: 240, intensity: "active" as Intensity }, ...(index < 4 ? [{ id: `v${index}-off`, name: "Recupero", minutes: 3, targetMin: 85, targetMax: 105, intensity: "rest" as Intensity }] : [])]), { id: "v-end", name: "Cool down", minutes: 10, targetMin: 85, targetMax: 105, intensity: "cooldown" }] },
   { slug: "cadence", label: "Agilità 6×30\"", hint: "cadenza, non sprint", steps: [{ id: "a0", name: "Warm up", minutes: 15, targetMin: 95, targetMax: 120, intensity: "warmup" }, ...Array.from({ length: 6 }).flatMap((_, index) => [{ id: `a${index}-on`, name: `Agilità ${index + 1}`, minutes: 0.5, targetMin: 105, targetMax: 135, intensity: "active" as Intensity }, { id: `a${index}-off`, name: "Recupero", minutes: 2, targetMin: 85, targetMax: 110, intensity: "rest" as Intensity }]), { id: "a-end", name: "Cool down", minutes: 10, targetMin: 85, targetMax: 105, intensity: "cooldown" }] },
+  { slug: "profile-sprint", label: "Profilo A · 5s + 30s", hint: "sprint e anaerobico · MAX senza target", steps: [
+    { id: "pa-warm", name: "Warm up progressivo", minutes: 20, targetMin: 95, targetMax: 125, intensity: "warmup" },
+    { id: "pa-open", name: "Attivazione", minutes: 1, targetMin: 150, targetMax: 175, intensity: "active" },
+    { id: "pa-rec0", name: "Recupero", minutes: 5, targetMin: 85, targetMax: 105, intensity: "rest" },
+    ...Array.from({ length: 3 }).flatMap((_, index) => [
+      { id: `pa-5-${index}`, name: `MAX 5s · tentativo ${index + 1}`, minutes: 5 / 60, intensity: "active" as Intensity },
+      { id: `pa-5r-${index}`, name: "Recupero completo", minutes: 5, targetMin: 80, targetMax: 105, intensity: "rest" as Intensity },
+    ]),
+    { id: "pa-reset", name: "Reset prima dei 30s", minutes: 10, targetMin: 80, targetMax: 105, intensity: "rest" },
+    { id: "pa-30-1", name: "MAX 30s · tentativo 1", minutes: 0.5, intensity: "active" },
+    { id: "pa-30r", name: "Recupero completo", minutes: 12, targetMin: 80, targetMax: 105, intensity: "rest" },
+    { id: "pa-30-2", name: "MAX 30s · tentativo 2", minutes: 0.5, intensity: "active" },
+    { id: "pa-cool", name: "Cool down", minutes: 15, targetMin: 80, targetMax: 105, intensity: "cooldown" },
+  ] },
+  { slug: "profile-vo2", label: "Profilo B · 1m + 5m", hint: "capacità anaerobica e VO₂ · MAX", steps: [
+    { id: "pb-warm", name: "Warm up progressivo", minutes: 20, targetMin: 95, targetMax: 125, intensity: "warmup" },
+    { id: "pb-open", name: "Attivazione", minutes: 2, targetMin: 145, targetMax: 170, intensity: "active" },
+    { id: "pb-rec0", name: "Recupero", minutes: 6, targetMin: 85, targetMax: 105, intensity: "rest" },
+    { id: "pb-1m", name: "MAX 1 min", minutes: 1, intensity: "active" },
+    { id: "pb-reset", name: "Recupero completo", minutes: 25, targetMin: 80, targetMax: 105, intensity: "rest" },
+    { id: "pb-5m", name: "MAX 5 min", minutes: 5, intensity: "active" },
+    { id: "pb-cool", name: "Cool down", minutes: 15, targetMin: 80, targetMax: 105, intensity: "cooldown" },
+  ] },
+  { slug: "profile-threshold", label: "Profilo C · 20m", hint: "soglia / capacità aerobica · MAX controllato", steps: [
+    { id: "pc-warm", name: "Warm up progressivo", minutes: 20, targetMin: 95, targetMax: 125, intensity: "warmup" },
+    { id: "pc-steady", name: "Endurance preparatoria", minutes: 5, targetMin: 130, targetMax: 145, intensity: "active" },
+    { id: "pc-rec", name: "Recupero", minutes: 5, targetMin: 85, targetMax: 105, intensity: "rest" },
+    { id: "pc-20m", name: "MAX sostenibile 20 min", minutes: 20, intensity: "active" },
+    { id: "pc-cool", name: "Cool down", minutes: 15, targetMin: 80, targetMax: 105, intensity: "cooldown" },
+  ] },
 ];
 
 function uid() { return Math.random().toString(36).slice(2, 9); }
 function safeFilename(value: string) { return value.toLowerCase().replace(/[^a-z0-9]+/gi, "_").replace(/^_|_$/g, "") || "workout"; }
+function formatStepDuration(minutes: number) {
+  if (minutes < 1) return `${Math.round(minutes * 60)}″`;
+  return `${Number(minutes.toFixed(1)).toLocaleString("it-IT")}′`;
+}
 
 export default function WorkoutsPage() {
   const [name, setName] = useState("Endurance controllata");
@@ -107,7 +142,7 @@ export default function WorkoutsPage() {
     setExporting(true);
     try {
       if (steps.length > MAX_STEPS) throw new Error(`Riduci l'allenamento a ${MAX_STEPS} blocchi.`);
-      const invalidDuration = steps.findIndex((step) => !Number.isFinite(step.minutes) || step.minutes <= 0 || step.minutes > 300);
+      const invalidDuration = steps.findIndex((step) => !Number.isFinite(step.minutes) || step.minutes < MIN_STEP_MINUTES || step.minutes > 300);
       if (invalidDuration >= 0) throw new Error(`Controlla la durata del blocco ${invalidDuration + 1}.`);
       const incompleteTarget = steps.findIndex((step) => (step.targetMin === undefined) !== (step.targetMax === undefined));
       if (incompleteTarget >= 0) throw new Error(`Completa entrambi i target watt nel blocco ${incompleteTarget + 1}, oppure lasciali entrambi vuoti.`);
@@ -156,7 +191,7 @@ export default function WorkoutsPage() {
                   <input className="stepName" value={step.name} onChange={(event) => update(step.id, { name: event.target.value })}/>
                   <div className="stepSub"><span><Zap size={13}/>{step.targetMin ?? "—"}–{step.targetMax ?? "—"} W</span><span>{step.intensity}</span></div>
                 </div>
-                <label className="compactInput"><span>min</span><input type="number" min="0.1" step="0.5" max="300" value={step.minutes} onChange={(event) => update(step.id, { minutes: Number(event.target.value) })}/></label>
+                <label className="compactInput"><span>min</span><input type="number" min={MIN_STEP_MINUTES} step={MIN_STEP_MINUTES} max="300" value={step.minutes} onChange={(event) => update(step.id, { minutes: Number(event.target.value) })}/></label>
                 <label className="compactInput powerInput"><span>W min</span><input type="number" min="0" max="2000" value={step.targetMin ?? ""} onChange={(event) => update(step.id, { targetMin: event.target.value ? Number(event.target.value) : undefined })}/></label>
                 <label className="compactInput powerInput"><span>W max</span><input type="number" min="0" max="2000" value={step.targetMax ?? ""} onChange={(event) => update(step.id, { targetMax: event.target.value ? Number(event.target.value) : undefined })}/></label>
                 <label className="intensitySelect"><select value={step.intensity} onChange={(event) => update(step.id, { intensity: event.target.value as Intensity })}><option value="warmup">Warm up</option><option value="active">Lavoro</option><option value="rest">Recupero</option><option value="cooldown">Cool down</option></select><ChevronDown size={13}/></label>
@@ -170,9 +205,9 @@ export default function WorkoutsPage() {
         <aside className="workoutAside">
           <div className="panel workoutPreview">
             <div className="panelHeader"><div><span className="sectionLabel">ANTEPRIMA</span><h2>{name || "Allenamento"}</h2></div><Dumbbell size={19}/></div>
-            <div className="blockPreview">{steps.map((step) => <div key={step.id} className={`previewBlock step-${step.intensity}`} style={{ flex: Math.max(.5, step.minutes) }} title={`${step.name}: ${step.minutes} min`}><span>{step.minutes}'</span></div>)}</div>
+            <div className="blockPreview">{steps.map((step) => <div key={step.id} className={`previewBlock step-${step.intensity}`} style={{ flex: Math.max(.5, step.minutes) }} title={`${step.name}: ${formatStepDuration(step.minutes)}`}><span>{formatStepDuration(step.minutes)}</span></div>)}</div>
             <div className="previewLegend"><span><i className="dotWarm"/>Warm up</span><span><i className="dotActive"/>Lavoro</span><span><i className="dotRest"/>Recupero</span></div>
-            <div className="garminReady"><div className="garminIcon"><Sparkles size={17}/></div><div><b>Garmin ready</b><span>Workout FIT · ciclismo · target potenza</span></div></div>
+            <div className="garminReady"><div className="garminIcon"><Sparkles size={17}/></div><div><b>Garmin ready</b><span>Workout FIT · ciclismo · target potenza / open</span></div></div>
           </div>
 
           <div className="panel presetPanel">
