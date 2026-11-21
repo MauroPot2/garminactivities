@@ -1,120 +1,44 @@
-# VeloLab 🚴
+# VeloLab
 
-**VeloLab** è un performance lab locale costruito direttamente sui file FIT Garmin. L'obiettivo non è clonare il social di Strava, ma creare uno strumento personale per analizzare bene allenamento, potenza, tecnica di pedalata e carico e trasformare i dati nel prossimo workout Garmin.
+Applicazione locale per analizzare attività ciclistiche registrate in formato Garmin FIT. Il progetto conserva i file originali e utilizza un'interfaccia web per esplorare allenamenti, metriche e pianificazione delle uscite.
 
-## Avvio rapido
+## Funzionalità
 
-```bash
-git checkout feat/local-training-dashboard
+- Archivio delle attività e riepiloghi su periodi di 7 e 30 giorni
+- Esplorazione della traccia GPS con grafici sincronizzati
+- Analisi di potenza, frequenza cardiaca, cadenza, dislivello e altre misure disponibili nei FIT
+- Curve di potenza, distribuzione delle zone e indicatori di carico allenante
+- Confronto di due attività
+- Profilo atleta e annotazioni nel Ride Journal
+- Composizione ed esportazione di allenamenti FIT per dispositivi compatibili
+
+Non tutte le attività contengono gli stessi campi: gli indicatori dipendono dai sensori e dalle informazioni effettivamente registrate.
+
+## Stack
+
+Next.js, React, TypeScript, Leaflet e Garmin FIT SDK. Il codice dell'interfaccia si trova in `web/`.
+
+## Avvio locale
+
+~~~bash
 cd web
 npm install
 npm run dev
-```
+~~~
 
-Apri **http://localhost:3000**.
+Aprire `http://localhost:3000`.
 
-I `.fit` restano la fonte originale e non vengono modificati. VeloLab li legge dal repository padre. FTP storica, profilo e Ride Journal vengono salvati soltanto sul Mac dentro `web/.velolab/`, cartella esclusa da Git.
+I file `.fit` presenti nel repository principale vengono letti come sorgenti dati. Impostazioni e note aggiuntive sono conservate localmente in `web/.velolab/`, cartella esclusa dal versionamento.
 
-## Moduli
+## Verifiche
 
-### Dashboard
-- riepilogo 7/30 giorni
-- ultima attività e archivio FIT
-- km, tempo, dislivello e lavoro meccanico
-- shortcut verso Performance, Coach, Compare e Rider Profile
+~~~bash
+cd web
+npm run build
+~~~
 
-### Ride Explorer
-- mappa reale OpenStreetMap/CARTO
-- traccia GPS FIT
-- cursore sincronizzato grafico ↔ mappa
-- telemetria nel punto selezionato: tempo, distanza, watt, FC, rpm, velocità, quota e pendenza
-- grafici potenza, frequenza cardiaca, cadenza e altitudine
+## Privacy e limiti
 
-### Power Lab
-Quando i campi esistono nel FIT:
-- power curve 1 s → 60 min
-- potenza media, NP, potenza pedalando e coasting
-- Variability Index, Efficiency Factor e Pw:Hr drift
-- torque da watt + cadenza
-- W/kg con peso configurato
-- zone di potenza con FTP storica
-- distribuzione della cadenza senza falsare la media con gli 0 rpm
-- Power × Cadence scatter
-- Climb Lab con D+, pendenza, VAM, watt, FC e rpm
-- seduto vs in piedi
-- L/R balance
-- Torque Effectiveness
-- Pedal Smoothness
-- Platform Center Offset
-- Power Phase e Peak Power Phase
-- inventario sensori e stato hardware quando disponibile
+Le tracce FIT possono contenere dati sensibili, come posizione, orari e metriche fisiologiche: verificare con attenzione la visibilità del repository prima di condividerlo o pubblicarne gli archivi. VeloLab non richiede un backend cloud per l'analisi locale.
 
-### Garmin Ride Metrics
-- velocità e quota
-- Training Effect, TSS, IF ed exercise load se presenti
-- respirazione e temperatura se registrate
-- calorie, lavoro e dati di idratazione disponibili nel FIT
-
-### Performance
-- TSS Garmin oppure stima VeloLab da durata, NP e FTP
-- CTL 42 giorni
-- ATL 7 giorni
-- Form/TSB
-- andamento del carico e confronto con la settimana precedente
-
-### Compare Lab
-Confronto diretto fra due attività per durata, dislivello, potenza, NP, FC, cadenza e power curve.
-
-### Rider Profile
-- FTP storica per data
-- peso
-- FC massima opzionale
-- FC di soglia opzionale
-
-VeloLab non inventa le zone cardio quando i riferimenti non sono disponibili.
-
-### Ride Journal
-Per integrare ciò che il Garmin non conosce:
-- RPE 1–10
-- carboidrati
-- liquidi
-- caffeina
-- crampi e nota specifica
-- note libere
-
-### Coach Mode
-Coach locale, trasparente e modificabile basato su FIT + Ride Journal + carico. Un RPE elevato, crampi annotati o una fatica alta spingono il sistema verso una proposta più conservativa. Il suggerimento può essere aperto direttamente nel Workout Studio.
-
-### Workout Studio
-- builder drag & drop
-- target watt e durata per step
-- blocchi anche sotto il minuto
-- preset Recovery, Endurance, 2×15 controllato e Agilità
-- bozza locale salva/ripristina
-- massimo 50 step gestito sia UI sia API
-- export vero `.fit` tramite Garmin FIT SDK
-- copia su Edge 530 in `GARMIN/NewFiles`
-
-## Privacy e robustezza
-
-- FIT originali immutati
-- dati personali extra locali
-- accesso ai file FIT confinato al repository con controllo `realpath`/`path.relative`
-- nessun backend cloud necessario
-- Next.js + TypeScript
-- GitHub Actions con build automatica
-
-## Struttura
-
-```text
-garminactivities/
-├── *.fit / cartelle FIT
-├── web/
-│   ├── app/
-│   ├── components/
-│   ├── lib/
-│   └── .velolab/      # dati locali, ignorati da git
-└── README.md
-```
-
-Il codice dell'app è in [`web/`](web/README.md).
+Le metriche derivate e i suggerimenti di allenamento sono strumenti di supporto, non valutazioni mediche o sostitutivi di un preparatore.
